@@ -9,8 +9,9 @@ builders.html     for students and early builders (from any college or none): wh
 colleges.html     for colleges and student bodies: what you get, how a pilot works, who runs BQ
 partners.html     for sponsors, companies and practitioners, plus the hidden "Backed by" section
 investors.html    for investors: angel and pre-seed first, later stages as mentors and judges
-venues.html       free venue booking for community event organisers: how booking works, spaces with
-                  filters (sample listings, shown only with ?preview), and a pitch to venues
+venues.html       a directory of spaces for community events. Each listing shows its terms (venue partner
+                  or paid) and the contact the venue agreed to publish, so organisers talk to hosts directly.
+                  Filters, open dates posted by venues, and a pitch to venues. Samples show only with ?preview
 apply.html        one form; the questions change with the role. Links can preselect a role:
                   apply.html?role=campus | builder | investor | partner | practitioner | reader | organiser | venue
                   apply.html?role=organiser&venue=Name fills in the space the organiser picked
@@ -37,7 +38,7 @@ Then open http://localhost:8000.
 - Form: set `FORM_ENDPOINT` in `main.js` once a form service is approved. While it is empty, the form sends nothing.
 - FAQ: the answers appear twice in `index.html`, in the visible FAQ and in the FAQPage JSON-LD in `<head>`. Edit both.
 - Backed by: `#backers` in `partners.html` is hidden. Open `partners.html?preview` to see it. Only name people and organisations who have agreed in writing.
-- Venues: listings live in `#spaces` in `venues.html`, one `<li class="venue">` each. The `data-area`, `data-type` and `data-seats` attributes drive the filters. The sample listings are hidden; open `venues.html?preview` to see them. To go live, replace the samples with venues that have agreed in writing, remove `hidden` from the filters and the list, and delete the `venue-empty` block. Never publish a venue's phone number or email: requests come to BQ through the form.
+- Venues: listings live in `#spaces` in `venues.html`, one `<li class="venue">` each. The `data-area`, `data-type`, `data-seats` and `data-terms` (`partner` or `paid`) attributes drive the filters. "Email the host" is a `mailto:` link with the subject and a short template filled in, so venues can see the enquiry came through BQ. Add "Book online" only for venues with their own booking or Luma link. Open dates live in `#open-dates`. Samples are hidden; open `venues.html?preview` to see them. To go live, replace the samples, remove `hidden` from the filters, the list and `#open-dates`, and delete the `venue-empty` block. Publish only the contact details a venue has agreed to in writing, and update "Last confirmed" on every recheck.
 
 ## Design system
 
@@ -59,7 +60,7 @@ Then open http://localhost:8000.
 - [ ] 1200x630 PNG for `og:image`, and a 180x180 `apple-touch-icon`
 - [ ] Form endpoint approved and set, plus a privacy note next to the form
 - [ ] Contact email in the footer
-- [ ] Venues: about 15 confirmed listings before the venues page is shared, a named owner for replies, and a monthly recheck of every listing
+- [ ] Venues: about 20 confirmed listings with photos before the page is shared, each with written agreement to publish its contact, and a named owner who rechecks every listing every three months
 
 ## Copy that still needs founder sign-off
 
@@ -75,7 +76,7 @@ Then open http://localhost:8000.
 - Colleges: "No fixed session counts and no long contracts up front", and "We share the numbers, good or bad"
 - Apply page: "Not everyone gets in, and we will tell you either way". Only keep this if someone owns replying to everyone
 - "If it isn't worth a Sunday afternoon, we don't run it"
-- Venues page: "usually within two working days" (only if someone owns replies), "Events booked through us name Builder's Quorum as venue partner", "Free for organisers", and the promise that venues only hear from organisers we have spoken to
+- Venues page: "We check each listing with the venue before it goes up, and recheck it every three months" (only if someone owns it), and "We know more spaces than we list"
 - Proven formats on the builders page: names Stanford GSB, MIT Sloan and Oxford Saïd programmes as inspiration, with a no-affiliation note. Keep or cut
 
 ## Naming

@@ -20,11 +20,12 @@ if (filters) {
   const none = document.querySelector('.venue-none');
 
   const applyFilters = () => {
-    const { area, type, seats } = Object.fromEntries(new FormData(filters));
+    const { area, type, seats, terms } = Object.fromEntries(new FormData(filters));
     let shown = 0;
     venues.forEach((v) => {
       const match = (!area || v.dataset.area === area)
         && (!type || v.dataset.type === type)
+        && (!terms || v.dataset.terms === terms)
         && Number(v.dataset.seats) >= Number(seats);
       v.hidden = !match;
       if (match) shown++;

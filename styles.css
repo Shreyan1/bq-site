@@ -1076,3 +1076,26 @@ h3, .btn, .site-nav a, .nav-toggle, label, .label, .eyebrow, .tag, summary, stro
   .venue-empty h3, .venue-empty p { grid-column: 1; }
   .venue-empty .btn { grid-column: 2; grid-row: 1 / span 2; }
 }
+
+/* Venues directory: terms label, contact buttons and open dates. */
+.venue-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 64rem) { .venue-filters { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.venue-terms { display: grid; gap: 0.25rem; padding-left: 0.75rem; border-left: 2px solid var(--ink); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
+.venue-terms-partner { border-color: var(--accent); }
+.venue-terms span { font-size: 0.9375rem; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--ink-soft); }
+.venue-actions { display: flex; flex-wrap: wrap; gap: 0.625rem; margin-top: auto; padding-top: 0.5rem; }
+
+.open-dates { margin-top: 2.75rem; border-top: 1px solid var(--ink); }
+.open-dates li { display: grid; gap: 0.75rem 1.5rem; padding-block: 1.5rem; border-bottom: 1px solid var(--line); }
+@media (min-width: 48rem) { .open-dates li { grid-template-columns: 7rem minmax(0, 1fr) auto; align-items: center; } }
+.open-date strong { display: block; font: 400 2rem/1 var(--serif); }
+.open-date span { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+.open-dates h3 { font: 400 1.5rem/1.15 var(--serif); }
+.open-dates p { color: var(--ink-soft); }
+.open-dates .open-want { margin-top: 0.25rem; color: var(--ink); }
+.open-dates .link-arrow { justify-self: start; }
+#open-dates[hidden] { display: none; }
+
+.legend-sub { margin-top: 0.5rem; font: 500 0.75rem/1.4 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+.checks label, .check { align-items: flex-start; }
+.checks input, .check input { margin-top: 0.2rem; }

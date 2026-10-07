@@ -57,7 +57,7 @@
       <div class="wrap">
         <p class="hero-meta"><span class="live" aria-hidden="true"></span>Cohort 01 <i aria-hidden="true">/</i> Applications reviewed before each cohort</p>
         <h1>Tell us who you <em>are</em>.</h1>
-        <p class="lede">Students and early builders apply for a place in a pilot cohort. Colleges, investors, practitioners and sponsors start a conversation here, and organisers can ask for a space.</p>
+        <p class="lede">Students and early builders apply for a place in a pilot cohort. Colleges, investors, practitioners and sponsors start a conversation here, and venues can list a space.</p>
 
         <div class="apply-grid">
           <form id="interest-form" class="panel form" method="post">
@@ -70,8 +70,8 @@
                 <option value="investor">An investor</option>
                 <option value="practitioner">A practitioner with a problem to share</option>
                 <option value="partner">A sponsor or company</option>
-                <option value="organiser">Organising an event and looking for a space</option>
-                <option value="venue">Offering a space for community events</option>
+                <option value="organiser">Organising an event and can’t find a space</option>
+                <option value="venue">Listing a space for community events</option>
                 <option value="reader">Interested in The BQ Brief</option>
               </select>
             </div>
@@ -311,14 +311,36 @@
                 </div>
               </div>
               <div class="field">
-                <span class="label" id="return-label">What you ask in return</span>
-                <div class="checks" role="group" aria-labelledby="return-label">
-                  <label><input type="checkbox" name="in_return" value="Nothing"> Nothing, it’s free</label>
-                  <label><input type="checkbox" name="in_return" value="Costs"> A fee to cover costs</label>
-                  <label><input type="checkbox" name="in_return" value="Co-branding"> Co-branding</label>
-                  <label><input type="checkbox" name="in_return" value="Places"> Places for our students or team</label>
+                <span class="label" id="terms-label">Terms</span>
+                <div class="checks" role="radiogroup" aria-labelledby="terms-label">
+                  <label><input type="radio" name="terms" value="Venue partner" required> Venue partner: we host in return for something we value</label>
+                  <label><input type="radio" name="terms" value="Paid"> Paid: we rent the space</label>
                 </div>
               </div>
+              <div class="field">
+                <label for="terms-detail">What you ask for, in a line</label>
+                <input id="terms-detail" name="terms_detail" type="text" placeholder="For example: our name on the event and 20 places for our students" required>
+              </div>
+              <h3 class="legend-sub">Contact to publish</h3>
+              <div class="field-row">
+                <div class="field">
+                  <label for="pub-email">Events email</label>
+                  <input id="pub-email" name="public_email" type="email" required>
+                </div>
+                <div class="field">
+                  <label for="pub-phone">Phone or WhatsApp <span class="optional">(optional)</span></label>
+                  <input id="pub-phone" name="public_phone" type="tel" inputmode="tel">
+                </div>
+              </div>
+              <div class="field">
+                <label for="booking-link">Online booking or Luma calendar link <span class="optional">(optional)</span></label>
+                <input id="booking-link" name="booking_link" type="url" placeholder="https://">
+              </div>
+              <div class="field">
+                <label for="open-dates">Dates you would like to fill <span class="optional">(optional)</span></label>
+                <textarea id="open-dates" name="open_dates" rows="2" placeholder="For example: Saturday 18 October, and we would like an AI talk for our students"></textarea>
+              </div>
+              <label class="check"><input type="checkbox" name="publish_ok" required> You can publish these contact details on the venues page. We can ask for changes or removal at any time.</label>
             </fieldset>
 
             <div class="field">
@@ -336,8 +358,8 @@
           <aside class="apply-aside" aria-label="About applying">
             <div class="brief-card" data-for="organiser venue">
               <p class="tag tag-accent">Venues</p>
-              <h3>We make the introduction.</h3>
-              <p>We read every request and reply, usually within two working days. We never publish a venue’s phone number or email, and we only bring it events that suit the space.</p>
+              <h3>Every listing is checked.</h3>
+              <p>We confirm each listing with the venue before it goes up and recheck it every three months. We publish only the contact details a venue agrees to.</p>
               <a class="link-arrow" href="venues.html">See the spaces</a>
             </div>
             <div class="brief-card" data-for="student builder campus investor practitioner partner reader">

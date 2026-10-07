@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Venues for community events | Builder's Quorum</title>
-  <meta name="description" content="Spaces across Delhi NCR that host tech meetups, hackathons and workshops, free or at cost. Pick a space and Builder's Quorum arranges it with the venue.">
+  <meta name="description" content="Spaces across Delhi NCR that host tech meetups, hackathons and workshops, with their terms and the right contact. Find a space and talk to the host directly.">
   <meta name="theme-color" content="#ffffff">
   <meta name="color-scheme" content="light">
 
@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Builder's Quorum">
   <meta property="og:title" content="Venues for community events | Builder's Quorum">
-  <meta property="og:description" content="Spaces across Delhi NCR that host tech meetups, hackathons and workshops, free or at cost. Pick a space and Builder's Quorum arranges it with the venue.">
+  <meta property="og:description" content="Spaces across Delhi NCR that host tech meetups, hackathons and workshops, with their terms and the right contact. Find a space and talk to the host directly.">
   <meta property="og:locale" content="en_IN">
   <!-- TODO: og:image needs a 1200x630 PNG once the logo is final. -->
   <meta name="twitter:card" content="summary">
@@ -56,10 +56,10 @@
     <section class="hero page-hero">
       <div class="wrap hero-grid">
         <div>
-          <p class="hero-meta"><span class="live" aria-hidden="true"></span>Venues <i aria-hidden="true">/</i> Delhi NCR <i aria-hidden="true">/</i> Free for organisers</p>
+          <p class="hero-meta"><span class="live" aria-hidden="true"></span>Venues <i aria-hidden="true">/</i> Delhi NCR <i aria-hidden="true">/</i> For community events</p>
           <h1>Find a room for your next <em>event</em>.</h1>
           <div class="hero-rest">
-            <p class="lede">Spaces across Delhi NCR that host tech meetups, hackathons and workshops, free or at cost. Pick a space, tell us about your event, and we arrange it with the venue.</p>
+            <p class="lede">Colleges, coworking spaces and company offices across Delhi NCR that host tech meetups, hackathons and workshops. Each listing shows the terms and the right person to talk to, so you can contact the host directly.</p>
             <div class="actions">
               <a class="btn btn-primary btn-arrow" href="#spaces">Browse spaces</a>
               <a class="btn btn-ghost" href="apply.html?role=venue">List your space</a>
@@ -81,16 +81,25 @@
       </div>
     </section>
 
-    <section class="section" id="booking" aria-labelledby="booking-title">
+    <section class="section" id="how" aria-labelledby="how-title">
       <div class="wrap">
-        <p class="eyebrow">How booking works</p>
-        <h2 id="booking-title">You pick the space, and we make the <em>ask</em>.</h2>
-        <p class="intro">We know the people who run each space, so you don’t have to cold-message anyone.</p>
+        <p class="eyebrow">How it works</p>
+        <h2 id="how-title">Every listing tells you what the host <em>wants</em>.</h2>
+        <p class="intro">Every space is either a venue partner or paid. We check each listing with the venue before it goes up, and recheck it every three months.</p>
+        <ul class="grid grid-2 cards">
+          <li>
+            <h3>Venue partner</h3>
+            <p>The space comes in return for something the host values, such as their name on the event, places for their students or time with your audience. The listing says what they ask for.</p>
+          </li>
+          <li>
+            <h3>Paid</h3>
+            <p>The space is rented, often at a community rate. Some paid spaces can be booked online straight from the listing.</p>
+          </li>
+        </ul>
         <ol class="numbered">
-          <li><strong>Choose a space</strong><span>Filter by area and size. Each listing says what the venue asks in return.</span></li>
-          <li><strong>Tell us about your event</strong><span>What it is, who it is for, the date and how many people you expect.</span></li>
-          <li><strong>We confirm with the venue</strong><span>We ask on your behalf and come back to you, usually within two working days.</span></li>
-          <li><strong>You run the event</strong><span>You host, and the venue gets an evening of builders. Events booked through us name Builder’s Quorum as venue partner.</span></li>
+          <li><strong>Find a space</strong><span>Filter by area, size and terms, or look at the open dates that venues have posted.</span></li>
+          <li><strong>Talk to the host</strong><span>Email the host from the listing. The message is set up with the details they need, so you only fill in your event.</span></li>
+          <li><strong>Agree and host</strong><span>Dates, terms and the run of the day are agreed between you and the venue.</span></li>
         </ol>
       </div>
     </section>
@@ -99,16 +108,17 @@
       <div class="wrap">
         <p class="eyebrow">Spaces</p>
         <h2 id="spaces-title">Rooms that host <em>builders</em>.</h2>
-        <p class="intro">Colleges, coworking spaces and company offices. Contact details stay with us, so venues only hear from organisers we have spoken to.</p>
 
         <div class="venue-empty panel" data-preview-hide>
           <h3>We are confirming our first spaces now.</h3>
-          <p>Tell us what you are planning anyway. If a space in our network fits your date and size, we will arrange it.</p>
-          <a class="btn btn-primary btn-arrow" href="apply.html?role=organiser">Request a space</a>
+          <p>Tell us what you are planning in the meantime. If a space in our network fits your date and size, we will point you to it.</p>
+          <a class="btn btn-primary btn-arrow" href="apply.html?role=organiser">Tell us about your event</a>
         </div>
 
         <!-- Sample listings, shown only with ?preview. Replace them with venues that have agreed
-             in writing to be listed, then remove the hidden attributes and the venue-empty block. -->
+             in writing to be listed, with the contact details they agreed to publish. Then remove the
+             hidden attributes and the venue-empty block. For a WhatsApp button, add:
+             <a class="btn btn-ghost btn-small" href="https://wa.me/91XXXXXXXXXX?text=...">WhatsApp</a> -->
         <form class="venue-filters" data-preview hidden aria-label="Filter spaces">
           <div class="field">
             <label for="f-area">Area</label>
@@ -122,77 +132,138 @@
             <label for="f-seats">People</label>
             <select id="f-seats" name="seats"><option value="0">Any size</option><option value="50">50 or more</option><option value="100">100 or more</option><option value="200">200 or more</option></select>
           </div>
+          <div class="field">
+            <label for="f-terms">Terms</label>
+            <select id="f-terms" name="terms"><option value="">Venue partner or paid</option><option value="partner">Venue partner</option><option value="paid">Paid</option></select>
+          </div>
           <p class="venue-count" role="status" aria-live="polite"></p>
         </form>
         <ul class="venue-list" data-preview hidden>
-          <li class="venue" data-area="noida" data-type="college" data-seats="250">
+          <li class="venue" data-area="noida" data-type="college" data-seats="250" data-terms="partner">
             <p class="venue-meta"><span>Noida</span><span>College</span></p>
             <h3>Sample college auditorium</h3>
+            <p class="venue-terms venue-terms-partner">Venue partner<span>Co-branding and places for its students</span></p>
             <dl class="venue-facts">
               <div><dt>Seats</dt><dd>Up to 250</dd></div>
-              <div><dt>Asks in return</dt><dd>Access for its students</dd></div>
               <div><dt>Notice</dt><dd>Three weeks</dd></div>
               <div><dt>Good for</dt><dd>Talks, demo days</dd></div>
+              <div><dt>Last confirmed</dt><dd>October 2026</dd></div>
             </dl>
-            <a class="link-arrow" href="apply.html?role=organiser&amp;venue=Sample%20college%20auditorium">Request this space</a>
+            <div class="venue-actions">
+              <a class="btn btn-primary btn-small" href="mailto:events@example.com?subject=Event%20enquiry%20via%20Builder%27s%20Quorum%3A%20Sample%20college%20auditorium&amp;body=Hi%2C%0A%0AI%20found%20your%20space%20on%20Builder%27s%20Quorum.%0A%0AEvent%3A%0ADate%20and%20time%3A%0APeople%20expected%3A%0AOrganiser%20and%20community%3A%0A%0AThanks">Email the host</a>
+            </div>
           </li>
-          <li class="venue" data-area="gurugram" data-type="coworking" data-seats="80">
+          <li class="venue" data-area="gurugram" data-type="coworking" data-seats="80" data-terms="paid">
             <p class="venue-meta"><span>Gurugram</span><span>Coworking space</span></p>
-            <h3>Sample coworking floor</h3>
+            <h3>Sample coworking event room</h3>
+            <p class="venue-terms venue-terms-paid">Paid<span>Hourly rate, quote on request</span></p>
             <dl class="venue-facts">
               <div><dt>Seats</dt><dd>Up to 80</dd></div>
-              <div><dt>Asks in return</dt><dd>Co-branding</dd></div>
-              <div><dt>Notice</dt><dd>Two weeks</dd></div>
+              <div><dt>Notice</dt><dd>A week</dd></div>
               <div><dt>Good for</dt><dd>Meetups, workshops</dd></div>
+              <div><dt>Last confirmed</dt><dd>October 2026</dd></div>
             </dl>
-            <a class="link-arrow" href="apply.html?role=organiser&amp;venue=Sample%20coworking%20floor">Request this space</a>
+            <div class="venue-actions">
+              <a class="btn btn-primary btn-small" href="mailto:events@example.com?subject=Event%20enquiry%20via%20Builder%27s%20Quorum%3A%20Sample%20coworking%20event%20room&amp;body=Hi%2C%0A%0AI%20found%20your%20space%20on%20Builder%27s%20Quorum.%0A%0AEvent%3A%0ADate%20and%20time%3A%0APeople%20expected%3A%0AOrganiser%20and%20community%3A%0A%0AThanks">Email the host</a>
+              <a class="btn btn-ghost btn-small" href="https://example.com" rel="noopener">Book online</a>
+            </div>
           </li>
-          <li class="venue" data-area="gurugram" data-type="office" data-seats="120">
+          <li class="venue" data-area="gurugram" data-type="office" data-seats="120" data-terms="partner">
             <p class="venue-meta"><span>Gurugram</span><span>Company office</span></p>
             <h3>Sample company office</h3>
+            <p class="venue-terms venue-terms-partner">Venue partner<span>Co-branding, weekends only</span></p>
             <dl class="venue-facts">
               <div><dt>Seats</dt><dd>Up to 120</dd></div>
-              <div><dt>Asks in return</dt><dd>Free, weekends only</dd></div>
               <div><dt>Notice</dt><dd>Two weeks</dd></div>
               <div><dt>Good for</dt><dd>Meetups, hackathons</dd></div>
+              <div><dt>Last confirmed</dt><dd>October 2026</dd></div>
             </dl>
-            <a class="link-arrow" href="apply.html?role=organiser&amp;venue=Sample%20company%20office">Request this space</a>
+            <div class="venue-actions">
+              <a class="btn btn-primary btn-small" href="mailto:events@example.com?subject=Event%20enquiry%20via%20Builder%27s%20Quorum%3A%20Sample%20company%20office&amp;body=Hi%2C%0A%0AI%20found%20your%20space%20on%20Builder%27s%20Quorum.%0A%0AEvent%3A%0ADate%20and%20time%3A%0APeople%20expected%3A%0AOrganiser%20and%20community%3A%0A%0AThanks">Email the host</a>
+            </div>
           </li>
-          <li class="venue" data-area="delhi" data-type="college" data-seats="60">
+          <li class="venue" data-area="delhi" data-type="college" data-seats="60" data-terms="partner">
             <p class="venue-meta"><span>Delhi</span><span>College</span></p>
             <h3>Sample college innovation lab</h3>
+            <p class="venue-terms venue-terms-partner">Venue partner<span>Places for its students</span></p>
             <dl class="venue-facts">
               <div><dt>Seats</dt><dd>Up to 60</dd></div>
-              <div><dt>Asks in return</dt><dd>Access for its students</dd></div>
               <div><dt>Notice</dt><dd>A week</dd></div>
               <div><dt>Good for</dt><dd>Build days, workshops</dd></div>
+              <div><dt>Last confirmed</dt><dd>October 2026</dd></div>
             </dl>
-            <a class="link-arrow" href="apply.html?role=organiser&amp;venue=Sample%20college%20innovation%20lab">Request this space</a>
+            <div class="venue-actions">
+              <a class="btn btn-primary btn-small" href="mailto:events@example.com?subject=Event%20enquiry%20via%20Builder%27s%20Quorum%3A%20Sample%20college%20innovation%20lab&amp;body=Hi%2C%0A%0AI%20found%20your%20space%20on%20Builder%27s%20Quorum.%0A%0AEvent%3A%0ADate%20and%20time%3A%0APeople%20expected%3A%0AOrganiser%20and%20community%3A%0A%0AThanks">Email the host</a>
+            </div>
           </li>
-          <li class="venue" data-area="delhi" data-type="coworking" data-seats="150">
+          <li class="venue" data-area="delhi" data-type="coworking" data-seats="150" data-terms="paid">
             <p class="venue-meta"><span>Delhi</span><span>Coworking space</span></p>
             <h3>Sample coworking event hall</h3>
+            <p class="venue-terms venue-terms-paid">Paid<span>Half-day and full-day packages</span></p>
             <dl class="venue-facts">
               <div><dt>Seats</dt><dd>Up to 150</dd></div>
-              <div><dt>Asks in return</dt><dd>A fee to cover costs</dd></div>
               <div><dt>Notice</dt><dd>Two weeks</dd></div>
               <div><dt>Good for</dt><dd>Talks, hackathons</dd></div>
+              <div><dt>Last confirmed</dt><dd>October 2026</dd></div>
             </dl>
-            <a class="link-arrow" href="apply.html?role=organiser&amp;venue=Sample%20coworking%20event%20hall">Request this space</a>
+            <div class="venue-actions">
+              <a class="btn btn-primary btn-small" href="mailto:events@example.com?subject=Event%20enquiry%20via%20Builder%27s%20Quorum%3A%20Sample%20coworking%20event%20hall&amp;body=Hi%2C%0A%0AI%20found%20your%20space%20on%20Builder%27s%20Quorum.%0A%0AEvent%3A%0ADate%20and%20time%3A%0APeople%20expected%3A%0AOrganiser%20and%20community%3A%0A%0AThanks">Email the host</a>
+              <a class="btn btn-ghost btn-small" href="https://example.com" rel="noopener">Book online</a>
+            </div>
           </li>
-          <li class="venue" data-area="noida" data-type="office" data-seats="40">
+          <li class="venue" data-area="noida" data-type="office" data-seats="40" data-terms="partner">
             <p class="venue-meta"><span>Noida</span><span>Company office</span></p>
             <h3>Sample startup office</h3>
+            <p class="venue-terms venue-terms-partner">Venue partner<span>Co-branding</span></p>
             <dl class="venue-facts">
               <div><dt>Seats</dt><dd>Up to 40</dd></div>
-              <div><dt>Asks in return</dt><dd>Free</dd></div>
               <div><dt>Notice</dt><dd>A week</dd></div>
               <div><dt>Good for</dt><dd>Small meetups</dd></div>
+              <div><dt>Last confirmed</dt><dd>October 2026</dd></div>
             </dl>
-            <a class="link-arrow" href="apply.html?role=organiser&amp;venue=Sample%20startup%20office">Request this space</a>
+            <div class="venue-actions">
+              <a class="btn btn-primary btn-small" href="mailto:events@example.com?subject=Event%20enquiry%20via%20Builder%27s%20Quorum%3A%20Sample%20startup%20office&amp;body=Hi%2C%0A%0AI%20found%20your%20space%20on%20Builder%27s%20Quorum.%0A%0AEvent%3A%0ADate%20and%20time%3A%0APeople%20expected%3A%0AOrganiser%20and%20community%3A%0A%0AThanks">Email the host</a>
+            </div>
           </li>
         </ul>
         <p class="venue-none" hidden>No listed space fits that yet. <a class="link-arrow" href="apply.html?role=organiser">Tell us what you need</a></p>
+      </div>
+    </section>
+
+    <section class="section" id="open-dates" aria-labelledby="open-dates-title" data-preview hidden>
+      <div class="wrap">
+        <p class="eyebrow">Open dates</p>
+        <h2 id="open-dates-title">Venues looking for an <em>event</em>.</h2>
+        <p class="intro">Dates that venues have told us are free, and the kind of event they would like to host.</p>
+        <ul class="open-dates">
+          <li>
+            <p class="open-date"><strong>18 Oct</strong><span>Saturday</span></p>
+            <div>
+              <h3>Sample college auditorium</h3>
+              <p>Noida / Up to 250 / Venue partner</p>
+              <p class="open-want">Looking for: An AI or startup talk that its students can attend</p>
+            </div>
+            <a class="link-arrow" href="mailto:events@example.com?subject=Event%20enquiry%20via%20Builder%27s%20Quorum%3A%20Sample%20college%20auditorium%20on%2018%20Oct&amp;body=Hi%2C%0A%0AI%20found%20your%20space%20on%20Builder%27s%20Quorum.%0A%0AEvent%3A%0ADate%20and%20time%3A%0APeople%20expected%3A%0AOrganiser%20and%20community%3A%0A%0AThanks">Ask for this date</a>
+          </li>
+          <li>
+            <p class="open-date"><strong>25 Oct</strong><span>Saturday</span></p>
+            <div>
+              <h3>Sample company office</h3>
+              <p>Gurugram / Up to 120 / Venue partner</p>
+              <p class="open-want">Looking for: A developer meetup or a build day</p>
+            </div>
+            <a class="link-arrow" href="mailto:events@example.com?subject=Event%20enquiry%20via%20Builder%27s%20Quorum%3A%20Sample%20company%20office%20on%2025%20Oct&amp;body=Hi%2C%0A%0AI%20found%20your%20space%20on%20Builder%27s%20Quorum.%0A%0AEvent%3A%0ADate%20and%20time%3A%0APeople%20expected%3A%0AOrganiser%20and%20community%3A%0A%0AThanks">Ask for this date</a>
+          </li>
+          <li>
+            <p class="open-date"><strong>1 Nov</strong><span>Saturday</span></p>
+            <div>
+              <h3>Sample coworking event hall</h3>
+              <p>Delhi / Up to 150 / Paid</p>
+              <p class="open-want">Looking for: Any tech event, with a community rate</p>
+            </div>
+            <a class="link-arrow" href="mailto:events@example.com?subject=Event%20enquiry%20via%20Builder%27s%20Quorum%3A%20Sample%20coworking%20event%20hall%20on%201%20Nov&amp;body=Hi%2C%0A%0AI%20found%20your%20space%20on%20Builder%27s%20Quorum.%0A%0AEvent%3A%0ADate%20and%20time%3A%0APeople%20expected%3A%0AOrganiser%20and%20community%3A%0A%0AThanks">Ask for this date</a>
+          </li>
+        </ul>
       </div>
     </section>
 
@@ -202,20 +273,20 @@
         <h2 id="hosts-title">Host builders in your <em>space</em>.</h2>
         <ul class="grid grid-2 cards">
           <li>
-            <h3>Organisers we have spoken to</h3>
-            <p>Every request comes through us. We check who is running the event, what it is and who is coming before we bring it to you.</p>
+            <h3>Organisers who fit your space</h3>
+            <p>Your listing reaches the people who run tech meetups, hackathons and workshops across Delhi NCR, through the communities we run.</p>
           </li>
           <li>
-            <h3>An audience worth having</h3>
-            <p>Engineers, founders and student builders in your space. For a company that means people you may want to hire, and for a college it means practitioners in front of your students.</p>
+            <h3>Post your open dates</h3>
+            <p>Tell us when your auditorium or event room is free and what you would like to host there. We list the date where organisers look first.</p>
           </li>
           <li>
-            <h3>Your terms, agreed up front</h3>
-            <p>You set the dates, the size and what you ask in return, whether that is a fee to cover costs, co-branding or places for your students.</p>
+            <h3>Your terms, in plain words</h3>
+            <p>Say what you want in return, whether that is your name on the event, places for your students or a fee. Organisers see it before they write.</p>
           </li>
           <li>
-            <h3>Your details stay private</h3>
-            <p>We never publish phone numbers or emails. You hear from us, and only about events that suit your space.</p>
+            <h3>The contact you choose</h3>
+            <p>We publish only the email, number or booking link you give us for events, and you can change or remove it at any time.</p>
           </li>
         </ul>
         <div class="actions">
@@ -228,10 +299,10 @@
       <div class="wrap">
         <div class="cta-band">
           <div>
-            <h2>Tell us what you are <em>planning</em>.</h2>
-            <p class="intro">Even if no listed space fits, send us the date, the size and the area. We will look in our network.</p>
+            <h2>Can’t find the right <em>room</em>?</h2>
+            <p class="intro">Send us the date, the size and the area. We know more spaces than we list, and we will point you to one if we can.</p>
             <div class="actions">
-              <a class="btn btn-primary btn-arrow" href="apply.html?role=organiser">Request a space</a>
+              <a class="btn btn-primary btn-arrow" href="apply.html?role=organiser">Tell us about your event</a>
               <a class="btn btn-ghost" href="apply.html?role=venue">List your space</a>
             </div>
           </div>
