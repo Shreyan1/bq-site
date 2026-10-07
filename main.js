@@ -190,7 +190,7 @@ if (form) {
   const orgLabel = document.getElementById('org-label');
   const submitLabels = {
     student: 'Apply for a place', builder: 'Apply for a place', campus: 'Start the conversation',
-    organiser: 'Request a space', venue: 'List my space',
+    organiser: 'Send', venue: 'List my space',
   };
   const orgLabels = { organiser: 'Community or organisation', venue: 'Name of the space' };
   const needsOrg = ['campus', 'investor', 'partner', 'organiser', 'venue'];

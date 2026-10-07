@@ -1,6 +1,6 @@
 # Builder's Quorum website (v1)
 
-Plain HTML, CSS and a little JS. No build step and no framework. Not deployed.
+Plain HTML, CSS and a little JS. No framework. Only venues.html is generated (see below). Not deployed.
 
 ```
 index.html        home: hero, what you get, why BQ (the moat), four doors, Fellows, FAQ
@@ -9,9 +9,8 @@ builders.html     for students and early builders (from any college or none): wh
 colleges.html     for colleges and student bodies: what you get, how a pilot works, who runs BQ
 partners.html     for sponsors, companies and practitioners, plus the hidden "Backed by" section
 investors.html    for investors: angel and pre-seed first, later stages as mentors and judges
-venues.html       a directory of spaces for community events. Each listing shows its terms (venue partner
-                  or paid) and the contact the venue agreed to publish, so organisers talk to hosts directly.
-                  Filters, open dates posted by venues, and a pitch to venues. Samples show only with ?preview
+venues.html       generated: one open page listing spaces for tech events, with capacity, terms, contact
+                  details, filters and an FAQ. Built from data/venues.json by tools/build_venues.py
 apply.html        one form; the questions change with the role. Links can preselect a role:
                   apply.html?role=campus | builder | investor | partner | practitioner | reader | organiser | venue
                   apply.html?role=organiser&venue=Name fills in the space the organiser picked
@@ -38,7 +37,7 @@ Then open http://localhost:8000.
 - Form: set `FORM_ENDPOINT` in `main.js` once a form service is approved. While it is empty, the form sends nothing.
 - FAQ: the answers appear twice in `index.html`, in the visible FAQ and in the FAQPage JSON-LD in `<head>`. Edit both.
 - Backed by: `#backers` in `partners.html` is hidden. Open `partners.html?preview` to see it. Only name people and organisations who have agreed in writing.
-- Venues: listings live in `#spaces` in `venues.html`, one `<li class="venue">` each. The `data-area`, `data-type`, `data-seats` and `data-terms` (`partner` or `paid`) attributes drive the filters. "Email the host" is a `mailto:` link with the subject and a short template filled in, so venues can see the enquiry came through BQ. Add "Book online" only for venues with their own booking or Luma link. Open dates live in `#open-dates`. Samples are hidden; open `venues.html?preview` to see them. To go live, replace the samples, remove `hidden` from the filters, the list and `#open-dates`, and delete the `venue-empty` block. Publish only the contact details a venue has agreed to in writing, and update "Last confirmed" on every recheck.
+- Venues: edit `data/venues.json`, then run `python3 website/tools/build_venues.py`. Don't edit `venues.html` by hand. Listings are labelled venue partner or paid, and contact details are shown in full so search engines and AI assistants can read them. Publish only the contacts a venue has agreed to in writing. While any entry has `"sample": true` the page is marked noindex; delete the samples before launch, then add `venues.html` to the sitemap if it isn't there.
 
 ## Design system
 
@@ -76,7 +75,7 @@ Then open http://localhost:8000.
 - Colleges: "No fixed session counts and no long contracts up front", and "We share the numbers, good or bad"
 - Apply page: "Not everyone gets in, and we will tell you either way". Only keep this if someone owns replying to everyone
 - "If it isn't worth a Sunday afternoon, we don't run it"
-- Venues page: "We check each listing with the venue before it goes up, and recheck it every three months" (only if someone owns it), and "We know more spaces than we list"
+- Venues page: "you can change or remove it at any time" and "through the communities we run"
 - Proven formats on the builders page: names Stanford GSB, MIT Sloan and Oxford Saïd programmes as inspiration, with a no-affiliation note. Keep or cut
 
 ## Naming

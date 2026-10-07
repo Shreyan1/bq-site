@@ -1,0 +1,206 @@
+[
+  {
+    "slug": "sample-college-auditorium",
+    "sample": true,
+    "name": "Sample college auditorium",
+    "type": "college",
+    "area": "Noida",
+    "address": "Sample address, Sector 62, Noida, Uttar Pradesh 201309",
+    "nearest_metro": "Noida Sector 62 (Blue Line), 10 minutes on foot",
+    "seats": 250,
+    "layouts": "250 theatre style",
+    "terms": "partner",
+    "terms_detail": "Co-branding and places for its students",
+    "notice": "Three weeks",
+    "good_for": [
+      "Talks",
+      "Demo days",
+      "Panels"
+    ],
+    "amenities": [
+      "Projector and screen",
+      "Microphones",
+      "Wi-Fi",
+      "Parking"
+    ],
+    "about": "A placeholder listing that shows how a college auditorium would appear. The college hosts events that its students can attend.",
+    "contact": {
+      "email": "events@example.com",
+      "phone": "",
+      "whatsapp": ""
+    },
+    "booking_url": "",
+    "luma_url": "",
+    "map_url": "",
+    "last_confirmed": "2026-10-07"
+  },
+  {
+    "slug": "sample-coworking-event-room",
+    "sample": true,
+    "name": "Sample coworking event room",
+    "type": "coworking",
+    "area": "Gurugram",
+    "address": "Sample address, Sector 44, Gurugram, Haryana 122003",
+    "nearest_metro": "HUDA City Centre (Yellow Line), a short cab ride",
+    "seats": 80,
+    "layouts": "80 theatre style, 40 classroom",
+    "terms": "paid",
+    "terms_detail": "Hourly rate, with a community rate on request",
+    "notice": "A week",
+    "good_for": [
+      "Meetups",
+      "Workshops"
+    ],
+    "amenities": [
+      "Screen",
+      "Wi-Fi",
+      "Pantry",
+      "Whiteboards"
+    ],
+    "about": "A placeholder listing that shows how a paid coworking room with online booking would appear.",
+    "contact": {
+      "email": "events@example.com",
+      "phone": "",
+      "whatsapp": ""
+    },
+    "booking_url": "https://example.com",
+    "luma_url": "",
+    "map_url": "",
+    "last_confirmed": "2026-10-07"
+  },
+  {
+    "slug": "sample-company-office",
+    "sample": true,
+    "name": "Sample company office",
+    "type": "office",
+    "area": "Gurugram",
+    "address": "Sample address, Cyber City, Gurugram, Haryana 122002",
+    "nearest_metro": "Cyber City (Rapid Metro), 5 minutes on foot",
+    "seats": 120,
+    "layouts": "120 theatre style, 60 at tables",
+    "terms": "partner",
+    "terms_detail": "Co-branding, weekends only",
+    "notice": "Two weeks",
+    "good_for": [
+      "Meetups",
+      "Hackathons"
+    ],
+    "amenities": [
+      "Two screens",
+      "Microphones",
+      "Wi-Fi",
+      "Power at every table"
+    ],
+    "about": "A placeholder listing that shows how a company office that hosts developer communities would appear.",
+    "contact": {
+      "email": "events@example.com",
+      "phone": "",
+      "whatsapp": ""
+    },
+    "booking_url": "",
+    "luma_url": "",
+    "map_url": "",
+    "last_confirmed": "2026-10-07"
+  },
+  {
+    "slug": "sample-college-innovation-lab",
+    "sample": true,
+    "name": "Sample college innovation lab",
+    "type": "college",
+    "area": "Delhi",
+    "address": "Sample address, Hauz Khas, New Delhi, Delhi 110016",
+    "nearest_metro": "Hauz Khas (Yellow and Magenta Lines), 15 minutes on foot",
+    "seats": 60,
+    "layouts": "60 at tables",
+    "terms": "partner",
+    "terms_detail": "Places for its students",
+    "notice": "A week",
+    "good_for": [
+      "Build days",
+      "Workshops"
+    ],
+    "amenities": [
+      "Screen",
+      "Wi-Fi",
+      "Power at every table",
+      "Prototyping tools"
+    ],
+    "about": "A placeholder listing that shows how a college lab suited to hands-on build days would appear.",
+    "contact": {
+      "email": "events@example.com",
+      "phone": "",
+      "whatsapp": ""
+    },
+    "booking_url": "",
+    "luma_url": "",
+    "map_url": "",
+    "last_confirmed": "2026-10-07"
+  },
+  {
+    "slug": "sample-coworking-event-hall",
+    "sample": true,
+    "name": "Sample coworking event hall",
+    "type": "coworking",
+    "area": "Delhi",
+    "address": "Sample address, Nehru Place, New Delhi, Delhi 110019",
+    "nearest_metro": "Nehru Place (Violet Line), 5 minutes on foot",
+    "seats": 150,
+    "layouts": "150 theatre style, 80 classroom",
+    "terms": "paid",
+    "terms_detail": "Half-day and full-day packages",
+    "notice": "Two weeks",
+    "good_for": [
+      "Talks",
+      "Hackathons"
+    ],
+    "amenities": [
+      "Stage",
+      "Projector and screen",
+      "Microphones",
+      "Wi-Fi",
+      "Pantry"
+    ],
+    "about": "A placeholder listing that shows how a larger paid event hall would appear.",
+    "contact": {
+      "email": "events@example.com",
+      "phone": "",
+      "whatsapp": ""
+    },
+    "booking_url": "https://example.com",
+    "luma_url": "",
+    "map_url": "",
+    "last_confirmed": "2026-10-07"
+  },
+  {
+    "slug": "sample-startup-office",
+    "sample": true,
+    "name": "Sample startup office",
+    "type": "office",
+    "area": "Noida",
+    "address": "Sample address, Sector 16, Noida, Uttar Pradesh 201301",
+    "nearest_metro": "Noida Sector 16 (Blue Line), 5 minutes on foot",
+    "seats": 40,
+    "layouts": "40 theatre style",
+    "terms": "partner",
+    "terms_detail": "Co-branding",
+    "notice": "A week",
+    "good_for": [
+      "Small meetups",
+      "Reading groups"
+    ],
+    "amenities": [
+      "Screen",
+      "Wi-Fi"
+    ],
+    "about": "A placeholder listing that shows how a small startup office would appear.",
+    "contact": {
+      "email": "events@example.com",
+      "phone": "",
+      "whatsapp": ""
+    },
+    "booking_url": "",
+    "luma_url": "",
+    "map_url": "",
+    "last_confirmed": "2026-10-07"
+  }
+]

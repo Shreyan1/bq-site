@@ -1065,17 +1065,8 @@ h3, .btn, .site-nav a, .nav-toggle, label, .label, .eyebrow, .tag, summary, stro
 .venue-facts dd { margin: 0.125rem 0 0; font-size: 0.9375rem; }
 .venue .link-arrow { margin-top: auto; align-self: flex-start; }
 .venue-none { margin-top: 1.5rem; color: var(--ink-soft); }
-.venue-empty { display: grid; gap: 1rem; justify-items: start; max-width: 40rem; margin-top: 2.75rem; background: #fff; border: 1px solid var(--line); }
-.venue-empty h3 { font: 400 clamp(1.625rem, 1.4rem + 0.8vw, 2.125rem)/1.1 var(--serif); }
-.venue-empty p { color: var(--ink-soft); }
 #hosts .actions { margin-top: 2.5rem; }
-.venue[hidden], .venue-filters[hidden], .venue-list[hidden], .venue-empty[hidden] { display: none; }
-.venue-empty { max-width: none; }
-@media (min-width: 56rem) {
-  .venue-empty { grid-template-columns: minmax(0, 1fr) auto; column-gap: 3rem; align-items: center; }
-  .venue-empty h3, .venue-empty p { grid-column: 1; }
-  .venue-empty .btn { grid-column: 2; grid-row: 1 / span 2; }
-}
+.venue[hidden] { display: none; }
 
 /* Venues directory: terms label, contact buttons and open dates. */
 .venue-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1085,17 +1076,29 @@ h3, .btn, .site-nav a, .nav-toggle, label, .label, .eyebrow, .tag, summary, stro
 .venue-terms span { font-size: 0.9375rem; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--ink-soft); }
 .venue-actions { display: flex; flex-wrap: wrap; gap: 0.625rem; margin-top: auto; padding-top: 0.5rem; }
 
-.open-dates { margin-top: 2.75rem; border-top: 1px solid var(--ink); }
-.open-dates li { display: grid; gap: 0.75rem 1.5rem; padding-block: 1.5rem; border-bottom: 1px solid var(--line); }
-@media (min-width: 48rem) { .open-dates li { grid-template-columns: 7rem minmax(0, 1fr) auto; align-items: center; } }
-.open-date strong { display: block; font: 400 2rem/1 var(--serif); }
-.open-date span { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
-.open-dates h3 { font: 400 1.5rem/1.15 var(--serif); }
-.open-dates p { color: var(--ink-soft); }
-.open-dates .open-want { margin-top: 0.25rem; color: var(--ink); }
-.open-dates .link-arrow { justify-self: start; }
-#open-dates[hidden] { display: none; }
 
 .legend-sub { margin-top: 0.5rem; font: 500 0.75rem/1.4 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
 .checks label, .check { align-items: flex-start; }
 .checks input, .check input { margin-top: 0.2rem; }
+
+
+
+/* Movers sit at the sketch's corner until their path starts, so keep them hidden until then. */
+@media (prefers-reduced-motion: no-preference) {
+  .sketch .mover { opacity: 0; animation: mover-in 0.2s linear var(--start, 0s) forwards; }
+  @keyframes mover-in { to { opacity: 1; } }
+}
+
+/* Venue cards: sample label, inline contact and the stats line. */
+.tag-sample { padding: 0.125rem 0.5rem; border-color: var(--accent); color: var(--accent-ink); font: 500 0.6875rem/1.4 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; }
+.venue-meta .tag-sample { margin-left: auto; }
+.venue-contact { display: grid; gap: 0.5rem; margin: 0; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.9375rem; }
+.venue-contact dt { font-size: 0.75rem; color: var(--ink-soft); }
+.venue-contact dd { margin: 0; overflow-wrap: anywhere; }
+.venue-contact a { color: var(--ink); }
+.venue-stats { margin-top: 1.25rem; font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
+.venue-stats strong { font: 400 1.5rem/1 var(--serif); letter-spacing: 0; color: var(--ink); }
+.venue-stats i { margin-inline: 0.5rem; font-style: normal; color: var(--line); }
+.venue-meta { align-items: flex-start; }
+.venue-meta span.tag-sample::before { content: none; }
+.venue .venue-confirmed { margin-top: auto; font-size: 0.8125rem; color: var(--ink-soft); }
