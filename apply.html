@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apply | Builder's Quorum</title>
+  <meta name="description" content="Apply for a place in a Builder's Quorum cohort, or start a conversation as a college, investor, practitioner or sponsor.">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light">
+
+  <!-- TODO: add <link rel="canonical"> and og:url once the domain is bought. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Builder's Quorum">
+  <meta property="og:title" content="Apply | Builder's Quorum">
+  <meta property="og:description" content="Apply for a place in a Builder's Quorum cohort, or start a conversation as a college, investor, practitioner or sponsor.">
+  <meta property="og:locale" content="en_IN">
+  <!-- TODO: og:image needs a 1200x630 PNG once the logo is final. -->
+  <meta name="twitter:card" content="summary">
+
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500&display=swap">
+  <link rel="stylesheet" href="styles.css">
+
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><filter id="pencil" filterUnits="userSpaceOnUse" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="4" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.1" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="pencil-2" filterUnits="userSpaceOnUse" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="9" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.1" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="pencil-3" filterUnits="userSpaceOnUse" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="15" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.1" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/logo.svg" alt="" width="28" height="28">
+        <span>Builder’s Quorum</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="builders.html">For builders</a></li>
+          <li><a href="colleges.html">Colleges</a></li>
+          <li><a href="partners.html">Partners</a></li>
+          <li><a href="investors.html">Investors</a></li>
+          <li><a class="btn btn-primary btn-small" href="apply.html" aria-current="page">Apply</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="progress" aria-hidden="true"></div>
+  </header>
+
+  <main id="main">
+    <section class="hero page-hero apply-hero">
+      <div class="wrap">
+        <p class="hero-meta"><span class="live" aria-hidden="true"></span>Cohort 01 <i aria-hidden="true">/</i> Applications reviewed before each cohort</p>
+        <h1>Tell us who you <em>are</em>.</h1>
+        <p class="lede">Students and early builders apply for a place in a pilot cohort. Colleges, investors, practitioners and sponsors start a conversation here.</p>
+
+        <div class="apply-grid">
+          <form id="interest-form" class="panel form" method="post">
+            <div class="field">
+              <label for="role">I am</label>
+              <select id="role" name="role" required>
+                <option value="student">A student</option>
+                <option value="builder">Building, or about to build, and not a student</option>
+                <option value="campus">From a college: E-cell, club, faculty or leadership</option>
+                <option value="investor">An investor</option>
+                <option value="practitioner">A practitioner with a problem to share</option>
+                <option value="partner">A sponsor or company</option>
+                <option value="reader">Interested in The BQ Brief</option>
+              </select>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" required>
+              </div>
+            </div>
+
+            <fieldset class="role-fields" data-for="student builder" aria-labelledby="about-work">
+              <h2 class="legend" id="about-work">About your work</h2>
+              <div class="field">
+                <label for="aim">What are you working towards?</label>
+                <select id="aim" name="aim" required>
+                  <option value="">Choose one</option>
+                  <option>Building a company</option>
+                  <option>Becoming unusually good at something</option>
+                  <option>A great role after college</option>
+                  <option>Access to industries and people I can’t reach yet</option>
+                  <option>Exploring before I decide</option>
+                  <option>Still figuring it out</option>
+                </select>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="stage">Where are you right now?</label>
+                  <select id="stage" name="stage" required>
+                    <option value="">Choose one</option>
+                    <option>Looking for a problem worth solving</option>
+                    <option>Exploring a problem or idea</option>
+                    <option>Building something</option>
+                    <option>I have an MVP</option>
+                    <option>I have users or pilots</option>
+                    <option>Making revenue</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="side">Your background</label>
+                  <select id="side" name="side" required>
+                    <option value="">Choose one</option>
+                    <option>Management or business</option>
+                    <option>AI, data or technology</option>
+                    <option>Engineering</option>
+                    <option>Design</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <span class="label" id="sectors-label">Sectors you could go deep into</span>
+                <div class="checks" role="group" aria-labelledby="sectors-label">
+                  <label><input type="checkbox" name="sectors" value="AI and fintech"> AI and fintech</label>
+                  <label><input type="checkbox" name="sectors" value="Real estate and proptech"> Real estate and proptech</label>
+                  <label><input type="checkbox" name="sectors" value="Robotics"> Robotics</label>
+                  <label><input type="checkbox" name="sectors" value="Semiconductors"> Semiconductors</label>
+                  <label><input type="checkbox" name="sectors" value="Advanced materials"> Advanced materials</label>
+                  <label><input type="checkbox" name="sectors" value="Space tech"> Space tech</label>
+                  <label><input type="checkbox" name="sectors" value="Energy and climate"> Energy and climate</label>
+                  <label><input type="checkbox" name="sectors" value="Food and agri-tech"> Food and agri-tech</label>
+                </div>
+              </div>
+              <div class="field">
+                <label for="built">Something you’ve built, shipped or led <span class="optional">(optional, a link is fine)</span></label>
+                <input id="built" name="built" type="text">
+              </div>
+              <label class="check"><input type="checkbox" name="age_18_plus" required> I’m 18 or older</label>
+            </fieldset>
+
+            <fieldset class="role-fields" data-for="campus" aria-labelledby="about-campus">
+              <h2 class="legend" id="about-campus">About your campus</h2>
+              <div class="field-row">
+                <div class="field">
+                  <label for="campus-role">Your role</label>
+                  <select id="campus-role" name="campus_role" required>
+                    <option value="">Choose one</option>
+                    <option>Student lead of an E-cell, club or student body</option>
+                    <option>Faculty or staff</option>
+                    <option>Institution leadership</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="city">City</label>
+                  <input id="city" name="city" type="text" autocomplete="address-level2" required>
+                </div>
+              </div>
+              <div class="field">
+                <span class="label" id="campus-wants-label">What are you looking for?</span>
+                <div class="checks" role="group" aria-labelledby="campus-wants-label">
+                  <label><input type="checkbox" name="campus_wants" value="Build sprint"> A build sprint for our students</label>
+                  <label><input type="checkbox" name="campus_wants" value="Single session"> A single session to start</label>
+                  <label><input type="checkbox" name="campus_wants" value="Founders for an event"> Founders or practitioners for an event</label>
+                  <label><input type="checkbox" name="campus_wants" value="Demo Night"> Demo Night places for our best teams</label>
+                  <label><input type="checkbox" name="campus_wants" value="Not sure"> Not sure yet, let’s talk</label>
+                </div>
+              </div>
+              <div class="field">
+                <label for="cohort-size">Students likely to commit to a full sprint</label>
+                <select id="cohort-size" name="cohort_size">
+                  <option>Don’t know yet</option>
+                  <option>Under 20</option>
+                  <option>20 to 50</option>
+                  <option>50 to 100</option>
+                  <option>More than 100</option>
+                </select>
+              </div>
+            </fieldset>
+
+            <fieldset class="role-fields" data-for="investor" aria-labelledby="about-investing">
+              <h2 class="legend" id="about-investing">About your investing</h2>
+              <div class="field">
+                <span class="label" id="stage-label">Stages you invest at</span>
+                <div class="checks" role="group" aria-labelledby="stage-label">
+                  <label><input type="checkbox" name="invest_stage" value="Angel"> Angel</label>
+                  <label><input type="checkbox" name="invest_stage" value="Pre-seed"> Pre-seed</label>
+                  <label><input type="checkbox" name="invest_stage" value="Seed"> Seed</label>
+                  <label><input type="checkbox" name="invest_stage" value="Series A and later"> Series A and later</label>
+                </div>
+              </div>
+              <div class="field">
+                <span class="label" id="involve-label">How you’d like to be involved</span>
+                <div class="checks" role="group" aria-labelledby="involve-label">
+                  <label><input type="checkbox" name="invest_involve" value="Early look"> An early look at teams</label>
+                  <label><input type="checkbox" name="invest_involve" value="Mentor"> Mentor a pod</label>
+                  <label><input type="checkbox" name="invest_involve" value="Judge"> Judge Demo Night</label>
+                  <label><input type="checkbox" name="invest_involve" value="Portfolio problems"> Bring portfolio problems</label>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <label for="org">Institution or organisation <span class="optional" id="org-optional">(optional)</span></label>
+              <input id="org" name="organisation" type="text" autocomplete="organization">
+            </div>
+            <div class="field">
+              <label for="message">Anything we should know? <span class="optional">(optional)</span></label>
+              <textarea id="message" name="message" rows="4"></textarea>
+            </div>
+            <button class="btn btn-primary btn-arrow" type="submit" id="submit">Apply for a place</button>
+            <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+          </form>
+
+          <aside class="apply-aside" aria-label="About applying">
+            <div class="brief-card">
+              <p class="tag tag-accent">Who can apply</p>
+              <h3>From any college, or none.</h3>
+              <p>Students and early builders, 18 and over. You don’t need an idea yet. We care more about what you have built or led than where you study.</p>
+            </div>
+            <div class="brief-card">
+              <p class="tag">What happens next</p>
+              <h3>Cohorts are small.</h3>
+              <p>We review applications before each cohort. If there is a fit, we set up a short call. Not everyone gets in, and we will tell you either way.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <a class="brand" href="index.html">
+            <img src="assets/logo.svg" alt="" width="24" height="24">
+            <span>Builder’s Quorum</span>
+          </a>
+          <p>Where tomorrow’s industries find their founders.</p>
+        </div>
+        <nav aria-label="Footer">
+          <h2 class="footer-title">Explore</h2>
+          <ul class="footer-links">
+            <li><a href="builders.html">For builders</a></li>
+            <li><a href="colleges.html">For colleges</a></li>
+            <li><a href="partners.html">For partners</a></li>
+            <li><a href="investors.html">For investors</a></li>
+            <li><a href="apply.html">Apply</a></li>
+          </ul>
+        </nav>
+        <div>
+          <h2 class="footer-title">The BQ Brief <span class="tag tag-accent">Coming soon</span></h2>
+          <p>A weekly briefing, written by the BQ team, on what moved in AI, finance and frontier sectors in India and globally, with practical notes on building businesses that scale and last.</p>
+          <p><a class="link-arrow" href="apply.html?role=reader">Get the first issue</a></p>
+        </div>
+      </div>
+      <p class="footer-base">© 2026 Builder’s Quorum. Delhi NCR, India.</p>
+      <p class="footer-mark" aria-hidden="true">Builder’s Quorum<span>.</span></p>
+    </div>
+  </footer>
+</body>
+</html>
