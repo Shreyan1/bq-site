@@ -5,9 +5,37 @@ const FORM_ENDPOINT = '';
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const params = new URLSearchParams(location.search);
 
-// The backers section stays hidden until it has real names. Add ?preview to the URL to see it.
-const backers = document.getElementById('backers');
-if (backers && params.has('preview')) backers.hidden = false;
+// Sections waiting on real names or venues stay hidden. Add ?preview to the URL to see them.
+if (params.has('preview')) {
+  document.querySelectorAll('[data-preview]').forEach((el) => { el.hidden = false; });
+  document.querySelectorAll('[data-preview-hide]').forEach((el) => { el.hidden = true; });
+}
+
+// Venue filters: hide listings that don't match the area, type or size.
+const filters = document.querySelector('.venue-filters');
+
+if (filters) {
+  const venues = [...document.querySelectorAll('.venue')];
+  const count = filters.querySelector('.venue-count');
+  const none = document.querySelector('.venue-none');
+
+  const applyFilters = () => {
+    const { area, type, seats } = Object.fromEntries(new FormData(filters));
+    let shown = 0;
+    venues.forEach((v) => {
+      const match = (!area || v.dataset.area === area)
+        && (!type || v.dataset.type === type)
+        && Number(v.dataset.seats) >= Number(seats);
+      v.hidden = !match;
+      if (match) shown++;
+    });
+    count.textContent = `${shown} ${shown === 1 ? 'space' : 'spaces'}`;
+    none.hidden = shown > 0 || filters.hidden;
+  };
+  filters.addEventListener('change', applyFilters);
+  filters.addEventListener('submit', (e) => e.preventDefault());
+  applyFilters();
+}
 
 // Header gets a hairline once the page scrolls.
 const header = document.querySelector('.site-header');
@@ -152,29 +180,36 @@ const form = document.getElementById('interest-form');
 
 if (form) {
   const role = document.getElementById('role');
-  const roleFields = form.querySelectorAll('fieldset[data-for]');
+  const roleFields = document.querySelectorAll('fieldset[data-for], .apply-aside [data-for]');
   const org = document.getElementById('org');
   const orgOptional = document.getElementById('org-optional');
   const submit = document.getElementById('submit');
   const status = document.getElementById('form-status');
 
-  const submitLabels = { student: 'Apply for a place', builder: 'Apply for a place', campus: 'Start the conversation' };
-  const needsOrg = ['campus', 'investor', 'partner'];
+  const orgLabel = document.getElementById('org-label');
+  const submitLabels = {
+    student: 'Apply for a place', builder: 'Apply for a place', campus: 'Start the conversation',
+    organiser: 'Request a space', venue: 'List my space',
+  };
+  const orgLabels = { organiser: 'Community or organisation', venue: 'Name of the space' };
+  const needsOrg = ['campus', 'investor', 'partner', 'organiser', 'venue'];
 
   const syncRole = () => {
     roleFields.forEach((group) => {
       const active = group.dataset.for.split(' ').includes(role.value);
       group.hidden = !active;
-      group.disabled = !active; // disabled fields skip validation and aren't sent
+      if (group.matches('fieldset')) group.disabled = !active; // disabled fields skip validation and aren't sent
     });
     org.required = needsOrg.includes(role.value);
     orgOptional.hidden = org.required;
     submit.textContent = submitLabels[role.value] || 'Send';
+    orgLabel.textContent = orgLabels[role.value] || 'Institution or organisation';
   };
 
   // Links like apply.html?role=investor arrive with the role already chosen.
   const wanted = params.get('role');
   if ([...role.options].some((o) => o.value === wanted)) role.value = wanted;
+  if (params.get('venue')) document.getElementById('venue-pick').value = params.get('venue');
 
   role.addEventListener('change', syncRole);
   syncRole();

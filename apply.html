@@ -44,6 +44,7 @@
           <li><a href="colleges.html">Colleges</a></li>
           <li><a href="partners.html">Partners</a></li>
           <li><a href="investors.html">Investors</a></li>
+          <li><a href="venues.html">Venues</a></li>
           <li><a class="btn btn-primary btn-small" href="apply.html" aria-current="page">Apply</a></li>
         </ul>
       </nav>
@@ -56,7 +57,7 @@
       <div class="wrap">
         <p class="hero-meta"><span class="live" aria-hidden="true"></span>Cohort 01 <i aria-hidden="true">/</i> Applications reviewed before each cohort</p>
         <h1>Tell us who you <em>are</em>.</h1>
-        <p class="lede">Students and early builders apply for a place in a pilot cohort. Colleges, investors, practitioners and sponsors start a conversation here.</p>
+        <p class="lede">Students and early builders apply for a place in a pilot cohort. Colleges, investors, practitioners and sponsors start a conversation here, and organisers can ask for a space.</p>
 
         <div class="apply-grid">
           <form id="interest-form" class="panel form" method="post">
@@ -69,6 +70,8 @@
                 <option value="investor">An investor</option>
                 <option value="practitioner">A practitioner with a problem to share</option>
                 <option value="partner">A sponsor or company</option>
+                <option value="organiser">Organising an event and looking for a space</option>
+                <option value="venue">Offering a space for community events</option>
                 <option value="reader">Interested in The BQ Brief</option>
               </select>
             </div>
@@ -215,8 +218,111 @@
               </div>
             </fieldset>
 
+            <fieldset class="role-fields" data-for="organiser" aria-labelledby="about-event">
+              <h2 class="legend" id="about-event">About your event</h2>
+              <div class="field-row">
+                <div class="field">
+                  <label for="event-type">What kind of event?</label>
+                  <select id="event-type" name="event_type" required>
+                    <option value="">Choose one</option>
+                    <option>Meetup or talk</option>
+                    <option>Hackathon or build day</option>
+                    <option>Workshop</option>
+                    <option>Conference</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="headcount">People you expect</label>
+                  <input id="headcount" name="headcount" type="number" min="5" inputmode="numeric" required>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="event-date">Date</label>
+                  <input id="event-date" name="event_date" type="date" required>
+                </div>
+                <div class="field">
+                  <label for="flex">How fixed is the date?</label>
+                  <select id="flex" name="date_flex">
+                    <option>Fixed</option>
+                    <option>A few days either way</option>
+                    <option>Flexible</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="event-area">Area</label>
+                  <select id="event-area" name="event_area" required>
+                    <option value="">Choose one</option>
+                    <option>Anywhere in Delhi NCR</option>
+                    <option>Delhi</option>
+                    <option>Gurugram</option>
+                    <option>Noida</option>
+                    <option>Faridabad</option>
+                    <option>Ghaziabad</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="venue-pick">Space you picked <span class="optional">(optional)</span></label>
+                  <input id="venue-pick" name="venue" type="text">
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="role-fields" data-for="venue" aria-labelledby="about-space">
+              <h2 class="legend" id="about-space">About your space</h2>
+              <div class="field-row">
+                <div class="field">
+                  <label for="space-type">Type of space</label>
+                  <select id="space-type" name="space_type" required>
+                    <option value="">Choose one</option>
+                    <option>College</option>
+                    <option>Coworking space</option>
+                    <option>Company office</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="space-area">Area</label>
+                  <select id="space-area" name="space_area" required>
+                    <option value="">Choose one</option>
+                    <option>Delhi</option>
+                    <option>Gurugram</option>
+                    <option>Noida</option>
+                    <option>Faridabad</option>
+                    <option>Ghaziabad</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="seats">People it holds</label>
+                  <input id="seats" name="seats" type="number" min="5" inputmode="numeric" required>
+                </div>
+                <div class="field">
+                  <label for="notice">Notice you need</label>
+                  <select id="notice" name="notice">
+                    <option>A week</option>
+                    <option>Two weeks</option>
+                    <option>A month or more</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <span class="label" id="return-label">What you ask in return</span>
+                <div class="checks" role="group" aria-labelledby="return-label">
+                  <label><input type="checkbox" name="in_return" value="Nothing"> Nothing, it’s free</label>
+                  <label><input type="checkbox" name="in_return" value="Costs"> A fee to cover costs</label>
+                  <label><input type="checkbox" name="in_return" value="Co-branding"> Co-branding</label>
+                  <label><input type="checkbox" name="in_return" value="Places"> Places for our students or team</label>
+                </div>
+              </div>
+            </fieldset>
+
             <div class="field">
-              <label for="org">Institution or organisation <span class="optional" id="org-optional">(optional)</span></label>
+              <label for="org"><span id="org-label">Institution or organisation</span> <span class="optional" id="org-optional">(optional)</span></label>
               <input id="org" name="organisation" type="text" autocomplete="organization">
             </div>
             <div class="field">
@@ -228,12 +334,18 @@
           </form>
 
           <aside class="apply-aside" aria-label="About applying">
-            <div class="brief-card">
+            <div class="brief-card" data-for="organiser venue">
+              <p class="tag tag-accent">Venues</p>
+              <h3>We make the introduction.</h3>
+              <p>We read every request and reply, usually within two working days. We never publish a venue’s phone number or email, and we only bring it events that suit the space.</p>
+              <a class="link-arrow" href="venues.html">See the spaces</a>
+            </div>
+            <div class="brief-card" data-for="student builder campus investor practitioner partner reader">
               <p class="tag tag-accent">Who can apply</p>
               <h3>From any college, or none.</h3>
               <p>Students and early builders, 18 and over, building software, consumer products or hardware. You don’t need an idea yet. We care more about what you have built or led than where you study.</p>
             </div>
-            <div class="brief-card">
+            <div class="brief-card" data-for="student builder campus investor practitioner partner reader">
               <p class="tag">What happens next</p>
               <h3>Cohorts are small.</h3>
               <p>We review applications before each cohort. If there is a fit, we set up a short call. Not everyone gets in, and we will tell you either way.</p>
@@ -262,6 +374,7 @@
             <li><a href="colleges.html">For colleges</a></li>
             <li><a href="partners.html">For partners</a></li>
             <li><a href="investors.html">For investors</a></li>
+            <li><a href="venues.html">Venues</a></li>
             <li><a href="apply.html">Apply</a></li>
           </ul>
         </nav>

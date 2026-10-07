@@ -1034,3 +1034,45 @@ h3, .btn, .site-nav a, .nav-toggle, label, .label, .eyebrow, .tag, summary, stro
   .cta-band .intro { margin: 0; }
   .cta-band .actions { margin-top: 1.75rem; }
 }
+
+/* Venues: filters, listing cards and the empty state. */
+.venue-filters {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--ink);
+}
+@media (min-width: 40rem) { .venue-filters { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; } }
+.venue-count { grid-column: 1 / -1; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.venue-list { display: grid; gap: 0; margin-top: 0; }
+@media (min-width: 40rem) { .venue-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 72rem) { .venue-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.venue {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+.venue-meta { display: flex; gap: 1rem; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+.venue-meta span + span::before { content: "/"; margin-right: 1rem; color: var(--line); }
+.venue h3 { font: 400 clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem)/1.1 var(--serif); }
+.venue-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.875rem 1rem; margin: 0; }
+.venue-facts dt { font-size: 0.75rem; color: var(--ink-soft); }
+.venue-facts dd { margin: 0.125rem 0 0; font-size: 0.9375rem; }
+.venue .link-arrow { margin-top: auto; align-self: flex-start; }
+.venue-none { margin-top: 1.5rem; color: var(--ink-soft); }
+.venue-empty { display: grid; gap: 1rem; justify-items: start; max-width: 40rem; margin-top: 2.75rem; background: #fff; border: 1px solid var(--line); }
+.venue-empty h3 { font: 400 clamp(1.625rem, 1.4rem + 0.8vw, 2.125rem)/1.1 var(--serif); }
+.venue-empty p { color: var(--ink-soft); }
+#hosts .actions { margin-top: 2.5rem; }
+.venue[hidden], .venue-filters[hidden], .venue-list[hidden], .venue-empty[hidden] { display: none; }
+.venue-empty { max-width: none; }
+@media (min-width: 56rem) {
+  .venue-empty { grid-template-columns: minmax(0, 1fr) auto; column-gap: 3rem; align-items: center; }
+  .venue-empty h3, .venue-empty p { grid-column: 1; }
+  .venue-empty .btn { grid-column: 2; grid-row: 1 / span 2; }
+}

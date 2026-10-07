@@ -9,15 +9,18 @@ builders.html     for students and early builders (from any college or none): wh
 colleges.html     for colleges and student bodies: what you get, how a pilot works, who runs BQ
 partners.html     for sponsors, companies and practitioners, plus the hidden "Backed by" section
 investors.html    for investors: angel and pre-seed first, later stages as mentors and judges
+venues.html       free venue booking for community event organisers: how booking works, spaces with
+                  filters (sample listings, shown only with ?preview), and a pitch to venues
 apply.html        one form; the questions change with the role. Links can preselect a role:
-                  apply.html?role=campus | builder | investor | partner | practitioner | reader
+                  apply.html?role=campus | builder | investor | partner | practitioner | reader | organiser | venue
+                  apply.html?role=organiser&venue=Name fills in the space the organiser picked
 styles.css        design tokens at the top, then components, then motion
 main.js           nav, scroll reveal, sketch drawing, tabs, form
 assets/logo.svg   the only logo file (header, footer, favicon)
 404.html, robots.txt, sitemap.xml
 ```
 
-The header, footer and pencil filter are repeated on every page. If you change one, change all six.
+The header, footer and pencil filter are repeated on every page. If you change one, change all seven.
 
 ## Preview locally
 
@@ -34,6 +37,7 @@ Then open http://localhost:8000.
 - Form: set `FORM_ENDPOINT` in `main.js` once a form service is approved. While it is empty, the form sends nothing.
 - FAQ: the answers appear twice in `index.html`, in the visible FAQ and in the FAQPage JSON-LD in `<head>`. Edit both.
 - Backed by: `#backers` in `partners.html` is hidden. Open `partners.html?preview` to see it. Only name people and organisations who have agreed in writing.
+- Venues: listings live in `#spaces` in `venues.html`, one `<li class="venue">` each. The `data-area`, `data-type` and `data-seats` attributes drive the filters. The sample listings are hidden; open `venues.html?preview` to see them. To go live, replace the samples with venues that have agreed in writing, remove `hidden` from the filters and the list, and delete the `venue-empty` block. Never publish a venue's phone number or email: requests come to BQ through the form.
 
 ## Design system
 
@@ -55,6 +59,7 @@ Then open http://localhost:8000.
 - [ ] 1200x630 PNG for `og:image`, and a 180x180 `apple-touch-icon`
 - [ ] Form endpoint approved and set, plus a privacy note next to the form
 - [ ] Contact email in the footer
+- [ ] Venues: about 15 confirmed listings before the venues page is shared, a named owner for replies, and a monthly recheck of every listing
 
 ## Copy that still needs founder sign-off
 
@@ -70,6 +75,7 @@ Then open http://localhost:8000.
 - Colleges: "No fixed session counts and no long contracts up front", and "We share the numbers, good or bad"
 - Apply page: "Not everyone gets in, and we will tell you either way". Only keep this if someone owns replying to everyone
 - "If it isn't worth a Sunday afternoon, we don't run it"
+- Venues page: "usually within two working days" (only if someone owns replies), "Events booked through us name Builder's Quorum as venue partner", "Free for organisers", and the promise that venues only hear from organisers we have spoken to
 - Proven formats on the builders page: names Stanford GSB, MIT Sloan and Oxford Saïd programmes as inspiration, with a no-affiliation note. Keep or cut
 
 ## Naming
