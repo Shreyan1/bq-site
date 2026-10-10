@@ -1,4 +1,4 @@
-# Builder's Quorum website (v1)
+# Builders’ Quorum website (v1)
 
 Plain HTML, CSS and a little JS. No framework. Only venues.html is generated (see below). Not deployed.
 
@@ -45,7 +45,7 @@ Then open http://localhost:8000.
 ## Design system
 
 - Type: Instrument Serif for display, with italics for one word per heading. Inter Tight 400 for body text and 500 for interface text (buttons, labels, navigation, small headings).
-- Colour: ink on warm paper (#FBFAF7) with a faint grain, one accent used sparingly. The "access is earned" band (home and evenings pages) and the footer are the only dark areas.
+- Colour: ink on warm paper (#FBFAF7) with a faint grain, one accent used sparingly. The header and the footer are the only dark areas: they frame every page, and everything between them stays light. The `.section-ink` style is still in the stylesheet but no page uses it. In the wordmark (header, footer and the large closing mark) the apostrophe and the full stop are always the accent colour: `Builders<span class="accent">’</span> Quorum<span class="accent">.</span>`. Running text spells the name plainly.
 - Shape and layout: square corners and hairlines throughout. Buttons and labels use small tracked capitals. On wide screens each section has a sticky left column with its number (01, 02...) and label, and the content sits on the right. The home page has a ticker of sectors and formats, a large statement that lights up word by word as you scroll, and every page ends with a large wordmark.
 - Spacing: section padding tops out at 7rem, and the sticky left column starts at 56rem (896px). The closing call-to-action band splits into heading left and text and buttons right from the same width, so no block leaves half the width empty.
 - The style sheet is layered: base styles first, then "Layout v2", then the "Refinement pass", which overrides earlier rules. When changing a component, check the refinement pass first.
@@ -88,6 +88,6 @@ The direction changed on 11 October 2026: evenings first, university chapters ne
 
 ## Naming
 
-"BQ Fellow" and "The BQ Brief" are used instead of "Quorum Fellow" and "Quorum Brief" until trademark clearance. Always write the brand as "Builder's Quorum" or "BQ", never "Quorum" alone.
+"BQ Fellow" and "The BQ Brief" are used instead of "Quorum Fellow" and "Quorum Brief" until trademark clearance. Always write the brand as "Builders’ Quorum" or "BQ", never "Quorum" alone.
 
 Research behind the student material (now on the universities page) and the student questions in the form is in `../research/student-demand.md`. The survey draft is in `../survey/bq-survey.md`.

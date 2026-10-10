@@ -22,8 +22,8 @@ e = lambda s: html.escape(str(s), quote=True)
 
 
 def mailto(email, name):
-    subject = quote(f"Event enquiry via Builder's Quorum: {name}")
-    body = quote("Hi,\n\nI found your space on Builder's Quorum.\n\nEvent:\nDate and time:\n"
+    subject = quote(f"Event enquiry via Builders’ Quorum: {name}")
+    body = quote("Hi,\n\nI found your space on Builders’ Quorum.\n\nEvent:\nDate and time:\n"
                  "People expected:\nOrganiser and community:\n\nThanks")
     return f'mailto:{e(email)}?subject={subject}&amp;body={body}'
 
@@ -112,7 +112,7 @@ main = f'''<main id="main">
     <section class="hero page-hero">
       <div class="wrap hero-grid">
         <div>
-          <p class="hero-meta"><span class="live" aria-hidden="true"></span>Venues <i aria-hidden="true">/</i> Delhi NCR <i aria-hidden="true">/</i> Updated {date.fromisoformat(updated).strftime('%-d %B %Y')}</p>
+          <p class="hero-meta">Venues <i aria-hidden="true">/</i> Delhi NCR <i aria-hidden="true">/</i> Updated {date.fromisoformat(updated).strftime('%-d %B %Y')}</p>
           <h1>Find a room for your next <em>event</em>.</h1>
           <div class="hero-rest">
             <p class="lede">Colleges, coworking spaces and company offices across Delhi NCR that host tech meetups, hackathons and workshops. Every listing shows the capacity, the terms and how to reach the host.</p>
@@ -121,7 +121,7 @@ main = f'''<main id="main">
               <a class="btn btn-primary btn-arrow" href="#spaces">Browse spaces</a>
               <a class="btn btn-ghost" href="apply.html?role=venue">List your space</a>
             </div>
-            <p class="note">A free community list, kept by Builder’s Quorum. We take no fee or commission from venues or organisers. If it helps you find a room, a mention of BQ on your event is always welcome.</p>
+            <p class="note">A free community list, kept by Builders’ Quorum. We take no fee or commission from venues or organisers. If it helps you find a room, a mention of BQ on your event is always welcome.</p>
           </div>
         </div>
         {sketch}
@@ -197,7 +197,7 @@ main = f'''<main id="main">
 template = (ROOT / 'partners.html').read_text()
 head, rest = template.split('<main id="main">', 1)
 foot = rest.split('</main>', 1)[1]
-title = "Venues for tech events in Delhi NCR | Builder's Quorum"
+title = "Venues for tech events in Delhi NCR | Builders’ Quorum"
 desc = (f'{len(venues)} spaces across Delhi NCR that host tech meetups, hackathons and workshops, with capacity, '
         'terms and contact details for each.')
 head = re.sub(r'<title>.*?</title>', f'<title>{e(title)}</title>', head)
