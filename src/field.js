@@ -1,7 +1,7 @@
 // Home hero: tomorrow's industries finding their founders, anywhere in the world.
 //
-// The world's land is drawn as a field of ink dots, each one a person, tilted a little into
-// depth across the full width of the hero. Every few seconds someone is found: a pencil
+// The world's land is drawn as a field of ink dots, each one a person, flat and in true
+// proportion across the full width of the hero. Every few seconds someone is found: a pencil
 // circle is drawn around them and the industry that found them is written beside it.
 // Each new find is linked to the nearest earlier one by an arc, so a small network forms
 // across continents. The newest find is the only accent on screen. After a while the
@@ -16,18 +16,19 @@ import LAND from './land.json';
 
 const SECTORS = ['AI and cloud', 'Robotics', 'Semiconductors', 'Space tech', 'Advanced materials', 'Energy', 'Fintech', 'Proptech', 'Agri-tech'];
 const SVG = 'http://www.w3.org/2000/svg';
-const DRIFT = 0.035;
+const DRIFT = 0.012;
 // Near the pointer people come into focus and gather in a little.
 const LENS = 0.3;
 const PULL = 0.2;
 const FOV = 30;
-// The map, in scene units: longitude and latitude scale, how far it tilts back, and
-// the latitude it is centred on.
-const SCALE = 13 / 180;
-const TILT = 0.32;
-const CENTRE_LAT = 10;
-const HALF_WIDTH = 180 * SCALE;
-const HALF_HEIGHT = 66 * SCALE;
+// The map lies flat, facing you, in true proportion: scene units per Miller unit
+// (longitude in radians), and the map's half width and half height in scene units.
+const SCALE = 13 / Math.PI;
+const HALF_WIDTH = Math.PI * SCALE;
+const HALF_HEIGHT = ((LAND.top - LAND.bottom) / 2) * SCALE;
+const MIDDLE = (LAND.top + LAND.bottom) / 2;
+// How big a dot is, as a share of the gap between neighbours.
+const DOT = 0.5;
 
 // Seeded, so the crowd is laid out the same on every visit. Who gets found is not.
 function random(seed) {
@@ -39,21 +40,35 @@ function random(seed) {
   };
 }
 
-// One person per land dot. Phones get every other dot.
-function buildCrowd(every) {
+// Where every land dot sits on the projected map (see tools/build_land.mjs for the format).
+// Phones get a grid twice as coarse, still staggered: every other row, every other dot.
+function landDots(coarse) {
+  const { step, left, top, rows } = LAND;
+  const dots = [];
+  for (const [row, ...runs] of rows) {
+    if (coarse && row % 2) continue;
+    for (let r = 0; r < runs.length; r += 2) {
+      for (let col = runs[r]; col <= runs[r + 1]; col++) {
+        if (coarse && (col + row / 2) % 2) continue;
+        dots.push(left + (col + (row % 2) / 2) * step, top - row * step);
+      }
+    }
+  }
+  return dots;
+}
+
+// One person per land dot.
+function buildCrowd(coarse) {
   const rand = random(11);
-  const count = Math.floor(LAND.length / 2 / every);
+  const dots = landDots(coarse);
+  const count = dots.length / 2;
   const position = new Float32Array(count * 3);
   const seed = new Float32Array(count);
-  const cos = Math.cos(TILT), sin = Math.sin(TILT);
 
   for (let i = 0; i < count; i++) {
-    const k = i * every * 2;
-    const x = (LAND[k] / 10) * SCALE;
-    const y = (LAND[k + 1] / 10 - CENTRE_LAT) * SCALE;
-    const z = (rand() - 0.5) * 0.18;
-    // Tilt the map back, so the north recedes and the pointer reveals depth.
-    position.set([x, y * cos - z * sin, -(y * sin + z * cos)], i * 3);
+    // A little depth, so the map shifts with the pointer, but not so much that the grid
+    // stops reading as a map.
+    position.set([dots[i * 2] * SCALE, (dots[i * 2 + 1] - MIDDLE) * SCALE, (rand() - 0.5) * 0.06], i * 3);
     seed[i] = rand();
   }
   return { position, seed, count };
@@ -70,14 +85,14 @@ function drift(crowd, i, t, out) {
   );
 }
 
-const crowdMaterial = (size) => new ShaderMaterial({
+const crowdMaterial = () => new ShaderMaterial({
   transparent: true,
   depthWrite: false,
   uniforms: {
     uTime: { value: 0 },
     uFade: { value: 0 },
     uDist: { value: 30 },
-    uSize: { value: size },
+    uSize: { value: 1 },
     uPointer: { value: new Vector2() },
     uLens: { value: 0 },
     uAspect: { value: 1 },
@@ -91,7 +106,7 @@ const crowdMaterial = (size) => new ShaderMaterial({
 
     void main() {
       float k = uTime * 0.22 + aSeed * 40.0;
-      vec3 p = position + vec3(sin(k * 0.9), sin(k * 0.7) * 0.5, cos(k * 0.8)) * ${DRIFT.toFixed(2)};
+      vec3 p = position + vec3(sin(k * 0.9), sin(k * 0.7) * 0.5, cos(k * 0.8)) * ${DRIFT.toFixed(3)};
       vec4 mv = modelViewMatrix * vec4(p, 1.0);
       gl_Position = projectionMatrix * mv;
 
@@ -104,8 +119,8 @@ const crowdMaterial = (size) => new ShaderMaterial({
       // Nearer people are darker, and each one glimmers slowly, like a city at night.
       float depth = -mv.z;
       float glimmer = 0.82 + 0.18 * sin(uTime * 0.7 + aSeed * 31.0);
-      gl_PointSize = uSize * (1.0 + focus * 0.8) / depth;
-      vAlpha = uFade * (mix(0.2, 0.6, smoothstep(uDist + 5.0, uDist - 5.0, depth)) * glimmer + focus * 0.3);
+      gl_PointSize = max(uSize * (1.0 + focus * 0.8) / depth, 1.5);
+      vAlpha = uFade * (mix(0.38, 0.78, smoothstep(uDist + 5.0, uDist - 5.0, depth)) * glimmer + focus * 0.22);
     }
   `,
   fragmentShader: /* glsl */ `
@@ -113,7 +128,7 @@ const crowdMaterial = (size) => new ShaderMaterial({
     varying float vAlpha;
 
     void main() {
-      float a = smoothstep(0.5, 0.3, length(gl_PointCoord - 0.5)) * vAlpha;
+      float a = smoothstep(0.5, 0.38, length(gl_PointCoord - 0.5)) * vAlpha;
       if (a < 0.01) discard;
       gl_FragColor = vec4(uColor, a);
     }
@@ -163,12 +178,14 @@ export default function mount(host, { still = false } = {}) {
   const svg = el('svg', { class: 'finds', 'aria-hidden': 'true' }, host);
   const hero = host.parentElement;
 
-  const crowd = buildCrowd(coarse ? 2 : 1);
+  const crowd = buildCrowd(coarse);
   const count = crowd.count;
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new BufferAttribute(crowd.position, 3));
   geometry.setAttribute('aSeed', new BufferAttribute(crowd.seed, 1));
-  const points = new Points(geometry, crowdMaterial(72 * pixelRatio));
+  const points = new Points(geometry, crowdMaterial());
+  // Each dot is a fixed share of the gap between dots, whatever the screen size.
+  const dotSize = LAND.step * (coarse ? 2 : 1) * SCALE * DOT;
   const u = points.material.uniforms;
 
   const scene = new Scene();
@@ -192,6 +209,8 @@ export default function mount(host, { still = false } = {}) {
     const fit = wide ? 1.02 : 0.8;
     distance = Math.max((HALF_WIDTH * fit) / (tan * camera.aspect), HALF_HEIGHT / (tan * 0.9));
     u.uDist.value = distance;
+    // Size in device pixels at depth 1, so a dot covers the same patch of map at any size.
+    u.uSize.value = (dotSize * height * pixelRatio) / (2 * tan);
     // Finds happen where the map is clear of the text.
     region = wide
       ? { x: width * 0.56, y: height * 0.14, w: width * 0.38, h: height * 0.7 }

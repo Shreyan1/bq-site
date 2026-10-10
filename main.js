@@ -202,7 +202,7 @@ if (tabs.length) selectTab(tabs[0]);
 const form = document.getElementById('interest-form');
 
 if (form) {
-  const role = document.getElementById('role');
+  const role = form.elements.role;
   const roleFields = document.querySelectorAll('fieldset[data-for], .apply-aside [data-for]');
   const org = document.getElementById('org');
   const orgOptional = document.getElementById('org-optional');
@@ -211,15 +211,17 @@ if (form) {
 
   const orgLabel = document.getElementById('org-label');
   const submitLabels = {
-    campus: 'Start the conversation', partner: 'Talk to us', member: 'Ask to join', speaker: 'Offer a session',
-    student: 'Join the list', organiser: 'Send', venue: 'List my space',
+    campus: 'Start the conversation', partner: 'Start the conversation', investor: 'Start the conversation',
+    member: 'Ask to join', speaker: 'Offer a session', practitioner: 'Share the problem', student: 'Join the list',
+    reader: 'Send me the first issue', organiser: 'Send', venue: 'List my space',
   };
   const orgLabels = {
-    campus: 'University or institution', partner: 'Company', member: 'University, lab or company',
+    campus: 'University or institution', partner: 'Company', investor: 'Fund or firm', member: 'University, lab or company',
+    practitioner: 'Company or organisation',
     speaker: 'University or institute', student: 'University or college', organiser: 'Community or organisation',
     venue: 'Name of the space',
   };
-  const needsOrg = ['member', 'speaker', 'student', 'campus', 'investor', 'partner', 'organiser', 'venue'];
+  const needsOrg = ['member', 'speaker', 'student', 'campus', 'partner', 'organiser', 'venue'];
 
   const syncRole = () => {
     roleFields.forEach((group) => {
@@ -233,12 +235,16 @@ if (form) {
     orgLabel.textContent = orgLabels[role.value] || 'Institution or organisation';
   };
 
-  // Links like apply.html?role=investor arrive with the role already chosen.
-  const wanted = params.get('role');
-  if ([...role.options].some((o) => o.value === wanted)) role.value = wanted;
+  // Links like apply.html?role=investor arrive with the role already chosen. The venue
+  // roles only show up for people who come from the venues page.
+  const wanted = [...role].find((input) => input.value === params.get('role'));
+  if (wanted) {
+    wanted.checked = true;
+    wanted.closest('[data-local]')?.removeAttribute('hidden');
+  }
   if (params.get('venue')) document.getElementById('venue-pick').value = params.get('venue');
 
-  role.addEventListener('change', syncRole);
+  form.addEventListener('change', (e) => { if (e.target.name === 'role') syncRole(); });
   syncRole();
 
   form.addEventListener('submit', async (e) => {

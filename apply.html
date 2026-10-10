@@ -29,7 +29,7 @@
   <script src="main.js" defer></script>
 </head>
 <body>
-  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><filter id="pencil" filterUnits="userSpaceOnUse" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="4" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.1" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="pencil-2" filterUnits="userSpaceOnUse" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="9" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.1" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="pencil-3" filterUnits="userSpaceOnUse" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="15" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.1" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><filter id="pencil" filterUnits="userSpaceOnUse" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="4" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.1" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="pencil-2" filterUnits="userSpaceOnUse" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="9" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.1" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="pencil-3" filterUnits="userSpaceOnUse" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="15" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.1" xChannelSelector="R" yChannelSelector="G"/></filter><symbol id="ring" viewBox="0 0 40 40"><path pathLength="1" d="M9.5 11.3L11.2 10.1L13.1 9.2L15.1 8.4L17.2 7.9L19.3 7.6L21.4 7.5L23.5 7.6L25.6 8.0L27.6 8.5L29.5 9.4L31.3 10.5L32.9 11.8L34.3 13.4L35.3 15.2L35.9 17.1L36.2 19.1L36.0 21.2L35.5 23.2L34.5 25.1L33.3 26.9L31.7 28.4L30.0 29.8L28.0 30.9L26.0 31.8L23.9 32.4L21.7 32.9L19.5 33.1L17.3 33.0L15.1 32.8L13.0 32.3L10.9 31.5L9.0 30.5L7.2 29.2L5.7 27.6L4.5 25.9L3.7 23.9L3.2 21.8L3.2 19.7L3.6 17.6L4.4 15.5L5.6 13.6L7.1 11.9L8.8 10.4L10.7 9.1L12.8 8.1L15.0 7.3L17.2 6.7L19.5 6.4"/></symbol></svg>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -55,27 +55,56 @@
   <main id="main">
     <section class="hero page-hero apply-hero">
       <div class="wrap">
-        <p class="hero-meta">Universities <i aria-hidden="true">/</i> Companies <i aria-hidden="true">/</i> The network</p>
-        <h1>Tell us who you <em>are</em>.</h1>
-        <p class="lede">Universities and institutions start a conversation about a chapter here. Companies, investors, researchers, engineers and founders can join the network, and students can tell us where they study.</p>
+        <p class="hero-meta">Work with us</p>
+        <h1>It begins with a <em>conversation</em>.</h1>
+        <p class="lede">Tell us who you are and what you hope to build. One of the founders reads every message and writes back.</p>
+      </div>
+    </section>
 
-        <div class="apply-grid">
-          <form id="interest-form" class="panel form" method="post">
-            <div class="field">
-              <label for="role">I am</label>
-              <select id="role" name="role" required>
-                <option value="campus">From a university: faculty, entrepreneurship centre, incubator or leadership</option>
-                <option value="partner">From a company or a sponsor</option>
-                <option value="investor">An investor</option>
-                <option value="member">A researcher, engineer or founder who wants to join the network</option>
-                <option value="practitioner">A practitioner with a problem to share</option>
-                <option value="speaker">A professor or researcher who could lead a session</option>
-                <option value="student">A student interested in a BQ chapter</option>
-                <option value="reader">Interested in The BQ Brief</option>
-                <option value="organiser">Organising an event and can’t find a space</option>
-                <option value="venue">Listing a space for community events</option>
-              </select>
+    <section class="apply">
+      <div class="wrap apply-grid">
+        <form id="interest-form" class="form" method="post">
+          <fieldset class="step" aria-labelledby="who">
+            <h2 class="step-title" id="who">Who are you writing as?</h2>
+            <div class="ways">
+              <label class="way">
+                <input type="radio" name="role" value="campus" checked>
+                <span class="way-n"><svg class="way-ring" viewBox="0 0 40 40" aria-hidden="true"><use href="#ring"/></svg>01</span>
+                <span class="way-name">A university</span>
+                <span class="way-note">Faculty, an entrepreneurship centre, an incubator or the leadership team</span>
+              </label>
+              <label class="way">
+                <input type="radio" name="role" value="partner">
+                <span class="way-n"><svg class="way-ring" viewBox="0 0 40 40" aria-hidden="true"><use href="#ring"/></svg>02</span>
+                <span class="way-name">A company</span>
+                <span class="way-note">A hackathon, a live problem, engineers who mentor, or a chapter to back</span>
+              </label>
+              <label class="way">
+                <input type="radio" name="role" value="investor">
+                <span class="way-n"><svg class="way-ring" viewBox="0 0 40 40" aria-hidden="true"><use href="#ring"/></svg>03</span>
+                <span class="way-name">An investor</span>
+                <span class="way-note">Early sight of the strongest teams, and a seat at Demo Night</span>
+              </label>
+              <label class="way">
+                <input type="radio" name="role" value="member">
+                <span class="way-n"><svg class="way-ring" viewBox="0 0 40 40" aria-hidden="true"><use href="#ring"/></svg>04</span>
+                <span class="way-name">A researcher, engineer or founder</span>
+                <span class="way-note">Set problems, mentor pods and meet the teams worth meeting</span>
+              </label>
             </div>
+            <div class="ways-more" role="group" aria-labelledby="ways-more-label">
+              <p class="label" id="ways-more-label">Or something more specific</p>
+              <label><input type="radio" name="role" value="speaker"> A professor or researcher who could lead a session</label>
+              <label><input type="radio" name="role" value="practitioner"> A practitioner with a problem students could work on</label>
+              <label><input type="radio" name="role" value="student"> A student who would like a chapter</label>
+              <label><input type="radio" name="role" value="reader"> A reader of The BQ Brief</label>
+              <label data-local hidden><input type="radio" name="role" value="organiser"> Organising an event and looking for a space</label>
+              <label data-local hidden><input type="radio" name="role" value="venue"> Listing a space for community events</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="step" aria-labelledby="you">
+            <h2 class="step-title" id="you">About you</h2>
             <div class="field-row">
               <div class="field">
                 <label for="name">Name</label>
@@ -86,9 +115,14 @@
                 <input id="email" name="email" type="email" autocomplete="email" required>
               </div>
             </div>
+            <div class="field">
+              <label for="org"><span id="org-label">Institution or organisation</span> <span class="optional" id="org-optional">(optional)</span></label>
+              <input id="org" name="organisation" type="text" autocomplete="organization">
+            </div>
+          </fieldset>
 
-            <fieldset class="role-fields" data-for="member" aria-labelledby="about-you">
-              <h2 class="legend" id="about-you">About your work</h2>
+            <fieldset class="step" data-for="member" aria-labelledby="about-you">
+              <h2 class="step-title" id="about-you">About your work</h2>
               <div class="field-row">
                 <div class="field">
                   <label for="level">Where you are</label>
@@ -136,8 +170,8 @@
               </div>
             </fieldset>
 
-            <fieldset class="role-fields" data-for="speaker" aria-labelledby="about-talk">
-              <h2 class="legend" id="about-talk">About your session</h2>
+            <fieldset class="step" data-for="speaker" aria-labelledby="about-talk">
+              <h2 class="step-title" id="about-talk">The session you would lead</h2>
               <div class="field-row">
                 <div class="field">
                   <label for="position">Your position</label>
@@ -170,15 +204,15 @@
               </div>
             </fieldset>
 
-            <fieldset class="role-fields" data-for="student" aria-labelledby="about-work">
-              <h2 class="legend" id="about-work">About your work</h2>
+            <fieldset class="step" data-for="student" aria-labelledby="about-work">
+              <h2 class="step-title" id="about-work">What you are working towards</h2>
               <div class="field">
                 <label for="aim">What are you working towards?</label>
                 <select id="aim" name="aim" required>
                   <option value="">Choose one</option>
                   <option>Building a company</option>
                   <option>Becoming unusually good at something</option>
-                  <option>A great role after college</option>
+                  <option>A great role after university</option>
                   <option>Access to industries and people I can’t reach yet</option>
                   <option>Exploring before I decide</option>
                   <option>Still figuring it out</option>
@@ -223,13 +257,14 @@
               <div class="field">
                 <span class="label" id="sectors-label">Sectors you could go deep into</span>
                 <div class="checks" role="group" aria-labelledby="sectors-label">
-                  <label><input type="checkbox" name="sectors" value="AI and fintech"> AI and fintech</label>
+                  <label><input type="checkbox" name="sectors" value="AI and cloud"> AI and cloud</label>
+                  <label><input type="checkbox" name="sectors" value="Fintech"> Fintech</label>
                   <label><input type="checkbox" name="sectors" value="Real estate and proptech"> Real estate and proptech</label>
                   <label><input type="checkbox" name="sectors" value="Robotics"> Robotics</label>
                   <label><input type="checkbox" name="sectors" value="Semiconductors"> Semiconductors</label>
                   <label><input type="checkbox" name="sectors" value="Advanced materials"> Advanced materials</label>
                   <label><input type="checkbox" name="sectors" value="Space tech"> Space tech</label>
-                  <label><input type="checkbox" name="sectors" value="Energy and climate"> Energy and climate</label>
+                  <label><input type="checkbox" name="sectors" value="Energy"> Energy</label>
                   <label><input type="checkbox" name="sectors" value="Food and agri-tech"> Food and agri-tech</label>
                 </div>
               </div>
@@ -240,8 +275,8 @@
               <label class="check"><input type="checkbox" name="age_18_plus" required> I’m 18 or older</label>
             </fieldset>
 
-            <fieldset class="role-fields" data-for="campus" aria-labelledby="about-campus">
-              <h2 class="legend" id="about-campus">About your campus</h2>
+            <fieldset class="step" data-for="campus" aria-labelledby="about-campus">
+              <h2 class="step-title" id="about-campus">Your university</h2>
               <div class="field-row">
                 <div class="field">
                   <label for="campus-role">Your role</label>
@@ -254,7 +289,7 @@
                   </select>
                 </div>
                 <div class="field">
-                  <label for="city">City</label>
+                  <label for="city">City and country</label>
                   <input id="city" name="city" type="text" autocomplete="address-level2" required>
                 </div>
               </div>
@@ -281,8 +316,8 @@
               </div>
             </fieldset>
 
-            <fieldset class="role-fields" data-for="investor" aria-labelledby="about-investing">
-              <h2 class="legend" id="about-investing">About your investing</h2>
+            <fieldset class="step" data-for="investor" aria-labelledby="about-investing">
+              <h2 class="step-title" id="about-investing">How you invest</h2>
               <div class="field">
                 <span class="label" id="stage-label">Stages you invest at</span>
                 <div class="checks" role="group" aria-labelledby="stage-label">
@@ -304,8 +339,8 @@
               </div>
             </fieldset>
 
-            <fieldset class="role-fields" data-for="organiser" aria-labelledby="about-event">
-              <h2 class="legend" id="about-event">About your event</h2>
+            <fieldset class="step" data-for="organiser" aria-labelledby="about-event">
+              <h2 class="step-title" id="about-event">Your event</h2>
               <div class="field-row">
                 <div class="field">
                   <label for="event-type">What kind of event?</label>
@@ -357,8 +392,8 @@
               </div>
             </fieldset>
 
-            <fieldset class="role-fields" data-for="venue" aria-labelledby="about-space">
-              <h2 class="legend" id="about-space">About your space</h2>
+            <fieldset class="step" data-for="venue" aria-labelledby="about-space">
+              <h2 class="step-title" id="about-space">Your space</h2>
               <div class="field-row">
                 <div class="field">
                   <label for="space-type">Type of space</label>
@@ -408,7 +443,7 @@
                 <label for="terms-detail">What you ask for, in a line</label>
                 <input id="terms-detail" name="terms_detail" type="text" placeholder="For example: our name on the event and 20 places for our students" required>
               </div>
-              <h3 class="legend-sub">Contact to publish</h3>
+              <h3 class="label">Contact to publish</h3>
               <div class="field-row">
                 <div class="field">
                   <label for="pub-email">Events email</label>
@@ -426,60 +461,68 @@
               <label class="check"><input type="checkbox" name="publish_ok" required> You can publish these contact details on the venues page. We can ask for changes or removal at any time.</label>
             </fieldset>
 
+          <fieldset class="step" aria-labelledby="else">
+            <h2 class="step-title" id="else">Anything else</h2>
             <div class="field">
-              <label for="org"><span id="org-label">Institution or organisation</span> <span class="optional" id="org-optional">(optional)</span></label>
-              <input id="org" name="organisation" type="text" autocomplete="organization">
-            </div>
-            <div class="field">
-              <label for="message">Anything we should know? <span class="optional">(optional)</span></label>
+              <label for="message">What should we know before we talk? <span class="optional">(optional)</span></label>
               <textarea id="message" name="message" rows="4"></textarea>
             </div>
-            <button class="btn btn-primary btn-arrow" type="submit" id="submit">Start the conversation</button>
+            <div class="send">
+              <button class="btn btn-primary btn-arrow" type="submit" id="submit">Start the conversation</button>
+              <p class="send-note">Read by one of the founders. Never shared outside the BQ team.</p>
+            </div>
             <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
-          </form>
+          </fieldset>
+        </form>
 
-          <aside class="apply-aside" aria-label="About applying">
-            <div class="brief-card" data-for="campus">
-              <p class="tag">Universities</p>
-              <h3>It starts with listening.</h3>
-              <p>We read every message, then talk through what your students want and what you have tried. Then we propose a pilot shaped around it, with no fixed session counts or long contracts.</p>
-            </div>
-            <div class="brief-card" data-for="organiser venue">
-              <p class="tag">Venues</p>
-              <h3>Every listing is checked.</h3>
-              <p>We confirm each listing with the venue before it goes up and recheck it every three months. We publish only the contact details a venue agrees to.</p>
-              <a class="link-arrow" href="venues.html">See the spaces</a>
-            </div>
-            <div class="brief-card" data-for="member speaker">
-              <p class="tag">The network</p>
-              <h3>Researchers, engineers and investors.</h3>
-              <p>People working at the frontier, who set problems, mentor pods, judge Demo Night and meet the strongest teams first. Most are invited by someone already in it.</p>
-            </div>
-            <div class="brief-card" data-for="member">
-              <p class="tag">What happens next</p>
-              <h3>We read every request.</h3>
-              <p>If it is a fit, we will write with how you could be involved first. Not every request is accepted, and we will tell you either way.</p>
-            </div>
-            <div class="brief-card" data-for="speaker">
-              <p class="tag">What happens next</p>
-              <h3>A short call first.</h3>
-              <p>We reply to every offer, talk through the problem you want to take on and find a date and a room that suit it.</p>
-            </div>
-            <div class="brief-card" data-for="student">
-              <p class="tag">Chapters</p>
-              <h3>Students join through chapters.</h3>
-              <p>BQ works through universities. Tell us where you study and what you want to build. We will write when there is a chapter you can join, and you can ask your entrepreneurship centre or faculty to start one. Places are earned, and kept by showing up.</p>
-            </div>
-            <div class="brief-card" data-for="investor practitioner partner reader">
-              <p class="tag">What happens next</p>
-              <h3>A short note is enough.</h3>
-              <p>We read every message and come back with something specific.</p>
-            </div>
-          </aside>
-        </div>
+        <aside class="apply-aside" aria-labelledby="next-title">
+          <p class="label" id="next-title">What happens next</p>
+          <ol class="next" data-for="campus">
+            <li>One of the founders reads your note and writes back to arrange a call.</li>
+            <li>On the call we mostly listen: what your students want, what you have tried and what success would look like.</li>
+            <li>We propose a pilot shaped around your students, with no fixed session counts and no long contract.</li>
+          </ol>
+          <ol class="next" data-for="partner">
+            <li>We read your note and write back to arrange a call.</li>
+            <li>We talk through what you want from the work: a problem solved, a hackathon, early sight of talent or a chapter to back.</li>
+            <li>We propose a format and the universities it would suit.</li>
+          </ol>
+          <ol class="next" data-for="investor">
+            <li>We read your note and write back.</li>
+            <li>A short call about the stages and sectors you invest in.</li>
+            <li>As teams form, you hear about the ones that fit before anyone else does.</li>
+          </ol>
+          <ol class="next" data-for="member">
+            <li>We read every request ourselves.</li>
+            <li>If it is a fit, we write with the first way you could be involved: a problem to set, a pod to mentor or a session to join.</li>
+            <li>Not every request is accepted, and we will tell you either way.</li>
+          </ol>
+          <ol class="next" data-for="speaker">
+            <li>We reply to every offer.</li>
+            <li>A short call about the problem you would take the room through.</li>
+            <li>We find a date and an audience that suit it.</li>
+          </ol>
+          <ol class="next" data-for="practitioner">
+            <li>We read your note and write back.</li>
+            <li>We shape the problem with you into something a student pod can work on.</li>
+            <li>A pod takes it on, and you see what they build.</li>
+          </ol>
+          <ol class="next" data-for="student">
+            <li>We keep a note of where you study and what you want to build.</li>
+            <li>When there is a chapter you can join, we write to you.</li>
+            <li>You can also ask your entrepreneurship centre or faculty to start one. Places are earned, and kept by showing up.</li>
+          </ol>
+          <ol class="next" data-for="reader">
+            <li>The first issue comes to this address when it launches.</li>
+            <li>It is written by the BQ team, once a week, on what moved in AI, finance and frontier sectors.</li>
+          </ol>
+          <div class="next" data-for="organiser venue">
+            <p>We confirm each listing with the venue before it goes up and recheck it every three months. We publish only the contact details a venue agrees to.</p>
+            <a class="link-arrow" href="venues.html">See the spaces</a>
+          </div>
+        </aside>
       </div>
     </section>
-
   </main>
 
   <footer class="site-footer">

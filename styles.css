@@ -1181,9 +1181,9 @@ html:not(.js) .hero-field { display: none; }
 /* Keep the text clear: the crowd fades out behind the headline and lede. */
 @media (min-width: 60rem) {
   .hero-field canvas {
-    -webkit-mask-image: linear-gradient(to right, rgb(0 0 0 / 0.6) 30%, #000 60%), linear-gradient(#000 80%, transparent);
+    -webkit-mask-image: linear-gradient(to right, rgb(0 0 0 / 0.6) 30%, #000 60%), linear-gradient(#000 92%, transparent);
     -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(to right, rgb(0 0 0 / 0.6) 30%, #000 60%), linear-gradient(#000 80%, transparent);
+    mask-image: linear-gradient(to right, rgb(0 0 0 / 0.6) 30%, #000 60%), linear-gradient(#000 92%, transparent);
     mask-composite: intersect;
   }
 }
@@ -1274,3 +1274,102 @@ html:not(.js) .hero-field { display: none; }
 .section-ink .flow-captions span:nth-child(2) { color: var(--paper); }
 .section-ink .numbered li { border-color: var(--line); }
 .section-ink .intro { color: var(--ink-soft); }
+
+/* Work with us: written like a letter, not a form. Each part is numbered, the fields are
+   hairlines and the chosen way in is circled in pencil, like a find on the home page. */
+.apply-hero { padding-bottom: clamp(2.5rem, 5vw, 4rem); }
+.apply-hero h1 { max-width: 16ch; }
+.apply { padding-bottom: clamp(4rem, 9vw, 7rem); }
+.apply-grid { margin-top: 0; gap: clamp(2.5rem, 6vw, 5rem); }
+@media (min-width: 60rem) { .apply-grid { grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); } }
+
+.form { gap: 0; counter-reset: step; }
+.step { display: grid; gap: 1.5rem; padding-block: 2rem 2.75rem; border-top: 1px solid var(--ink); counter-increment: step; }
+.step[hidden] { display: none; }
+.step-title { display: flex; align-items: baseline; gap: 1rem; font: 400 clamp(1.75rem, 1.4rem + 1.2vw, 2.375rem)/1.1 var(--serif); letter-spacing: -0.01em; }
+.step-title::before { content: counter(step, decimal-leading-zero); flex: none; min-width: 1.75rem; font: italic 400 1.125rem/1 var(--serif); color: var(--ink-soft); }
+
+.form label, .form .label, .apply-aside .label { font: 500 0.6875rem/1.4 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+.form .optional { letter-spacing: 0.06em; text-transform: none; font-weight: 400; }
+.form .field { gap: 0.25rem; }
+.form .field-row { gap: 1.5rem 2rem; }
+.form input:not([type="checkbox"]):not([type="radio"]), .form select, .form textarea {
+  padding: 0.5rem 0 0.625rem;
+  border: 0;
+  border-bottom: 1px solid #CBC7BD;
+  background: transparent;
+  font: 400 1.125rem/1.4 var(--sans);
+  box-shadow: none;
+}
+.form textarea { padding-top: 0.75rem; }
+.form select {
+  appearance: none;
+  padding-right: 1.5rem;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2315151A' stroke-width='1.2'/%3E%3C/svg%3E") right 0.25rem center / 0.75rem no-repeat;
+  cursor: pointer;
+}
+.form input::placeholder, .form textarea::placeholder { color: #A8A59D; }
+.form input:not([type="checkbox"]):not([type="radio"]):hover, .form select:hover, .form textarea:hover { border-bottom-color: var(--ink-soft); }
+.form input:not([type="checkbox"]):not([type="radio"]):focus-visible, .form select:focus-visible, .form textarea:focus-visible { border-bottom-color: var(--ink); box-shadow: 0 1px 0 var(--ink); }
+
+.form .checks { gap: 0; border-top: 1px solid var(--line); }
+@media (min-width: 40rem) { .form .checks { column-gap: 2rem; } }
+.form .checks label, .form .check, .ways-more label {
+  padding-block: 0.75rem;
+  border-bottom: 1px solid var(--line);
+  font: 400 0.9375rem/1.4 var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-soft);
+  transition: color 0.2s;
+}
+.form .check { border-bottom: 0; color: var(--ink); }
+.form .checks label:has(:checked), .ways-more label:has(:checked) { color: var(--ink); }
+.form .checks label:hover, .ways-more label:hover { color: var(--ink); }
+
+/* The four main ways in, as a hairline grid. */
+.ways { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+@media (min-width: 40rem) { .ways { grid-template-columns: 1fr 1fr; } }
+.form .way {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem 1.625rem;
+  background: var(--paper);
+  font: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.way input { position: absolute; opacity: 0; pointer-events: none; }
+.way:hover, .way:has(:checked) { background: var(--wash); }
+.way:has(:focus-visible) { outline: 2px solid var(--ink); outline-offset: -2px; }
+.way-n { position: relative; justify-self: start; padding: 0.25rem 0.375rem; font: italic 400 1.0625rem/1 var(--serif); color: var(--ink-soft); }
+.way-ring { position: absolute; left: 50%; top: 50%; width: 2.75rem; height: 2.75rem; translate: -50% -50%; overflow: visible; fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; opacity: 0; }
+.way:has(:checked) .way-n { color: var(--ink); }
+.way:has(:checked) .way-ring { stroke-dashoffset: 0; opacity: 1; }
+.way-name { margin-top: 0.25rem; font: 400 clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem)/1.1 var(--serif); color: var(--ink); text-wrap: balance; }
+.way-note { font: 400 0.9375rem/1.45 var(--sans); color: var(--ink-soft); text-wrap: pretty; }
+@media (prefers-reduced-motion: no-preference) {
+  .way-ring { transition: stroke-dashoffset 0.8s cubic-bezier(0.5, 0.1, 0.3, 1); }
+}
+
+.ways-more { display: grid; }
+.ways-more .label { padding-bottom: 0.5rem; }
+.ways-more label { display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; }
+.ways-more label[hidden] { display: none; }
+.ways-more input { width: 1rem; height: 1rem; margin: 0.15rem 0 0; flex: none; accent-color: var(--ink); }
+
+.send { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 0.5rem; }
+.send-note { font-size: 0.875rem; color: var(--ink-soft); }
+
+/* What happens next follows the chosen way in. */
+.apply-aside { display: block; padding-top: 2rem; border-top: 1px solid var(--ink); }
+.next { margin-top: 1rem; counter-reset: next; }
+.next[hidden] { display: none; }
+.next li { display: grid; grid-template-columns: 2.25rem 1fr; padding-block: 1rem; border-bottom: 1px solid var(--line); counter-increment: next; font: 400 1.25rem/1.3 var(--serif); color: var(--ink); }
+.next li::before { content: counter(next, decimal-leading-zero); font: italic 400 1rem/1.6 var(--serif); color: var(--ink-soft); }
+.next p { padding-block: 1rem; font: 400 1.25rem/1.3 var(--serif); }
+.next .link-arrow { display: inline-block; margin-top: 0.5rem; }
