@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "description": "Only used to build assets/field.js from src/field.js. The site itself needs no build.",
+  "scripts": {
+    "build": "esbuild src/field.js --bundle --minify --format=esm --target=es2020 --outfile=assets/field.js"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.0",
+    "three": "0.170.0"
+  }
+}

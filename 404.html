@@ -8,13 +8,36 @@
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500&family=Urbanist:wght@800&display=swap">
+  <link rel="preload" href="/assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/styles.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="/main.js" defer></script>
 </head>
 <body>
-  <main class="hero">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/">
+        <img src="/assets/logo.svg" alt="" width="28" height="28">
+        <span>Builders<span class="accent">’</span> Quorum<span class="accent">.</span></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="/evenings.html">Evenings</a></li>
+          <li><a href="/universities.html">Universities</a></li>
+          <li><a href="/partners.html">Partners</a></li>
+          <li><a href="/investors.html">Investors</a></li>
+          <li><a class="btn btn-primary btn-small" href="/apply.html">Request a seat</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="progress" aria-hidden="true"></div>
+  </header>
+
+  <main id="main" class="hero">
     <div class="wrap">
       <p class="eyebrow">404</p>
       <h1>This page doesn’t <em>exist</em>.</h1>
@@ -23,5 +46,37 @@
       </div>
     </div>
   </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <a class="brand" href="/">
+            <img src="/assets/logo.svg" alt="" width="24" height="24">
+            <span>Builders<span class="accent">’</span> Quorum<span class="accent">.</span></span>
+          </a>
+          <p>Where tomorrow’s industries find their founders.</p>
+        </div>
+        <nav aria-label="Footer">
+          <h2 class="footer-title">Explore</h2>
+          <ul class="footer-links">
+            <li><a href="/evenings.html">The evenings</a></li>
+            <li><a href="/universities.html">For universities</a></li>
+            <li><a href="/partners.html">For partners</a></li>
+            <li><a href="/investors.html">For investors</a></li>
+            <li><a href="/venues.html">Venues</a></li>
+            <li><a href="/apply.html">Request a seat</a></li>
+          </ul>
+        </nav>
+        <div>
+          <h2 class="footer-title">The BQ Brief <span class="tag tag-accent">Coming soon</span></h2>
+          <p>A weekly briefing, written by the BQ team, on what moved in AI, finance and frontier sectors in India and globally, with practical notes on building businesses that scale and last.</p>
+          <p><a class="link-arrow" href="/apply.html?role=reader">Get the first issue</a></p>
+        </div>
+      </div>
+      <p class="footer-base">© 2026 Builders’ Quorum. Delhi NCR, India.</p>
+      <p class="footer-mark" aria-hidden="true">Builders<span>’</span> Quorum<span>.</span></p>
+    </div>
+  </footer>
 </body>
 </html>

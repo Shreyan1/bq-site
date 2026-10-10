@@ -87,6 +87,11 @@ if (!reduceMotion) {
     pending.add(sketch);
   });
 
+  // The footer wordmark rises when the footer comes into view. The footer is checked, not
+  // the wordmark, because the wordmark's own box is lowered until then.
+  const footer = document.querySelector('.site-footer');
+  if (footer) pending.add(footer);
+
   let queued = false;
   const check = () => {
     queued = false;
@@ -110,6 +115,21 @@ if (!reduceMotion) {
 } else {
   // SMIL movers ignore CSS media queries, so stop them here.
   document.querySelectorAll('svg').forEach((svg) => svg.pauseAnimations?.());
+}
+
+// Home hero field (assets/field.js, about 120 KB with Three.js). It loads once the page
+// is idle so it never holds up the text, and is skipped when data saver is on.
+const fieldHost = document.querySelector('[data-field]');
+
+if (fieldHost && navigator.connection?.saveData) {
+  fieldHost.remove();
+} else if (fieldHost) {
+  const load = () => import('./assets/field.js')
+    .then(({ default: mount }) => mount(fieldHost, { still: reduceMotion }))
+    .catch(() => fieldHost.remove()); // No WebGL: the hero stays typographic.
+  const idle = () => (window.requestIdleCallback ? requestIdleCallback(load, { timeout: 1200 }) : setTimeout(load, 200));
+  if (document.readyState === 'complete') idle();
+  else addEventListener('load', idle, { once: true });
 }
 
 // Statement: words light up in reading order as the paragraph moves up the screen.

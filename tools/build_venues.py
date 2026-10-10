@@ -86,9 +86,9 @@ faq = [
      'on the event or places for its students. A paid venue rents the space, often at a community rate.'),
     ('How do I book a space?',
      'Contact the host directly with the email, phone or booking link on the listing.'),
-    ('Does Builder\'s Quorum charge for this?',
-     'No. This is a free community list. Builder\'s Quorum takes no fee or commission from venues or organisers. '
-     'If the list helps you find a room, a mention of Builder\'s Quorum on your event is welcome.'),
+    ('Does Builders’ Quorum charge for this?',
+     'No. This is a free community list. Builders’ Quorum takes no fee or commission from venues or organisers. '
+     'If the list helps you find a room, a mention of Builders’ Quorum on your event is welcome.'),
     ('How do I list my space?',
      'Fill in the short venue form. We confirm the details with you before the listing goes up, and you can change or remove it at any time.'),
 ]

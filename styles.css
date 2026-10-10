@@ -1,5 +1,12 @@
 /* Builders’ Quorum. Light, clean, one accent. */
 
+/* Fonts are self-hosted (Latin only), so text doesn't wait on another domain.
+   Inter Tight is one variable file for 400 and 500. */
+@font-face { font-family: "Instrument Serif"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/instrument-serif.woff2") format("woff2"); }
+@font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url("assets/fonts/instrument-serif-italic.woff2") format("woff2"); }
+@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 400 500; font-display: swap; src: url("assets/fonts/inter-tight.woff2") format("woff2"); }
+@font-face { font-family: "Urbanist"; font-style: normal; font-weight: 800; font-display: swap; src: url("assets/fonts/urbanist-800.woff2") format("woff2"); }
+
 :root {
   /* Brand. Change the accent here and nowhere else. */
   --accent: #E0482B;
@@ -519,7 +526,7 @@ input, select, textarea {
 }
 input:hover, select:hover, textarea:hover { border-color: #A9A9B2; }
 textarea { resize: vertical; }
-input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-wash); }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 0; border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
 
 .form .btn { justify-self: start; }
 fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
@@ -610,7 +617,7 @@ fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
   .js .flow li.is-bq::before { transform: scaleX(0); transition: transform 1.1s var(--ease) 0.5s; }
   .js .flow li.is-bq.is-in::before { transform: scaleX(1); }
 
-  .js .dots i { transform: scale(0); transition: transform 0.4s cubic-bezier(0.3, 1.6, 0.5, 1); transition-delay: calc(var(--d) * 30ms + 300ms); }
+  .js .dots i { transform: scale(0); transition: transform 0.6s var(--ease); transition-delay: calc(var(--d) * 30ms + 300ms); }
   .js .is-in .dots i { transform: scale(1); }
 
   .stuck-panels [role="tabpanel"]:not([hidden]) { animation: fade-up 0.45s ease both; }
@@ -849,8 +856,9 @@ body::after {
   z-index: 60;
   pointer-events: none;
   opacity: 0.05;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* Ink noise with its own alpha, so no blend mode: a blended full-screen layer
+     made every scroll frame repaint the whole page. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.08 0 0 0 0 0.08 0 0 0 0 0.1 -1 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .hero::before { display: none; }
@@ -1117,3 +1125,112 @@ h3, .btn, .site-nav a, .nav-toggle, label, .label, .eyebrow, .tag, summary, stro
 @media (max-width: 55.99rem) {
   .site-nav a:not(.btn) { color: var(--paper); }
 }
+
+/* Home hero: a crowd in WebGL with pencil marks in SVG on top (src/field.js). Every few
+   seconds someone in the crowd is found: circled, and labelled with the industry that
+   found them. It fades in once loaded; without WebGL the hero is simply typographic. */
+html:not(.js) .hero-field { display: none; }
+.hero-field { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.8s ease; }
+.hero-field.is-ready { opacity: 1; }
+.hero-field canvas, .hero-field .finds { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.hero-field .finds { overflow: visible; }
+
+.find-dot { fill: var(--ink); }
+.find-ring { fill: none; stroke: var(--graphite); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.find.is-current .find-ring { stroke: var(--accent); stroke-width: 1.6; }
+.find-link { fill: none; stroke: var(--ink); stroke-opacity: 0.3; stroke-width: 1; }
+.find-label text { font: 500 10.5px var(--sans); letter-spacing: 0.14em; fill: var(--ink-soft); stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; paint-order: stroke; }
+.find-label .find-n { font: italic 400 15px var(--serif); letter-spacing: 0; fill: var(--ink); }
+
+/* The pointer: a faint pencil circle offers the nearest person, and a found person
+   under the pointer is picked out with their links. */
+.find-ghost { fill: none; stroke: var(--graphite); stroke-opacity: 0.45; stroke-width: 1; stroke-linecap: round; opacity: 0; transition: opacity 0.25s ease; }
+.find-ghost.is-on { opacity: 1; }
+.find.is-hover .find-ring { stroke: var(--accent); }
+.find.is-hover .find-label text { fill: var(--ink); }
+.find-link.is-hover { stroke-opacity: 0.75; }
+
+.hero-hint {
+  position: absolute;
+  right: max(var(--gutter), (100% - var(--wrap)) / 2 + var(--gutter));
+  bottom: 1.5rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.hero-field.is-ready .hero-hint { opacity: 1; transition-delay: 5s; }
+.hero-field.was-used .hero-hint { opacity: 0; transition-delay: 0s; }
+@media (max-width: 59.99rem) { .hero-hint { right: 0; left: 0; bottom: 0.25rem; text-align: center; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .find-dot { transform: scale(0); transform-box: fill-box; transform-origin: center; transition: transform 0.5s var(--ease); }
+  .find-ring { stroke-dasharray: 1 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0.9s cubic-bezier(0.5, 0.1, 0.3, 1) 0.15s, stroke 1.2s ease; }
+  .find-label { opacity: 0; transition: opacity 0.7s ease 0.7s; }
+  .find-link { stroke-dasharray: 1 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1s cubic-bezier(0.5, 0.1, 0.3, 1) 0.9s; }
+  .find.is-in .find-dot { transform: none; }
+  .find.is-in .find-ring, .find-link.is-in { stroke-dashoffset: 0; }
+  .find.is-in .find-label { opacity: 1; }
+  .cohort { transition: opacity 1.4s ease; }
+  .cohort.is-out { opacity: 0; }
+}
+
+/* Keep the text clear: the crowd fades out behind the headline and lede. */
+@media (min-width: 60rem) {
+  .hero-field canvas {
+    -webkit-mask-image: linear-gradient(to right, transparent 44%, #000 66%), linear-gradient(#000 80%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent 44%, #000 66%), linear-gradient(#000 80%, transparent);
+    mask-composite: intersect;
+  }
+}
+
+/* On narrow screens the text fills the hero, so the field becomes a figure below it. */
+@media (max-width: 59.99rem) {
+  .hero-field { position: relative; height: min(26rem, 70vw + 6rem); margin-top: 1rem; z-index: 0; }
+  .hero-field canvas {
+    -webkit-mask-image: linear-gradient(transparent, #000 20%, #000 80%, transparent);
+    mask-image: linear-gradient(transparent, #000 20%, #000 80%, transparent);
+  }
+}
+
+/* The closing wordmark rises out of the footer edge when it comes into view. */
+@media (prefers-reduced-motion: no-preference) {
+  .site-footer { overflow: clip; }
+  .js .footer-mark { transition: transform 1.6s var(--ease) 0.2s; }
+  .js .site-footer:not(.is-in) .footer-mark { transform: translateY(45%); }
+}
+
+/* First screen: on desktop heroes are as tall as their content with modest padding, and the
+   home headline is capped by the screen's height. No empty band above the headline, and
+   the buttons stay above the fold on laptops. */
+@media (min-width: 60rem) {
+  .hero:not(.apply-hero) { min-height: 0; padding-block: clamp(2.5rem, 6svh, 4.5rem) clamp(3rem, 7svh, 5rem); }
+  .hero:not(.page-hero) h1 { font-size: min(clamp(3rem, 1.2rem + 7vw, 7.5rem), 12.5svh); }
+}
+
+/* The closing wordmark runs the full width of the column. The text is about 7.46 times
+   as wide as its font size; 7.6 leaves room for a scrollbar. */
+.footer-mark { font-size: calc((min(100vw, var(--wrap)) - 2 * var(--gutter)) / 7.6); }
+
+/* Accent discipline. Vermilion now means "chosen": the newest find in the home hero, the
+   BQ Fellow step, the one key stroke in each sketch, plus the brand mark and the current
+   page in the nav. Sub-heading underlines, callouts, note bullets, FAQ toggles and the
+   footer tag were also vermilion and diluted that, so they are ink. */
+.mark, .section-ink .mark { background-image: linear-gradient(var(--ink), var(--ink)); }
+.callout { border-left-color: var(--ink); }
+.note::before { background: var(--ink-soft); }
+.faq summary::after { color: var(--ink); }
+.eyebrow::before { background: var(--ink); }
+.site-footer .tag { color: var(--ink-soft); }
+.footer-title .tag { letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* Venues: the numbered rail narrows the content column, so three cards (and four filters)
+   across only fit on wide screens. */
+@media (min-width: 72rem) { .venue-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 90rem) { .venue-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 64rem) { .venue-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 80rem) { .venue-filters { grid-template-columns: repeat(4, minmax(0, 1fr)); } }

@@ -1,6 +1,6 @@
 # Builders’ Quorum website (v1)
 
-Plain HTML, CSS and a little JS. No framework. Only venues.html is generated (see below). Not deployed.
+Plain HTML, CSS and a little JS. No framework. Only venues.html and assets/field.js are generated (see below). Not deployed.
 
 ```
 index.html        home: hero, an evening, why BQ (the moat), how BQ grows, four doors, access is earned, FAQ
@@ -17,13 +17,16 @@ apply.html        one form; the questions change with the role. Links can presel
                   | reader | organiser | venue
                   apply.html?role=organiser&venue=Name fills in the space the organiser picked
 styles.css        design tokens at the top, then components, then motion
-main.js           nav, scroll reveal, sketch drawing, tabs, form
+main.js           nav, scroll reveal, sketch drawing, tabs, form, and lazy-loading the hero field
+src/field.js      the home hero's Three.js scene. Built into assets/field.js with `npm install` then
+                  `npm run build` (run inside website/). Commit the built file; the site needs no build
+assets/fonts/     self-hosted woff2 files (Latin only), declared at the top of styles.css
 assets/          logo.svg (icon in header and footer), favicon.svg, apple-touch-icon.png. Copied from ../logo
 favicon.ico       16, 32 and 48 px, also from ../logo
 404.html, robots.txt, sitemap.xml
 ```
 
-The header, footer and pencil filter are repeated on every page. If you change one, change all seven.
+The header, footer and pencil filter are repeated on every page. If you change one, change all eight. 404.html uses root-relative links (`/evenings.html`) so it works at any path.
 
 ## Preview locally
 
@@ -51,6 +54,9 @@ Then open http://localhost:8000.
 - The style sheet is layered: base styles first, then "Layout v2", then the "Refinement pass", which overrides earlier rules. When changing a component, check the refinement pass first.
 - Pencil sketches: inline SVG strokes in graphite, with one accent element each. A shared `#pencil` filter roughens the lines. Each stroke has `pathLength="1"`, so CSS can draw it in. To add a sketch, give it `class="sketch"`, put the strokes inside a `<g>`, and give every stroke `pathLength="1"`.
 - Living sketches: once drawn, parts keep moving. The rocket bobs and its flame flickers, the pencil writes, the flag waves, the seedling sways and sticky notes wiggle. Dots travel along paths (SMIL `animateMotion`, made by `mover()`), and hero sketches "boil" by swapping between three pencil filters. Moving parts are nested `<g>` groups with classes like `bob`, `sway` or `wave`.
+- Hero field (home only): acts out the headline. A crowd of ink points (people, in loose groups like the communities we run) mills about on the right of the hero, in WebGL with Three.js. Every couple of seconds someone is found: a pencil circle is drawn around them and the industry that found them is written beside it in small capitals. Each find links to the nearest earlier one, so a small network forms inside a large crowd. Only the newest circle is in the accent; earlier ones turn graphite. After six finds the cohort holds, fades and a new one begins. The pointer matters: people near it come into focus and gather in a little, the camera shifts with it so near people move more than far ones, a faint pencil circle offers the nearest person, and clicking (or tapping) finds them, labelled with the next industry. Hovering a found person picks them out with their links. A hint in small capitals says so until the first click. Scrolling pushes the camera into the crowd. The marks are SVG over the canvas so type and lines stay crisp. It loads after the page is idle (about 120 KB gzipped), pauses off screen and in background tabs, shows one finished cohort for reduced motion, and is removed for data saver or when WebGL fails. On narrow screens it is a figure below the buttons. Tune it in `src/field.js` (SECTORS, timings, counts), then rebuild.
+- Accent discipline: vermilion means "chosen". It marks the newest find in the home hero, the BQ Fellow step, the one key stroke in each sketch, the brand mark and the current page in the nav. Sub-heading underlines, callouts, note bullets, FAQ toggles, section markers and tags are ink. Keep it that way when adding sections.
+- Speed: fonts are self-hosted and the two above the fold are preloaded, so no request leaves the site before text renders. The paper grain carries its own alpha instead of using `mix-blend-mode`, which made every scroll frame repaint the whole page.
 - Motion: on page load the headline rises in and the underline under "founders" draws. Sketches draw stroke by stroke as they scroll into view. Reveals are triggered by scroll position, not IntersectionObserver, so anything already scrolled past is shown at once and fast scrolling never leaves gaps. Other content fades up as you scroll, and there is a reading-progress line under the header. Pages cross-fade in browsers that support view transitions. All motion switches off for `prefers-reduced-motion`, and content stays visible without JS.
 - Chrome gotcha: match sketch strokes by tag (`path`, `circle`), not with `[pathLength]` selectors. Chrome doesn't restyle camelCase SVG attribute selectors when an ancestor's class changes.
 
@@ -69,7 +75,7 @@ Then open http://localhost:8000.
 
 The direction changed on 11 October 2026: evenings first, university chapters next. These lines carry the new direction and need a yes from all three founders.
 
-- The evenings have no name yet. The site says "the evenings", "a BQ evening" and "Evening 01" in the home hero. Swap in the name once chosen (never "Quorum" alone)
+- The evenings have no name yet. The site says "the evenings" and "a BQ evening", and the home hero's top line reads "Delhi NCR / Technical evenings / By invitation". Swap in the name once chosen (never "Quorum" alone)
 - Audience: "PhD and master's researchers, engineers and technology professionals" and "the evenings aren't open to undergraduates"
 - The fee: "a reservation fee holds your seat, and all of it is redeemable against food and drink at the venue". Confirm each venue agrees to this before the first evening. The amount is only ever stated in the invitation
 - How seats are given: an invitation from a speaker or a member, or a request read by the team. "People who keep showing up keep being invited" and "we will tell you either way" each need someone who owns them
