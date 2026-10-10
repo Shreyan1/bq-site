@@ -91,6 +91,8 @@ if (!reduceMotion) {
   // the wordmark, because the wordmark's own box is lowered until then.
   const footer = document.querySelector('.site-footer');
   if (footer) pending.add(footer);
+  // Photographs open upwards as they arrive.
+  document.querySelectorAll('.photo, .photo-band').forEach((el) => pending.add(el));
 
   let queued = false;
   const check = () => {

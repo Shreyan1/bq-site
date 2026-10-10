@@ -24,6 +24,9 @@ main.js           nav, scroll reveal, sketch drawing, tabs, form, and lazy-loadi
 src/field.js      the home hero's Three.js scene. Built into assets/field.js with `npm install` then
                   `npm run build` (run inside website/). Commit the built file; the site needs no build
 assets/fonts/     self-hosted woff2 files (Latin only), declared at the top of styles.css
+src/land.json     the world's land as a grid of dots for the hero map. Rebuild with `npm run land`
+                  (tools/build_land.mjs, from Natural Earth via the world-atlas package)
+assets/photos/    six photographs at 1000 and 2000 px wide, WebP. Credits below
 assets/          logo.svg (icon in header and footer), favicon.svg, apple-touch-icon.png. Copied from ../logo
 favicon.ico       16, 32 and 48 px, also from ../logo
 404.html, robots.txt, sitemap.xml
@@ -57,7 +60,9 @@ Then open http://localhost:8000.
 - The style sheet is layered: base styles first, then "Layout v2", then the "Refinement pass", which overrides earlier rules. When changing a component, check the refinement pass first.
 - Pencil sketches: inline SVG strokes in graphite, with one accent element each. A shared `#pencil` filter roughens the lines. Each stroke has `pathLength="1"`, so CSS can draw it in. To add a sketch, give it `class="sketch"`, put the strokes inside a `<g>`, and give every stroke `pathLength="1"`.
 - Living sketches: once drawn, parts keep moving. The rocket bobs and its flame flickers, the pencil writes, the flag waves, the seedling sways and sticky notes wiggle. Dots travel along paths (SMIL `animateMotion`, made by `mover()`), and hero sketches "boil" by swapping between three pencil filters. Moving parts are nested `<g>` groups with classes like `bob`, `sway` or `wave`.
-- Hero field (home only): acts out the headline. A crowd of ink points (people, in loose groups like the communities we run) mills about on the right of the hero, in WebGL with Three.js. Every couple of seconds someone is found: a pencil circle is drawn around them and the industry that found them is written beside it in small capitals. Each find links to the nearest earlier one, so a small network forms inside a large crowd. Only the newest circle is in the accent; earlier ones turn graphite. After six finds the cohort holds, fades and a new one begins. The pointer matters: people near it come into focus and gather in a little, the camera shifts with it so near people move more than far ones, a faint pencil circle offers the nearest person, and clicking (or tapping) finds them, labelled with the next industry. Hovering a found person picks them out with their links. A hint in small capitals says so until the first click. Scrolling pushes the camera into the crowd. The marks are SVG over the canvas so type and lines stay crisp. It loads after the page is idle (about 120 KB gzipped), pauses off screen and in background tabs, shows one finished cohort for reduced motion, and is removed for data saver or when WebGL fails. On narrow screens it is a figure below the buttons. Tune it in `src/field.js` (SECTORS, timings, counts), then rebuild.
+- Hero map (home only): the world's land drawn as ink dots, each one a person, across the full width of the hero (faint behind the text, full on the right) and tilted a little into depth. Every couple of seconds someone is found: circled in pencil, labelled with the industry that found them, and linked to the nearest earlier find by an arc. Only the newest circle is in the accent. Near the pointer people come into focus and gather in, the camera shifts with it, a faint circle offers the nearest person and clicking (or tapping) finds them. The scene loads after the page is idle (about 130 KB gzipped), pauses off screen and in background tabs, shows one finished cohort for reduced motion, and is removed for data saver or when WebGL fails. On narrow screens it is a figure below the buttons. Tune it in `src/field.js`, then `npm run build`.
+- Photographs: warm black and white (grayscale with a little sepia), as full-bleed bands between sections and a pair on the home page. They open upwards as they arrive. They are atmosphere, so `alt` is empty, and none of them is presented as BQ's own people or events. Replace them with photographs from real BQ chapters and sessions when there are some.
+- Global first: nothing outside the footer says where BQ is based. Language tags are en-GB and spelling is British.
 - Accent discipline: vermilion means "chosen". It marks the newest find in the home hero, the BQ Fellow step, the one key stroke in each sketch, the brand mark and the current page in the nav. Sub-heading underlines, callouts, note bullets, FAQ toggles, section markers and tags are ink. Keep it that way when adding sections.
 - Speed: fonts are self-hosted and the two above the fold are preloaded, so no request leaves the site before text renders. The paper grain carries its own alpha instead of using `mix-blend-mode`, which made every scroll frame repaint the whole page.
 - Motion: on page load the headline rises in and the underline under "founders" draws. Sketches draw stroke by stroke as they scroll into view. Reveals are triggered by scroll position, not IntersectionObserver, so anything already scrolled past is shown at once and fast scrolling never leaves gaps. Other content fades up as you scroll, and there is a reading-progress line under the header. Pages cross-fade in browsers that support view transitions. All motion switches off for `prefers-reduced-motion`, and content stays visible without JS.
@@ -86,17 +91,29 @@ The positioning was corrected on 11 October 2026: universities are the customer 
 
 - Home: "Builders’ Quorum (BQ) turns a university’s most ambitious students into founders. We curate the investors, mentors, engineers and problems around them, and stay with the strongest teams from a first problem to a first company"
 - Home: "Our work is curation" and "Ambitious students are everywhere. The people and problems that turn them into founders are much harder to find"
-- Home top line: "Venture creation / Frontier sectors / Delhi NCR"
+- Home top line: "Venture creation / Frontier sectors / Worldwide"
 - Hackathons and flagship events "with technology companies". No company is named; keep it that way until one agrees in writing
-- "Why BQ" names Claude Developers India ("more than 1,000 AI builders") and ML Reading Club Delhi NCR. Confirm you are happy to name both, and that the number is current
+- "Why BQ" says "we run practitioner communities of more than 1,000 AI builders and researchers" without naming them, so the site reads as global. Confirm the number is current
 - Universities: chapters "co-branded with your university", "a clear account after every sprint of what worked and what didn’t", and whether chapter students pay. The site doesn't say who pays
 - Universities pilot: "No fixed session counts and no long contracts up front", and "We share the numbers, good or bad"
 - BQ Fellows: "You can't apply", "If a cohort doesn't produce one, we don't name one", and what Fellows get (one-to-one time with founders, introductions to investors)
 - Network page: "Membership is by invitation", what members do, and "the network stays small on purpose"
-- Companies page: "Back a chapter or a city" names Bengaluru, Mumbai, Hyderabad and Pune. Naming the cities is a public commitment
+- Companies page: "Back a chapter or a city", "help take BQ to a new city or country"
+- FAQ "Where does BQ work?": "With a small number of universities at a time, wherever their students are. The network works across borders, online and in person"
 - Example problems on the universities page come from the proposal's Annexure A. Swap them for live problems when you have them
 - Proven formats on the universities page: names Stanford GSB, MIT Sloan and Oxford Saïd programmes as inspiration, with a no-affiliation note. Keep or cut
 - Venues page: "you can change or remove it at any time" and "through the communities we run"
+
+## Photo credits
+
+All from Unsplash, under the Unsplash Licence (free for commercial use; credit is not required but we give it).
+
+- whiteboard: Kvalifik, "Person writing on glass whiteboard with diagrams" (unsplash.com/photos/5Q07sS54D0Q)
+- wafer: Laura Ockel, "Silicon wafer with iridescent microchip grid" (unsplash.com/photos/qOx9KsvpqcM)
+- robot-lab: Testalize.me, "Industrial robotic arm in blue lit factory" (unsplash.com/photos/9xHsWmh3m_4)
+- microscope: National Cancer Institute, "Silhouette of person using microscope" (unsplash.com/photos/ct10qdGv1hQ)
+- colleagues: ThisisEngineering, "Two colleagues discussing ideas at whiteboard" (unsplash.com/photos/uOhBxB23Wao)
+- circuit: Louis Reed, "Robotic arm on circuit board" (unsplash.com/photos/wSTCaQpiLtc)
 
 ## Naming
 

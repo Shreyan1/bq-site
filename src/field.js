@@ -1,24 +1,33 @@
-// Home hero: tomorrow's industries finding their founders.
+// Home hero: tomorrow's industries finding their founders, anywhere in the world.
 //
-// A crowd of people (ink points in loose groups, the communities, spread through depth)
-// mills about on the right of the hero. Every few seconds one of them is found: a pencil
+// The world's land is drawn as a field of ink dots, each one a person, tilted a little into
+// depth across the full width of the hero. Every few seconds someone is found: a pencil
 // circle is drawn around them and the industry that found them is written beside it.
-// Each new find is linked to the nearest earlier one, so a small network forms inside a
-// large crowd. The newest find is the only accent on screen. After a while the cohort
-// fades and the next one begins.
+// Each new find is linked to the nearest earlier one by an arc, so a small network forms
+// across continents. The newest find is the only accent on screen. After a while the
+// cohort fades and the next one begins.
 //
-// The crowd is WebGL (Three.js); the marks are SVG on top, so the type and pencil lines
-// stay crisp. main.js loads this once the page is idle. Build with `npm run build`.
+// The map is WebGL (Three.js); the marks are SVG on top, so the type and pencil lines
+// stay crisp. main.js loads this once the page is idle. Build with `npm run build`;
+// the land dots come from `npm run land`.
 
 import { WebGLRenderer, Scene, PerspectiveCamera, BufferGeometry, BufferAttribute, Points, ShaderMaterial, Color, Vector2, Vector3 } from 'three';
+import LAND from './land.json';
 
 const SECTORS = ['AI and cloud', 'Robotics', 'Semiconductors', 'Space tech', 'Advanced materials', 'Energy', 'Fintech', 'Proptech', 'Agri-tech'];
 const SVG = 'http://www.w3.org/2000/svg';
-const DRIFT = 0.16;
-// Near the pointer the crowd comes into focus and gathers in a little.
-const LENS = 0.34;
-const PULL = 0.28;
+const DRIFT = 0.035;
+// Near the pointer people come into focus and gather in a little.
+const LENS = 0.3;
+const PULL = 0.2;
 const FOV = 30;
+// The map, in scene units: longitude and latitude scale, how far it tilts back, and
+// the latitude it is centred on.
+const SCALE = 13 / 180;
+const TILT = 0.32;
+const CENTRE_LAT = 10;
+const HALF_WIDTH = 180 * SCALE;
+const HALF_HEIGHT = 66 * SCALE;
 
 // Seeded, so the crowd is laid out the same on every visit. Who gets found is not.
 function random(seed) {
@@ -30,24 +39,24 @@ function random(seed) {
   };
 }
 
-function buildCrowd(count) {
+// One person per land dot. Phones get every other dot.
+function buildCrowd(every) {
   const rand = random(11);
-  const gauss = () => Math.sqrt(-2 * Math.log(rand() + 1e-9)) * Math.cos(2 * Math.PI * rand());
-  // People stand in loose groups with others scattered between them.
-  const groups = Array.from({ length: 16 }, () => [(rand() - 0.5) * 24, (rand() - 0.5) * 10, -15 + rand() * 17, 0.7 + rand() * 1.6]);
+  const count = Math.floor(LAND.length / 2 / every);
   const position = new Float32Array(count * 3);
   const seed = new Float32Array(count);
+  const cos = Math.cos(TILT), sin = Math.sin(TILT);
 
   for (let i = 0; i < count; i++) {
-    if (rand() < 0.62) {
-      const [x, y, z, spread] = groups[Math.floor(rand() * groups.length)];
-      position.set([x + gauss() * spread, y + gauss() * spread * 0.7, z + gauss() * spread], i * 3);
-    } else {
-      position.set([(rand() - 0.5) * 28, (rand() - 0.5) * 13, -17 + rand() * 21], i * 3);
-    }
+    const k = i * every * 2;
+    const x = (LAND[k] / 10) * SCALE;
+    const y = (LAND[k + 1] / 10 - CENTRE_LAT) * SCALE;
+    const z = (rand() - 0.5) * 0.18;
+    // Tilt the map back, so the north recedes and the pointer reveals depth.
+    position.set([x, y * cos - z * sin, -(y * sin + z * cos)], i * 3);
     seed[i] = rand();
   }
-  return { position, seed };
+  return { position, seed, count };
 }
 
 // Must match the drift in the vertex shader, so marks sit exactly on their point.
@@ -67,6 +76,7 @@ const crowdMaterial = (size) => new ShaderMaterial({
   uniforms: {
     uTime: { value: 0 },
     uFade: { value: 0 },
+    uDist: { value: 30 },
     uSize: { value: size },
     uPointer: { value: new Vector2() },
     uLens: { value: 0 },
@@ -74,7 +84,7 @@ const crowdMaterial = (size) => new ShaderMaterial({
     uColor: { value: new Color('#15151A') },
   },
   vertexShader: /* glsl */ `
-    uniform float uTime, uFade, uSize, uLens, uAspect;
+    uniform float uTime, uFade, uSize, uLens, uAspect, uDist;
     uniform vec2 uPointer;
     attribute float aSeed;
     varying float vAlpha;
@@ -91,9 +101,11 @@ const crowdMaterial = (size) => new ShaderMaterial({
       float focus = (1.0 - smoothstep(0.0, ${LENS.toFixed(2)}, length(d))) * uLens;
       gl_Position.xy -= (ndc - uPointer) * focus * focus * ${PULL.toFixed(2)} * gl_Position.w;
 
+      // Nearer people are darker, and each one glimmers slowly, like a city at night.
       float depth = -mv.z;
-      gl_PointSize = uSize * (1.0 + focus * 0.7) / depth;
-      vAlpha = uFade * (mix(0.1, 0.62, smoothstep(36.0, 13.0, depth)) + focus * 0.3);
+      float glimmer = 0.82 + 0.18 * sin(uTime * 0.7 + aSeed * 31.0);
+      gl_PointSize = uSize * (1.0 + focus * 0.8) / depth;
+      vAlpha = uFade * (mix(0.2, 0.6, smoothstep(uDist + 5.0, uDist - 5.0, depth)) * glimmer + focus * 0.3);
     }
   `,
   fragmentShader: /* glsl */ `
@@ -151,12 +163,12 @@ export default function mount(host, { still = false } = {}) {
   const svg = el('svg', { class: 'finds', 'aria-hidden': 'true' }, host);
   const hero = host.parentElement;
 
-  const count = coarse ? 1400 : 3000;
-  const crowd = buildCrowd(count);
+  const crowd = buildCrowd(coarse ? 2 : 1);
+  const count = crowd.count;
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new BufferAttribute(crowd.position, 3));
   geometry.setAttribute('aSeed', new BufferAttribute(crowd.seed, 1));
-  const points = new Points(geometry, crowdMaterial(46 * pixelRatio));
+  const points = new Points(geometry, crowdMaterial(72 * pixelRatio));
   const u = points.material.uniforms;
 
   const scene = new Scene();
@@ -164,7 +176,7 @@ export default function mount(host, { still = false } = {}) {
   const camera = new PerspectiveCamera(FOV, 1, 0.1, 100);
 
   // Layout, recomputed on resize.
-  let width = 0, height = 0, wide = true, region, ring, perCohort, spacing;
+  let width = 0, height = 0, wide = true, distance = 30, region, ring, perCohort, spacing;
   const resize = () => {
     width = host.clientWidth;
     height = host.clientHeight;
@@ -173,14 +185,17 @@ export default function mount(host, { still = false } = {}) {
     svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
     camera.aspect = u.uAspect.value = width / height;
     wide = width >= 960;
-    // On wide screens the crowd fills the right of the hero; the text keeps the left.
-    // On narrow screens the field is its own block below the text.
-    if (wide) camera.setViewOffset(width, height, -width * 0.2, 0, width, height);
-    else camera.clearViewOffset();
     camera.updateProjectionMatrix();
+    // The map runs the full width of the hero, faint behind the text on wide screens. On
+    // narrow screens it is its own block below the text, cropped a little at the edges.
+    const tan = Math.tan((FOV / 2) * (Math.PI / 180));
+    const fit = wide ? 1.02 : 0.8;
+    distance = Math.max((HALF_WIDTH * fit) / (tan * camera.aspect), HALF_HEIGHT / (tan * 0.9));
+    u.uDist.value = distance;
+    // Finds happen where the map is clear of the text.
     region = wide
-      ? { x: width * 0.6, y: height * 0.16, w: width * 0.34, h: height * 0.68 }
-      : { x: width * 0.08, y: height * 0.16, w: width * 0.84, h: height * 0.68 };
+      ? { x: width * 0.56, y: height * 0.14, w: width * 0.38, h: height * 0.7 }
+      : { x: width * 0.06, y: height * 0.1, w: width * 0.88, h: height * 0.8 };
     ring = wide ? 17 : 14;
     perCohort = wide ? 6 : 5;
     spacing = wide ? 120 : 84;
@@ -226,8 +241,6 @@ export default function mount(host, { still = false } = {}) {
       const i = Math.floor(Math.random() * count);
       if (used.has(i)) continue;
       const p = toScreen(i, t);
-      // Someone in focus: not too near, not too deep, inside the free area.
-      if (p.depth < 13 || p.depth > 24) continue;
       if (p.x < region.x || p.x > region.x + region.w || p.y < region.y || p.y > region.y + region.h) continue;
       const c = candidate(p, i);
       const mine = [dotBox(p.x, p.y), labelBox(c)];
@@ -245,7 +258,6 @@ export default function mount(host, { still = false } = {}) {
     for (let i = 0; i < count; i++) {
       if (used.has(i)) continue;
       const p = toScreen(i, t);
-      if (p.depth < 11 || p.depth > 34) continue;
       const distance = Math.hypot(p.x - x, p.y - y);
       if (distance < bestDistance) { best = { p, i }; bestDistance = distance; }
     }
@@ -260,10 +272,14 @@ export default function mount(host, { still = false } = {}) {
     f.y = p.y;
     f.mark.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`);
     if (f.link) {
+      // An arc that bows upwards, like a route between two places.
       const dx = p.x - f.parent.x, dy = p.y - f.parent.y;
       const len = Math.hypot(dx, dy) || 1;
       const gap = ring + 4;
-      f.link.setAttribute('d', `M${(f.parent.x + dx / len * gap).toFixed(1)} ${(f.parent.y + dy / len * gap).toFixed(1)}L${(p.x - dx / len * gap).toFixed(1)} ${(p.y - dy / len * gap).toFixed(1)}`);
+      const ax = f.parent.x + dx / len * gap, ay = f.parent.y + dy / len * gap;
+      const bx = p.x - dx / len * gap, by = p.y - dy / len * gap;
+      const cx = (ax + bx) / 2, cy = Math.min(ay, by) - len * 0.22;
+      f.link.setAttribute('d', `M${ax.toFixed(1)} ${ay.toFixed(1)}Q${cx.toFixed(1)} ${cy.toFixed(1)} ${bx.toFixed(1)} ${by.toFixed(1)}`);
     }
   };
 
@@ -379,9 +395,10 @@ export default function mount(host, { still = false } = {}) {
     });
   }
 
+  // Scrolling away moves the camera in towards the map.
   const aim = (scrolled) => {
-    camera.position.set(lookX, lookY, lerp(18, 13, ease(scrolled)));
-    camera.lookAt(lookX * 0.2, lookY * 0.2, -4);
+    camera.position.set(lookX, lookY, distance * lerp(1, 0.8, ease(scrolled)));
+    camera.lookAt(lookX * 0.3, lookY * 0.3, 0);
     camera.updateMatrixWorld();
   };
 
@@ -396,8 +413,8 @@ export default function mount(host, { still = false } = {}) {
     u.uLens.value = lerp(u.uLens.value, pointerIn ? 1 : 0, 0.06);
     u.uPointer.value.copy(pointer);
 
-    lookX = lerp(lookX, pointerIn ? pointer.x * 1.6 : 0, 0.035);
-    lookY = lerp(lookY, pointerIn ? pointer.y * 0.9 : 0, 0.035);
+    lookX = lerp(lookX, pointerIn ? pointer.x * distance * 0.05 : 0, 0.035);
+    lookY = lerp(lookY, pointerIn ? pointer.y * distance * 0.04 : 0, 0.035);
     const box = host.getBoundingClientRect();
     aim(clamp01(-box.top / box.height));
 
@@ -436,7 +453,7 @@ export default function mount(host, { still = false } = {}) {
   if (!still) {
     const hint = document.createElement('p');
     hint.className = 'hero-hint';
-    hint.textContent = coarse ? 'Tap the crowd to find someone' : 'Click the crowd to find someone';
+    hint.textContent = coarse ? 'Tap the map to find someone' : 'Click the map to find someone';
     host.append(hint);
   }
 
