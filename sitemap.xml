@@ -2,7 +2,7 @@
 <!-- Replace YOUR-DOMAIN once the domain is bought. apply.html is left out on purpose. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://YOUR-DOMAIN/</loc><lastmod>2026-10-11</lastmod></url>
-  <url><loc>https://YOUR-DOMAIN/evenings.html</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://YOUR-DOMAIN/network.html</loc><lastmod>2026-10-11</lastmod></url>
   <url><loc>https://YOUR-DOMAIN/universities.html</loc><lastmod>2026-10-11</lastmod></url>
   <url><loc>https://YOUR-DOMAIN/partners.html</loc><lastmod>2026-10-11</lastmod></url>
   <url><loc>https://YOUR-DOMAIN/investors.html</loc><lastmod>2026-10-11</lastmod></url>

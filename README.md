@@ -3,17 +3,20 @@
 Plain HTML, CSS and a little JS. No framework. Only venues.html and assets/field.js are generated (see below). Not deployed.
 
 ```
-index.html        home: hero, an evening, why BQ (the moat), how BQ grows, four doors, access is earned, FAQ
-evenings.html     the evenings, for researchers and technology professionals: what most events miss, how an
-                  evening works, who is in the room, topics, lead an evening (speakers), how a seat is earned
-universities.html university chapters (phase two): what students get, journey and Fellows, tracks, what it
-                  takes, how a pilot works, proven formats
-partners.html     for companies, sponsors and practitioners, plus the hidden "Backed by" section
-investors.html    for investors: join an evening, angel and pre-seed first, later stages as mentors and judges
+index.html        home: hero (the "found" crowd), what we do (curation), the student journey, why BQ,
+                  four doors, pilot first, FAQ
+universities.html the main customer page: what students get, journey and Fellows, tracks, what a
+                  university gets, how a pilot works, proven formats
+partners.html     for companies, sponsors and practitioners: hackathons, live problems, engineers, backing
+                  a chapter or city, plus the hidden "Backed by" section
+investors.html    for investors: angel and pre-seed first, later stages as mentors, judges and problem owners
+network.html      the network of researchers, engineers, founders and investors: what members do, how the
+                  network meets (invitation-only sessions), how members are chosen
 venues.html       generated: one open page listing spaces for tech events, with capacity, terms, contact
                   details, filters and an FAQ. Built from data/venues.json by tools/build_venues.py
-apply.html        one form; the questions change with the role. Links can preselect a role:
-                  apply.html?role=member | speaker | campus | student | investor | partner | practitioner
+apply.html        "Work with us": one form; the questions change with the role. It opens on universities.
+                  Links can preselect a role:
+                  apply.html?role=campus | partner | investor | member | practitioner | speaker | student
                   | reader | organiser | venue
                   apply.html?role=organiser&venue=Name fills in the space the organiser picked
 styles.css        design tokens at the top, then components, then motion
@@ -26,7 +29,7 @@ favicon.ico       16, 32 and 48 px, also from ../logo
 404.html, robots.txt, sitemap.xml
 ```
 
-The header, footer and pencil filter are repeated on every page. If you change one, change all eight. 404.html uses root-relative links (`/evenings.html`) so it works at any path.
+The header, footer and pencil filter are repeated on every page. If you change one, change all eight. 404.html uses root-relative links (`/network.html`) so it works at any path.
 
 ## Preview locally
 
@@ -71,23 +74,26 @@ Then open http://localhost:8000.
 - [ ] Contact email in the footer
 - [ ] Venues: about 20 confirmed listings with photos before the page is shared, each with written agreement to publish its contact, and a named owner who rechecks every listing every three months
 
+## Positioning
+
+Universities and institutions are the customers. BQ turns their most ambitious students into founders by curating the investors, mentors, engineers and live problems around them, running sprints, hackathons and Demo Night, and staying with the strongest teams towards a company. The invitation-only technical sessions (the evenings) exist to build and keep that network. On the site they appear only as "how the network meets" on network.html. Don't describe their format, venues, food or fees anywhere public, and don't present them as the product or the moat.
+
+The writing follows how the strongest programmes describe themselves (Entrepreneur First, South Park Commons, Creative Destruction Lab, Conception X, Schwarzman Scholars): one sentence that states the offer and the audience, the product named plainly ("Our work is curation"), selectivity shown as a standard rather than claimed with words like exclusive or elite, and the model described as a few named parts.
+
 ## Copy that still needs founder sign-off
 
-The direction changed on 11 October 2026: evenings first, university chapters next. These lines carry the new direction and need a yes from all three founders.
+The positioning was corrected on 11 October 2026: universities are the customer and the evenings are a way to build the network. These lines need a yes from all three founders.
 
-- The evenings have no name yet. The site says "the evenings" and "a BQ evening", and the home hero's top line reads "Delhi NCR / Technical evenings / By invitation". Swap in the name once chosen (never "Quorum" alone)
-- Audience: "PhD and master's researchers, engineers and technology professionals" and "the evenings aren't open to undergraduates"
-- The fee: "a reservation fee holds your seat, and all of it is redeemable against food and drink at the venue". Confirm each venue agrees to this before the first evening. The amount is only ever stated in the invitation
-- How seats are given: an invitation from a speaker or a member, or a request read by the team. "People who keep showing up keep being invited" and "we will tell you either way" each need someone who owns them
-- "A few founders and investors at each evening" and "nobody pitches". Only keep the first once some have agreed to come
-- The speaker promises: "What we handle" and "What we ask of you" on the evenings page, including "slides only if they help"
-- How BQ grows: evenings now, university chapters next, then Bengaluru, Mumbai, Hyderabad and Pune with sponsors. Naming the cities is a public commitment
-- Topics: deep tech first (AI and cloud, robotics, semiconductors, advanced materials, space tech, energy), with fintech, real estate and food and agri-tech when a speaker brings a problem
-- Universities: chapters "co-branded with your university", "chapters open after the first evenings", and whether chapter students pay. The site doesn't say they pay
+- Home: "Builders’ Quorum (BQ) turns a university’s most ambitious students into founders. We curate the investors, mentors, engineers and problems around them, and stay with the strongest teams from a first problem to a first company"
+- Home: "Our work is curation" and "Ambitious students are everywhere. The people and problems that turn them into founders are much harder to find"
+- Home top line: "Venture creation / Frontier sectors / Delhi NCR"
+- Hackathons and flagship events "with technology companies". No company is named; keep it that way until one agrees in writing
 - "Why BQ" names Claude Developers India ("more than 1,000 AI builders") and ML Reading Club Delhi NCR. Confirm you are happy to name both, and that the number is current
-- Partners page: "send a speaker or an engineer" and "take the evenings to a new city"
-- BQ Fellows (universities page): "You can't apply", "If a cohort doesn't produce one, we don't name one", and what Fellows get
+- Universities: chapters "co-branded with your university", "a clear account after every sprint of what worked and what didn’t", and whether chapter students pay. The site doesn't say who pays
 - Universities pilot: "No fixed session counts and no long contracts up front", and "We share the numbers, good or bad"
+- BQ Fellows: "You can't apply", "If a cohort doesn't produce one, we don't name one", and what Fellows get (one-to-one time with founders, introductions to investors)
+- Network page: "Membership is by invitation", what members do, and "the network stays small on purpose"
+- Companies page: "Back a chapter or a city" names Bengaluru, Mumbai, Hyderabad and Pune. Naming the cities is a public commitment
 - Example problems on the universities page come from the proposal's Annexure A. Swap them for live problems when you have them
 - Proven formats on the universities page: names Stanford GSB, MIT Sloan and Oxford Saïd programmes as inspiration, with a no-affiliation note. Keep or cut
 - Venues page: "you can change or remove it at any time" and "through the communities we run"

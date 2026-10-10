@@ -209,12 +209,13 @@ if (form) {
 
   const orgLabel = document.getElementById('org-label');
   const submitLabels = {
-    member: 'Request a seat', speaker: 'Offer an evening', student: 'Join the list',
-    campus: 'Start the conversation', organiser: 'Send', venue: 'List my space',
+    campus: 'Start the conversation', partner: 'Talk to us', member: 'Ask to join', speaker: 'Offer a session',
+    student: 'Join the list', organiser: 'Send', venue: 'List my space',
   };
   const orgLabels = {
-    member: 'University, lab or company', speaker: 'University or institute', student: 'University or college',
-    campus: 'University', organiser: 'Community or organisation', venue: 'Name of the space',
+    campus: 'University or institution', partner: 'Company', member: 'University, lab or company',
+    speaker: 'University or institute', student: 'University or college', organiser: 'Community or organisation',
+    venue: 'Name of the space',
   };
   const needsOrg = ['member', 'speaker', 'student', 'campus', 'investor', 'partner', 'organiser', 'venue'];
 
