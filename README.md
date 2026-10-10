@@ -18,7 +18,8 @@ apply.html        one form; the questions change with the role. Links can presel
                   apply.html?role=organiser&venue=Name fills in the space the organiser picked
 styles.css        design tokens at the top, then components, then motion
 main.js           nav, scroll reveal, sketch drawing, tabs, form
-assets/logo.svg   the only logo file (header, footer, favicon). A working mark, not final
+assets/          logo.svg (icon in header and footer), favicon.svg, apple-touch-icon.png. Copied from ../logo
+favicon.ico       16, 32 and 48 px, also from ../logo
 404.html, robots.txt, sitemap.xml
 ```
 
@@ -34,7 +35,7 @@ Then open http://localhost:8000.
 
 ## Common changes
 
-- Logo: replace `assets/logo.svg`. Keep a square viewBox. The current file is a working mark: a lowercase "bq" sharing one bowl (the b turned 180 degrees is the q), paper on an ink square, with the q's stem in the accent. The footer shows it as is, so keep the ink square or add a footer rule.
+- Logo: the chosen mark (11 October 2026) lives in `../logo`, with its own README and build scripts. To update the site, copy `svg/bq-icon.svg` to `assets/logo.svg`, `svg/bq-favicon.svg` to `assets/favicon.svg`, `png/apple-touch-icon.png` to `assets/` and `favicon.ico` to the site root.
 - Accent colour: change `--accent` in `styles.css`. `--accent-ink` and `--accent-wash` are derived from it.
 - Form: set `FORM_ENDPOINT` in `main.js` once a form service is approved. While it is empty, the form sends nothing.
 - FAQ: the answers appear twice in `index.html`, in the visible FAQ and in the FAQPage JSON-LD in `<head>`. Edit both.
@@ -57,9 +58,9 @@ Then open http://localhost:8000.
 
 - [ ] Trademark check (IP India, classes 41 and 35) is clean
 - [ ] Domain bought. Then add canonical links, `og:url`, and a `url` and `logo` in the Organization JSON-LD. Replace `YOUR-DOMAIN` in `sitemap.xml` and uncomment the sitemap line in `robots.txt`
-- [ ] Final logo in `assets/logo.svg` (the current one is a working mark)
+- [ ] Trademark check on the logo as a device mark, as well as the name
 - [ ] Registration and payment for the evenings: pick the tool, put it on a subdomain, and link it from invitations. The request form on this site only collects requests
-- [ ] 1200x630 PNG for `og:image`, and a 180x180 `apple-touch-icon`
+- [ ] 1200x630 PNG for `og:image`
 - [ ] Form endpoint approved and set, plus a privacy note next to the form
 - [ ] Contact email in the footer
 - [ ] Venues: about 20 confirmed listings with photos before the page is shared, each with written agreement to publish its contact, and a named owner who rechecks every listing every three months
