@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Apply | Builder's Quorum</title>
-  <meta name="description" content="Apply for a place in a Builder's Quorum cohort, or start a conversation as a college, investor, practitioner or sponsor.">
+  <title>Request a seat | Builder's Quorum</title>
+  <meta name="description" content="Request a seat at a Builder's Quorum evening, offer to lead one, or start a conversation as a university, student, investor, practitioner or sponsor.">
   <meta name="theme-color" content="#ffffff">
   <meta name="color-scheme" content="light">
 
   <!-- TODO: add <link rel="canonical"> and og:url once the domain is bought. -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Builder's Quorum">
-  <meta property="og:title" content="Apply | Builder's Quorum">
-  <meta property="og:description" content="Apply for a place in a Builder's Quorum cohort, or start a conversation as a college, investor, practitioner or sponsor.">
+  <meta property="og:title" content="Request a seat | Builder's Quorum">
+  <meta property="og:description" content="Request a seat at a Builder's Quorum evening, offer to lead one, or start a conversation as a university, student, investor, practitioner or sponsor.">
   <meta property="og:locale" content="en_IN">
   <!-- TODO: og:image needs a 1200x630 PNG once the logo is final. -->
   <meta name="twitter:card" content="summary">
@@ -40,11 +40,11 @@
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav id="site-nav" class="site-nav" aria-label="Main">
         <ul>
-          <li><a href="builders.html">For builders</a></li>
-          <li><a href="colleges.html">Colleges</a></li>
+          <li><a href="evenings.html">Evenings</a></li>
+          <li><a href="universities.html">Universities</a></li>
           <li><a href="partners.html">Partners</a></li>
           <li><a href="investors.html">Investors</a></li>
-          <li><a class="btn btn-primary btn-small" href="apply.html" aria-current="page">Apply</a></li>
+          <li><a class="btn btn-primary btn-small" href="apply.html" aria-current="page">Request a seat</a></li>
         </ul>
       </nav>
     </div>
@@ -54,18 +54,19 @@
   <main id="main">
     <section class="hero page-hero apply-hero">
       <div class="wrap">
-        <p class="hero-meta"><span class="live" aria-hidden="true"></span>Cohort 01 <i aria-hidden="true">/</i> Applications reviewed before each cohort</p>
+        <p class="hero-meta"><span class="live" aria-hidden="true"></span>By invitation <i aria-hidden="true">/</i> Requests read before each evening</p>
         <h1>Tell us who you <em>are</em>.</h1>
-        <p class="lede">Students and early builders apply for a place in a pilot cohort. Colleges, investors, practitioners and sponsors start a conversation here, and venues can list a space.</p>
+        <p class="lede">Researchers and technology professionals request a seat at an evening, and professors and researchers can offer to lead one. Universities, students, investors, sponsors and practitioners start a conversation here, and venues can list a space.</p>
 
         <div class="apply-grid">
           <form id="interest-form" class="panel form" method="post">
             <div class="field">
               <label for="role">I am</label>
               <select id="role" name="role" required>
-                <option value="student">A student</option>
-                <option value="builder">Building, or about to build, and not a student</option>
-                <option value="campus">From a college: E-cell, club, faculty or leadership</option>
+                <option value="member">A researcher or technology professional</option>
+                <option value="speaker">A professor or researcher who could lead an evening</option>
+                <option value="campus">From a university: faculty, E-cell, club or leadership</option>
+                <option value="student">A student interested in a BQ chapter</option>
                 <option value="investor">An investor</option>
                 <option value="practitioner">A practitioner with a problem to share</option>
                 <option value="partner">A sponsor or company</option>
@@ -85,7 +86,90 @@
               </div>
             </div>
 
-            <fieldset class="role-fields" data-for="student builder" aria-labelledby="about-work">
+            <fieldset class="role-fields" data-for="member" aria-labelledby="about-you">
+              <h2 class="legend" id="about-you">About your work</h2>
+              <div class="field-row">
+                <div class="field">
+                  <label for="level">Where you are</label>
+                  <select id="level" name="level" required>
+                    <option value="">Choose one</option>
+                    <option>PhD researcher</option>
+                    <option>Master’s student or researcher</option>
+                    <option>Engineer or technologist in industry</option>
+                    <option>Founder</option>
+                    <option>Other technology professional</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="field-of-work">Your field, in a few words</label>
+                  <input id="field-of-work" name="field_of_work" type="text" placeholder="For example: robot learning" required>
+                </div>
+              </div>
+              <div class="field">
+                <span class="label" id="topics-label">Evenings you would come to</span>
+                <div class="checks" role="group" aria-labelledby="topics-label">
+                  <label><input type="checkbox" name="topics" value="AI and cloud"> AI and cloud</label>
+                  <label><input type="checkbox" name="topics" value="Robotics"> Robotics</label>
+                  <label><input type="checkbox" name="topics" value="Semiconductors"> Semiconductors</label>
+                  <label><input type="checkbox" name="topics" value="Advanced materials"> Advanced materials</label>
+                  <label><input type="checkbox" name="topics" value="Space tech"> Space tech</label>
+                  <label><input type="checkbox" name="topics" value="Energy"> Energy</label>
+                  <label><input type="checkbox" name="topics" value="Fintech"> Fintech</label>
+                  <label><input type="checkbox" name="topics" value="Real estate and proptech"> Real estate and proptech</label>
+                  <label><input type="checkbox" name="topics" value="Food and agri-tech"> Food and agri-tech</label>
+                </div>
+              </div>
+              <div class="field">
+                <label for="bring">What would you bring to the room?</label>
+                <input id="bring" name="bring" type="text" placeholder="A question you are stuck on, work you could share, or both" required>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="work-link">Link to your work <span class="optional">(optional)</span></label>
+                  <input id="work-link" name="work_link" type="url" placeholder="https://">
+                </div>
+                <div class="field">
+                  <label for="nominated">Who invited you? <span class="optional">(optional)</span></label>
+                  <input id="nominated" name="nominated_by" type="text">
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="role-fields" data-for="speaker" aria-labelledby="about-talk">
+              <h2 class="legend" id="about-talk">About your evening</h2>
+              <div class="field-row">
+                <div class="field">
+                  <label for="position">Your position</label>
+                  <select id="position" name="position" required>
+                    <option value="">Choose one</option>
+                    <option>Professor</option>
+                    <option>Associate or assistant professor</option>
+                    <option>Postdoc or research scientist</option>
+                    <option>Researcher in industry</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="when">When could you speak?</label>
+                  <select id="when" name="when">
+                    <option>In the next month</option>
+                    <option>In the next three months</option>
+                    <option>Later</option>
+                    <option>Not sure yet</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="talk">What problem would you take the room through?</label>
+                <textarea id="talk" name="talk" rows="3" required></textarea>
+              </div>
+              <div class="field">
+                <label for="speaker-link">Your research page or recent work <span class="optional">(optional)</span></label>
+                <input id="speaker-link" name="speaker_link" type="url" placeholder="https://">
+              </div>
+            </fieldset>
+
+            <fieldset class="role-fields" data-for="student" aria-labelledby="about-work">
               <h2 class="legend" id="about-work">About your work</h2>
               <div class="field">
                 <label for="aim">What are you working towards?</label>
@@ -162,8 +246,8 @@
                   <label for="campus-role">Your role</label>
                   <select id="campus-role" name="campus_role" required>
                     <option value="">Choose one</option>
-                    <option>Student lead of an E-cell, club or student body</option>
                     <option>Faculty or staff</option>
+                    <option>Student lead of an E-cell, club or student body</option>
                     <option>Institution leadership</option>
                     <option>Other</option>
                   </select>
@@ -176,8 +260,8 @@
               <div class="field">
                 <span class="label" id="campus-wants-label">What are you looking for?</span>
                 <div class="checks" role="group" aria-labelledby="campus-wants-label">
-                  <label><input type="checkbox" name="campus_wants" value="Build sprint"> A build sprint for our students</label>
-                  <label><input type="checkbox" name="campus_wants" value="Single session"> A single session to start</label>
+                  <label><input type="checkbox" name="campus_wants" value="Chapter"> A BQ chapter for our students</label>
+                  <label><input type="checkbox" name="campus_wants" value="Pilot sprint"> A pilot sprint to start</label>
                   <label><input type="checkbox" name="campus_wants" value="Founders for an event"> Founders or practitioners for an event</label>
                   <label><input type="checkbox" name="campus_wants" value="Demo Night"> Demo Night places for our best teams</label>
                   <label><input type="checkbox" name="campus_wants" value="Not sure"> Not sure yet, let’s talk</label>
@@ -209,8 +293,9 @@
               <div class="field">
                 <span class="label" id="involve-label">How you’d like to be involved</span>
                 <div class="checks" role="group" aria-labelledby="involve-label">
+                  <label><input type="checkbox" name="invest_involve" value="Evening"> Join an evening</label>
                   <label><input type="checkbox" name="invest_involve" value="Early look"> An early look at teams</label>
-                  <label><input type="checkbox" name="invest_involve" value="Mentor"> Mentor a pod</label>
+                  <label><input type="checkbox" name="invest_involve" value="Mentor"> Mentor a chapter pod</label>
                   <label><input type="checkbox" name="invest_involve" value="Judge"> Judge Demo Night</label>
                   <label><input type="checkbox" name="invest_involve" value="Portfolio problems"> Bring portfolio problems</label>
                 </div>
@@ -278,6 +363,7 @@
                   <select id="space-type" name="space_type" required>
                     <option value="">Choose one</option>
                     <option>College</option>
+                    <option>Café</option>
                     <option>Coworking space</option>
                     <option>Company office</option>
                     <option>Other</option>
@@ -346,7 +432,7 @@
               <label for="message">Anything we should know? <span class="optional">(optional)</span></label>
               <textarea id="message" name="message" rows="4"></textarea>
             </div>
-            <button class="btn btn-primary btn-arrow" type="submit" id="submit">Apply for a place</button>
+            <button class="btn btn-primary btn-arrow" type="submit" id="submit">Request a seat</button>
             <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
           </form>
 
@@ -357,15 +443,30 @@
               <p>We confirm each listing with the venue before it goes up and recheck it every three months. We publish only the contact details a venue agrees to.</p>
               <a class="link-arrow" href="venues.html">See the spaces</a>
             </div>
-            <div class="brief-card" data-for="student builder campus investor practitioner partner reader">
-              <p class="tag tag-accent">Who can apply</p>
-              <h3>From any college, or none.</h3>
-              <p>Students and early builders, 18 and over, building software, consumer products or hardware. You don’t need an idea yet. We care more about what you have built or led than where you study.</p>
+            <div class="brief-card" data-for="member speaker">
+              <p class="tag tag-accent">Who comes</p>
+              <h3>Researchers and professionals.</h3>
+              <p>PhD and master’s researchers, engineers and technology professionals, with one speaker and a few founders and investors. Undergraduates join through university chapters.</p>
             </div>
-            <div class="brief-card" data-for="student builder campus investor practitioner partner reader">
+            <div class="brief-card" data-for="member">
               <p class="tag">What happens next</p>
-              <h3>Cohorts are small.</h3>
-              <p>We review applications before each cohort. If there is a fit, we set up a short call. Not everyone gets in, and we will tell you either way.</p>
+              <h3>Rooms are small.</h3>
+              <p>We read every request before each evening. If there is a seat, your invitation names the topic, the speaker, the venue and the reservation fee, which you spend in full at the venue. Not everyone gets a seat, and we will tell you either way.</p>
+            </div>
+            <div class="brief-card" data-for="speaker">
+              <p class="tag">What happens next</p>
+              <h3>A short call first.</h3>
+              <p>We reply to every offer, talk through the problem you want to take on and find a date and a room that suit it.</p>
+            </div>
+            <div class="brief-card" data-for="student">
+              <p class="tag tag-accent">Chapters</p>
+              <h3>Students join through chapters.</h3>
+              <p>Chapters open after the first evenings in Delhi NCR. Tell us where you study and what you want to build, and we will write when there is a chapter you can join. Places are earned, and kept by showing up.</p>
+            </div>
+            <div class="brief-card" data-for="campus investor practitioner partner reader">
+              <p class="tag">What happens next</p>
+              <h3>A short note is enough.</h3>
+              <p>We read every message and come back with something specific.</p>
             </div>
           </aside>
         </div>
@@ -387,12 +488,12 @@
         <nav aria-label="Footer">
           <h2 class="footer-title">Explore</h2>
           <ul class="footer-links">
-            <li><a href="builders.html">For builders</a></li>
-            <li><a href="colleges.html">For colleges</a></li>
+            <li><a href="evenings.html">The evenings</a></li>
+            <li><a href="universities.html">For universities</a></li>
             <li><a href="partners.html">For partners</a></li>
             <li><a href="investors.html">For investors</a></li>
             <li><a href="venues.html">Venues</a></li>
-            <li><a href="apply.html">Apply</a></li>
+            <li><a href="apply.html">Request a seat</a></li>
           </ul>
         </nav>
         <div>

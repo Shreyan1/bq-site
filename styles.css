@@ -910,7 +910,7 @@ input, select, textarea { border-radius: 0; border-color: #D6D3CB; background: #
 
 /* Footer in ink, closed by the wordmark. */
 .site-footer { --ink-soft: #A3A2A8; --line: #2C2C33; background: var(--ink); color: var(--paper); border-top: 0; padding-bottom: 0; }
-.site-footer .brand img { filter: invert(1); }
+.site-footer .brand img { outline: 1px solid var(--line); }
 .site-footer .link-arrow { color: var(--paper); border-color: var(--line); }
 .site-footer .tag { background: transparent; color: color-mix(in srgb, var(--accent) 75%, white); border-color: currentColor; }
 .footer-links a:hover { color: color-mix(in srgb, var(--accent) 75%, white); }

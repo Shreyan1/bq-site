@@ -189,11 +189,14 @@ if (form) {
 
   const orgLabel = document.getElementById('org-label');
   const submitLabels = {
-    student: 'Apply for a place', builder: 'Apply for a place', campus: 'Start the conversation',
-    organiser: 'Send', venue: 'List my space',
+    member: 'Request a seat', speaker: 'Offer an evening', student: 'Join the list',
+    campus: 'Start the conversation', organiser: 'Send', venue: 'List my space',
   };
-  const orgLabels = { organiser: 'Community or organisation', venue: 'Name of the space' };
-  const needsOrg = ['campus', 'investor', 'partner', 'organiser', 'venue'];
+  const orgLabels = {
+    member: 'University, lab or company', speaker: 'University or institute', student: 'University or college',
+    campus: 'University', organiser: 'Community or organisation', venue: 'Name of the space',
+  };
+  const needsOrg = ['member', 'speaker', 'student', 'campus', 'investor', 'partner', 'organiser', 'venue'];
 
   const syncRole = () => {
     roleFields.forEach((group) => {
