@@ -48,7 +48,7 @@ Then open http://localhost:8000.
 
 ## Deploy to GitHub Pages
 
-The repository root is the published site. In GitHub, open **Settings → Pages**, choose **Deploy from a branch**, select `main` and `/ (root)`, then save. The `CNAME` file sets the custom domain to `buildersquorum.com`. The repository must have GitHub Pages available for its visibility and plan.
+GitHub Actions publishes the static pages and assets on each push to `main`. In GitHub, open **Settings → Pages** and set the source to **GitHub Actions**. The `CNAME` file sets the custom domain to `buildersquorum.com`. The repository must have GitHub Pages available for its visibility and plan.
 
 In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages with four A records: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, and `185.199.111.153`. Add a CNAME record for `www` pointing to `Shreyan1.github.io`. Keep unrelated MX and TXT records (for email and domain verification). Remove only conflicting website records for `@` or `www`. After DNS resolves, return to **Settings → Pages**, confirm the custom domain is `buildersquorum.com`, and enable **Enforce HTTPS** when GitHub offers it. DNS changes can take up to 24 hours to propagate.
 
