@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Uncomment once the domain is live.
-# Sitemap: https://YOUR-DOMAIN/sitemap.xml
+Sitemap: https://buildersquorum.com/sitemap.xml

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Replace YOUR-DOMAIN once the domain is bought. apply.html is left out on purpose. -->
+<!-- apply.html is left out on purpose. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://YOUR-DOMAIN/</loc><lastmod>2026-10-11</lastmod></url>
-  <url><loc>https://YOUR-DOMAIN/network.html</loc><lastmod>2026-10-11</lastmod></url>
-  <url><loc>https://YOUR-DOMAIN/universities.html</loc><lastmod>2026-10-11</lastmod></url>
-  <url><loc>https://YOUR-DOMAIN/partners.html</loc><lastmod>2026-10-11</lastmod></url>
-  <url><loc>https://YOUR-DOMAIN/investors.html</loc><lastmod>2026-10-11</lastmod></url>
-  <url><loc>https://YOUR-DOMAIN/venues.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://buildersquorum.com/</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://buildersquorum.com/network.html</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://buildersquorum.com/universities.html</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://buildersquorum.com/partners.html</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://buildersquorum.com/investors.html</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://buildersquorum.com/venues.html</loc><lastmod>2026-10-07</lastmod></url>
 </urlset>
