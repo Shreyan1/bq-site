@@ -1373,3 +1373,11 @@ html:not(.js) .hero-field { display: none; }
 .next li::before { content: counter(next, decimal-leading-zero); font: italic 400 1rem/1.6 var(--serif); color: var(--ink-soft); }
 .next p { padding-block: 1rem; font: 400 1.25rem/1.3 var(--serif); }
 .next .link-arrow { display: inline-block; margin-top: 0.5rem; }
+
+/* Three of the sectors in pictures, under the frontiers grid. */
+.photo-trio { display: grid; gap: 1.5rem 1rem; margin-top: clamp(2rem, 4vw, 3rem); }
+@media (min-width: 48rem) { .photo-trio { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.photo-trio .photo { background: none; }
+.photo-trio img { height: auto; aspect-ratio: 16 / 10; background: var(--wash); }
+@media (min-width: 48rem) { .photo-trio img { aspect-ratio: 4 / 5; } }
+.photo-trio figcaption { margin-top: 0.75rem; font: 500 0.6875rem/1.4 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
