@@ -216,7 +216,7 @@ if (form) {
     reader: 'Send me the first issue', organiser: 'Send', venue: 'List my space',
   };
   const orgLabels = {
-    campus: 'University or institution', partner: 'Company', investor: 'Fund or firm', member: 'University, lab or company',
+    campus: 'University or institution', partner: 'Enterprise', investor: 'Fund or firm', member: 'University, lab or company',
     practitioner: 'Company or organisation',
     speaker: 'University or institute', student: 'University or college', organiser: 'Community or organisation',
     venue: 'Name of the space',
