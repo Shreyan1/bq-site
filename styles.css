@@ -1,11 +1,11 @@
 /* Builders’ Quorum. Light, clean, one accent. */
 
 /* Fonts are self-hosted (Latin only), so text doesn't wait on another domain.
-   Inter Tight is one variable file for 400 and 500. */
-@font-face { font-family: "Instrument Serif"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/instrument-serif.woff2") format("woff2"); }
-@font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url("assets/fonts/instrument-serif-italic.woff2") format("woff2"); }
-@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 400 500; font-display: swap; src: url("assets/fonts/inter-tight.woff2") format("woff2"); }
-@font-face { font-family: "Urbanist"; font-style: normal; font-weight: 800; font-display: swap; src: url("assets/fonts/urbanist-800.woff2") format("woff2"); }
+   Gloock has a single upright weight, so nothing set in it is italic or bold.
+   Urbanist is one variable file per style for 400 to 800. */
+@font-face { font-family: "Gloock"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/gloock.woff2") format("woff2"); }
+@font-face { font-family: "Urbanist"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("assets/fonts/urbanist.woff2") format("woff2"); }
+@font-face { font-family: "Urbanist"; font-style: italic; font-weight: 400 800; font-display: swap; src: url("assets/fonts/urbanist-italic.woff2") format("woff2"); }
 
 :root {
   /* Brand. Change the accent here and nowhere else. */
@@ -21,8 +21,8 @@
   --wash: #F7F5F0;
   --dot: #E2DFD7;
 
-  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --sans: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Gloock", Georgia, "Times New Roman", serif;
+  --sans: "Urbanist", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --wrap: 74rem;
   --gutter: 1rem;
@@ -50,6 +50,7 @@ body {
   color: var(--ink);
   font: 500 1rem/1.6 var(--sans);
   font-feature-settings: "kern", "liga";
+  font-synthesis: none;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -68,7 +69,7 @@ h1, h2, .display {
 }
 h1 { font-size: clamp(2.75rem, 1.4rem + 6vw, 6.25rem); }
 h2 { font-size: clamp(2.25rem, 1.5rem + 3.2vw, 3.75rem); max-width: 18ch; }
-h1 em, h2 em { font-style: italic; }
+h1 em, h2 em { font-style: normal; }
 h3 { font-size: 1.0625rem; font-weight: 500; line-height: 1.35; text-wrap: balance; }
 .serif-h3 { font: 400 clamp(1.625rem, 1.4rem + 0.9vw, 2rem)/1.1 var(--serif); letter-spacing: -0.01em; }
 
@@ -150,7 +151,7 @@ h3 { font-size: 1.0625rem; font-weight: 500; line-height: 1.35; text-wrap: balan
   display: inline-flex;
   align-items: center;
   gap: 0.625rem;
-  font: 800 1.3125rem/1 "Urbanist", var(--sans);
+  font: 800 1.3125rem/1 var(--sans);
   letter-spacing: -0.01em;
   text-decoration: none;
 }
@@ -817,7 +818,7 @@ main { counter-reset: sec; }
 /* Footer: a large wordmark closes every page. */
 .footer-mark {
   margin-top: clamp(3rem, 7vw, 5rem);
-  font: 800 clamp(2.25rem, 0.5rem + 8.2vw, 8.5rem)/0.9 "Urbanist", var(--sans);
+  font: 800 clamp(2.25rem, 0.5rem + 8.2vw, 8.5rem)/0.9 var(--sans);
   letter-spacing: -0.03em;
   white-space: nowrap;
   overflow: hidden;
@@ -883,8 +884,8 @@ input, select, textarea { border-radius: 0; border-color: #D6D3CB; background: #
 
 /* The accent, used sparingly. */
 .eyebrow { color: var(--ink-soft); }
-.section > .wrap > .eyebrow::before { color: var(--ink); font-style: italic; }
-.numbered li::before { color: var(--ink-soft); font-style: italic; }
+.section > .wrap > .eyebrow::before { color: var(--ink); }
+.numbered li::before { color: var(--ink-soft); }
 .stages .makes span, .door .link-arrow { color: var(--ink); }
 .ticks li::before { top: 1.45rem; width: 0.625rem; height: 1px; background: var(--ink); }
 
@@ -912,9 +913,9 @@ input, select, textarea { border-radius: 0; border-color: #D6D3CB; background: #
 .door { min-height: 19rem; border: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: transparent; }
 .door:hover { background: var(--wash); transform: none; }
 
-/* Ticker: italic serif, slower. */
+/* Ticker: slower, with ink dots. */
 .ticker { background: transparent; }
-.ticker-track span { font-style: italic; gap: 2.25rem; }
+.ticker-track span { gap: 2.25rem; }
 .ticker-track span::after { width: 0.3rem; height: 0.3rem; background: var(--ink); border-radius: 50%; }
 
 /* Footer in ink, closed by the wordmark. */
@@ -999,7 +1000,7 @@ h3, .btn, .site-nav a, .nav-toggle, label, .label, .eyebrow, .tag, summary, stro
     height: auto;
     margin-bottom: 0.75rem;
     background: none;
-    font: italic 400 clamp(2.5rem, 2rem + 1.2vw, 3.25rem)/1 var(--serif);
+    font: 400 clamp(2.5rem, 2rem + 1.2vw, 3.25rem)/1 var(--serif);
     letter-spacing: -0.02em;
     color: var(--ink);
   }
@@ -1140,7 +1141,7 @@ html:not(.js) .hero-field { display: none; }
 .find.is-current .find-ring { stroke: var(--accent); stroke-width: 1.6; }
 .find-link { fill: none; stroke: var(--ink); stroke-opacity: 0.3; stroke-width: 1; }
 .find-label text { font: 500 10.5px var(--sans); letter-spacing: 0.14em; fill: var(--ink-soft); stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; paint-order: stroke; }
-.find-label .find-n { font: italic 400 15px var(--serif); letter-spacing: 0; fill: var(--ink); }
+.find-label .find-n { font: 400 15px var(--serif); letter-spacing: 0; fill: var(--ink); }
 
 /* The pointer: a faint pencil circle offers the nearest person, and a found person
    under the pointer is picked out with their links. */
@@ -1287,7 +1288,7 @@ html:not(.js) .hero-field { display: none; }
 .step { display: grid; gap: 1.5rem; padding-block: 2rem 2.75rem; border-top: 1px solid var(--ink); counter-increment: step; }
 .step[hidden] { display: none; }
 .step-title { display: flex; align-items: baseline; gap: 1rem; font: 400 clamp(1.75rem, 1.4rem + 1.2vw, 2.375rem)/1.1 var(--serif); letter-spacing: -0.01em; }
-.step-title::before { content: counter(step, decimal-leading-zero); flex: none; min-width: 1.75rem; font: italic 400 1.125rem/1 var(--serif); color: var(--ink-soft); }
+.step-title::before { content: counter(step, decimal-leading-zero); flex: none; min-width: 1.75rem; font: 400 1.125rem/1 var(--serif); color: var(--ink-soft); }
 
 .form label, .form .label, .apply-aside .label { font: 500 0.6875rem/1.4 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
 .form .optional { letter-spacing: 0.06em; text-transform: none; font-weight: 400; }
@@ -1346,7 +1347,7 @@ html:not(.js) .hero-field { display: none; }
 .way input { position: absolute; opacity: 0; pointer-events: none; }
 .way:hover, .way:has(:checked) { background: var(--wash); }
 .way:has(:focus-visible) { outline: 2px solid var(--ink); outline-offset: -2px; }
-.way-n { position: relative; justify-self: start; padding: 0.25rem 0.375rem; font: italic 400 1.0625rem/1 var(--serif); color: var(--ink-soft); }
+.way-n { position: relative; justify-self: start; padding: 0.25rem 0.375rem; font: 400 1.0625rem/1 var(--serif); color: var(--ink-soft); }
 .way-ring { position: absolute; left: 50%; top: 50%; width: 2.75rem; height: 2.75rem; translate: -50% -50%; overflow: visible; fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; opacity: 0; }
 .way:has(:checked) .way-n { color: var(--ink); }
 .way:has(:checked) .way-ring { stroke-dashoffset: 0; opacity: 1; }
@@ -1370,7 +1371,7 @@ html:not(.js) .hero-field { display: none; }
 .next { margin-top: 1rem; counter-reset: next; }
 .next[hidden] { display: none; }
 .next li { display: grid; grid-template-columns: 2.25rem 1fr; padding-block: 1rem; border-bottom: 1px solid var(--line); counter-increment: next; font: 400 1.25rem/1.3 var(--serif); color: var(--ink); }
-.next li::before { content: counter(next, decimal-leading-zero); font: italic 400 1rem/1.6 var(--serif); color: var(--ink-soft); }
+.next li::before { content: counter(next, decimal-leading-zero); font: 400 1rem/1.6 var(--serif); color: var(--ink-soft); }
 .next p { padding-block: 1rem; font: 400 1.25rem/1.3 var(--serif); }
 .next .link-arrow { display: inline-block; margin-top: 0.5rem; }
 

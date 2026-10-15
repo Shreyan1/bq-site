@@ -26,7 +26,7 @@ styles.css        design tokens at the top, then components, then motion
 main.js           nav, scroll reveal, sketch drawing, tabs, form, and lazy-loading the hero field
 src/field.js      the home hero's Three.js scene. Built into assets/field.js with `npm install` then
                   `npm run build` (run inside website/). Commit the built file; the site needs no build
-assets/fonts/     self-hosted woff2 files (Latin only), declared at the top of styles.css
+assets/fonts/     self-hosted woff2 files (Latin only) with their OFL licences, declared at the top of styles.css
 src/land.json     the world's land as a grid of dots for the hero map (about 12,800 dots, 7 KB). Rebuild
                   with `npm run land` (tools/build_land.mjs: Natural Earth 1:50m via world-atlas, Miller
                   projection, spherical land test with d3-geo; takes about two minutes)
@@ -63,7 +63,7 @@ In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages wi
 
 ## Design system
 
-- Type: Instrument Serif for display, with italics for one word per heading. Inter Tight 400 for body text and 500 for interface text (buttons, labels, navigation, small headings).
+- Type: Gloock for display and headings. It has one upright weight, so serif text is never italic or bold, and font synthesis is off so browsers never fake either. Urbanist for everything else: 400 for body text, 500 for interface text (buttons, labels, navigation, small headings) and 800 for the wordmark. To rebuild the fonts, subset to Latin and convert to woff2 with fontTools, keeping the name table, and limit Urbanist's weight axis to 400–800.
 - Colour: ink on warm paper (#FBFAF7) with a faint grain, one accent used sparingly. The header and the footer are the only dark areas: they frame every page, and everything between them stays light. The `.section-ink` style is still in the stylesheet but no page uses it. In the wordmark (header, footer and the large closing mark) the apostrophe and the full stop are always the accent colour: `Builders<span class="accent">’</span> Quorum<span class="accent">.</span>`. Running text spells the name plainly.
 - Shape and layout: square corners and hairlines throughout. Buttons and labels use small tracked capitals. On wide screens each section has a sticky left column with its number (01, 02...) and label, and the content sits on the right. The home page has a ticker of sectors and formats, a large statement that lights up word by word as you scroll, and every page ends with a large wordmark.
 - Spacing: section padding tops out at 7rem, and the sticky left column starts at 56rem (896px). The closing call-to-action band splits into heading left and text and buttons right from the same width, so no block leaves half the width empty.
