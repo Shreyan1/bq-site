@@ -73,7 +73,7 @@ if (!reduceMotion) {
 
   // Siblings get a stagger index so grids come in one by one.
   document.querySelectorAll(
-    '.section .eyebrow, .section h2, .section .intro, .grid > *, .flow > li, .split > *, .stages > li, .outcomes, .numbered, .stuck, .faq, .fellows-note, .callout, .cta-band, .sectors'
+    '.section .eyebrow, .section h2, .section .intro, .grid > *, .flow > li, .split > *, .stages > li, .outcomes, .numbered, .stuck, .faq, .fellows-note, .callout, .cta-band, .sectors, .reel-line, .reel-strip, .reel-close > *'
   ).forEach((el) => {
     el.classList.add('reveal');
     el.style.setProperty('--i', [...el.parentElement.children].indexOf(el) % 4);
@@ -166,70 +166,90 @@ if (statement && !reduceMotion) {
   light();
 }
 
-// Builders reel: the stage is pinned while the section scrolls past, and the scroll
-// position plays it like a film. The opening lines take the first part, each builder
-// gets an equal slot after that, and the closing lines take the rest. Each frame wipes in
-// over the one before, which steps back and fades as the next one settles.
-const reel = document.querySelector('.reel');
+// Builders reel: a film strip that drifts slowly to the left and loops. The track holds a
+// second, hidden copy of the builders so the loop has no seam. Speed eases towards its
+// target rather than jumping, so hovering a portrait or pressing the button brings the
+// strip to a soft stop, and a page scroll gives it a gentle push either way.
+// It only runs while it is on screen.
+const strip = document.querySelector('.reel-strip');
 
-if (reel && !reduceMotion) {
-  const stage = reel.querySelector('.reel-stage');
-  const frames = [...reel.querySelectorAll('.reel-frame')];
-  const count = reel.querySelector('.reel-count');
-  const OPEN_END = 0.18;
-  const FRAMES_START = 0.2;
-  const CLOSE_START = 0.84;
-  const OVERLAP = 0.35;
-  const slot = (CLOSE_START - FRAMES_START) / frames.length;
-  const clamp = (v) => Math.min(1, Math.max(0, v));
-  const set = (el, name, v) => el.style.setProperty(name, v.toFixed(4));
+if (strip && !reduceMotion) {
+  const track = strip.querySelector('.reel-track');
+  const toggle = document.querySelector('.reel-toggle');
+  const SPEED = 34; // pixels per second at rest
+  const EASE = 2.5; // how quickly speed settles on its target, per second
+  const PUSH = 3; // pixels per second added for each pixel the page scrolls
+  const MAX_PUSH = 420;
 
-  reel.classList.add('is-live');
+  [...track.children].forEach((frame) => {
+    const copy = frame.cloneNode(true);
+    copy.setAttribute('aria-hidden', 'true');
+    copy.inert = true;
+    copy.querySelectorAll('img').forEach((img) => { img.alt = ''; });
+    track.append(copy);
+  });
+  strip.classList.add('is-moving');
+  toggle.hidden = false;
 
-  let shown = 0;
-  let queued = false;
-  const play = () => {
-    queued = false;
-    const box = reel.getBoundingClientRect();
-    if (box.bottom < 0 || box.top > window.innerHeight) return;
+  // Start with the first builder lined up with the text column, not in the faded edge.
+  let loop = track.scrollWidth / 2;
+  let offset = loop - document.querySelector('.reel-label').getBoundingClientRect().left;
+  let speed = SPEED;
+  let push = 0;
+  let paused = false;
+  let held = false;
+  let onScreen = false;
+  let running = false;
+  let last = 0;
+  let lastScroll = window.scrollY;
 
-    const p = clamp(-box.top / (box.height - window.innerHeight));
-    const f = (p - FRAMES_START) / slot - OVERLAP;
-    const closeFrom = CLOSE_START + slot * OVERLAP;
-
-    set(stage, '--open', clamp(p / OPEN_END));
-    set(stage, '--open-out', clamp((p - OPEN_END) / (FRAMES_START - OPEN_END + slot * OVERLAP * 0.5)));
-    set(stage, '--close', clamp(((p - closeFrom) / (1 - closeFrom)) * 1.4));
-    set(stage, '--frames', clamp((f + OVERLAP) / frames.length));
-    set(stage, '--meta', clamp(Math.min((f + OVERLAP) / OVERLAP, (frames.length + OVERLAP - f) / OVERLAP)));
-
-    let current = 0;
-    frames.forEach((frame, i) => {
-      const t = f - i;
-      const enter = clamp((t + OVERLAP) / OVERLAP);
-      const leave = Math.min(2, Math.max(0, (t - 1 + OVERLAP) / OVERLAP));
-      set(frame, '--in', enter);
-      set(frame, '--out', leave);
-      set(frame, '--zoom', clamp((t + OVERLAP) / (1 + OVERLAP)));
-      set(frame, '--cap', Math.min(enter, clamp(1 - leave * 2.5)));
-      if (enter >= 0.5) current = i + 1;
-    });
-
-    const next = Math.max(1, Math.min(frames.length, current));
-    if (next !== shown) {
-      shown = next;
-      count.textContent = String(next).padStart(2, '0');
-    }
+  // Once the strip has eased to a stop it goes idle and asks for no more frames.
+  const tick = (now) => {
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    const target = paused || held ? 0 : SPEED;
+    speed += (target - speed) * Math.min(1, dt * EASE);
+    push *= Math.exp(-dt * 3);
+    offset = (((offset + (speed + push) * dt) % loop) + loop) % loop;
+    track.style.transform = `translate3d(${-offset.toFixed(2)}px, 0, 0)`;
+    const settled = target === 0 && Math.abs(speed) + Math.abs(push) < 0.5;
+    if (settled) speed = push = 0;
+    running = onScreen && !settled;
+    if (running) requestAnimationFrame(tick);
   };
-  const queue = () => {
-    if (!queued) {
-      queued = true;
-      requestAnimationFrame(play);
-    }
+  const wake = () => {
+    if (running || !onScreen) return;
+    running = true;
+    last = performance.now();
+    requestAnimationFrame(tick);
   };
-  window.addEventListener('scroll', queue, { passive: true });
-  window.addEventListener('resize', queue);
-  play();
+
+  new IntersectionObserver(([entry]) => {
+    onScreen = entry.isIntersecting;
+    wake();
+  }).observe(strip);
+
+  strip.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') held = true; });
+  strip.addEventListener('pointerleave', () => {
+    held = false;
+    wake();
+  });
+
+  toggle.addEventListener('click', () => {
+    paused = !paused;
+    toggle.toggleAttribute('data-paused', paused);
+    toggle.textContent = paused ? 'Play' : 'Pause';
+    wake();
+  });
+
+  window.addEventListener('scroll', () => {
+    const delta = window.scrollY - lastScroll;
+    lastScroll = window.scrollY;
+    if (!onScreen || paused) return;
+    push = Math.max(-MAX_PUSH, Math.min(MAX_PUSH, push + delta * PUSH));
+    wake();
+  }, { passive: true });
+  window.addEventListener('resize', () => { loop = track.scrollWidth / 2; });
 }
 
 // "What's stopping you" tabs. Without JS every answer is shown.
