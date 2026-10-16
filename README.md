@@ -31,6 +31,8 @@ src/land.json     the world's land as a grid of dots for the hero map (about 12,
                   with `npm run land` (tools/build_land.mjs: Natural Earth 1:50m via world-atlas, Miller
                   projection, spherical land test with d3-geo; takes about two minutes)
 assets/photos/    nine photographs at 1000 and 2000 px wide, WebP. Credits below
+assets/photos/builders/
+                  seven black-and-white portraits for the builders reel on the home page, WebP
 assets/          logo.svg (icon in header and footer), favicon.svg, apple-touch-icon.png. Copied from ../logo
 favicon.ico       16, 32 and 48 px, also from ../logo
 404.html, robots.txt, sitemap.xml
@@ -64,7 +66,7 @@ In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages wi
 ## Design system
 
 - Type: Gloock for display and headings. It has one upright weight, so serif text is never italic or bold, and font synthesis is off so browsers never fake either. Urbanist for everything else: 400 for body text, 500 for interface text (buttons, labels, navigation, small headings) and 800 for the wordmark. To rebuild the fonts, subset to Latin and convert to woff2 with fontTools, keeping the name table, and limit Urbanist's weight axis to 400–800.
-- Colour: ink on warm paper (#FBFAF7) with a faint grain, one accent used sparingly. The header and the footer are the only dark areas: they frame every page, and everything between them stays light. The `.section-ink` style is still in the stylesheet but no page uses it. In the wordmark (header, footer and the large closing mark) the apostrophe and the full stop are always the accent colour: `Builders<span class="accent">’</span> Quorum<span class="accent">.</span>`. Running text spells the name plainly.
+- Colour: ink on warm paper (#FBFAF7) with a faint grain, one accent used sparingly. The header and the footer are the dark areas that frame every page, and everything between them stays light, except the builders reel on the home page, which plays on ink like a film. The `.section-ink` style is still in the stylesheet but no page uses it. In the wordmark (header, footer and the large closing mark) the apostrophe and the full stop are always the accent colour: `Builders<span class="accent">’</span> Quorum<span class="accent">.</span>`. Running text spells the name plainly.
 - Shape and layout: square corners and hairlines throughout, except buttons, which are pills. Buttons and labels use small tracked capitals. On hover a button's fill rises from its bottom edge, and the arrow on a primary button sits in its own disc and turns towards where it leads. On wide screens each section has a sticky left column with its number (01, 02...) and label, and the content sits on the right. The home page has a ticker of sectors and formats, a large statement that lights up word by word as you scroll, and every page ends with a large wordmark.
 - Spacing: section padding tops out at 7rem, and the sticky left column starts at 56rem (896px). The closing call-to-action band splits into heading left and text and buttons right from the same width, so no block leaves half the width empty.
 - The style sheet is layered: base styles first, then "Layout v2", then the "Refinement pass", which overrides earlier rules. When changing a component, check the refinement pass first.
@@ -75,7 +77,7 @@ In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages wi
 - Global first: nothing outside the footer says where BQ is based. Language tags are en-GB and spelling is British.
 - Accent discipline: vermilion means "chosen". It marks the newest find in the home hero, the BQ Fellow step, the one key stroke in each sketch, the brand mark and the current page in the nav. Sub-heading underlines, callouts, note bullets, FAQ toggles, section markers and tags are ink. Keep it that way when adding sections.
 - Speed: fonts are self-hosted and the two above the fold are preloaded, so no request leaves the site before text renders. The paper grain carries its own alpha instead of using `mix-blend-mode`, which made every scroll frame repaint the whole page.
-- Motion: on page load the headline rises in and the underline under "founders" draws. Sketches draw stroke by stroke as they scroll into view. Reveals are triggered by scroll position, not IntersectionObserver, so anything already scrolled past is shown at once and fast scrolling never leaves gaps. Other content fades up as you scroll, and there is a reading-progress line under the header. Pages cross-fade in browsers that support view transitions. All motion switches off for `prefers-reduced-motion`, and content stays visible without JS.
+- Motion: on page load the headline rises in and the underline under "founders" draws. Sketches draw stroke by stroke as they scroll into view. Reveals are triggered by scroll position, not IntersectionObserver, so anything already scrolled past is shown at once and fast scrolling never leaves gaps. Other content fades up as you scroll, and there is a reading-progress line under the header. Pages cross-fade in browsers that support view transitions. The builders reel on the home page is pinned while it scrolls past and plays like a film: opening lines, then each builder in turn (each portrait wipes up over the last, which steps back and fades), then the closing lines. Scroll position drives it through CSS variables set in `main.js`, so it runs both ways and never plays on its own. With reduced motion or without JS it is a plain grid of portraits. All motion switches off for `prefers-reduced-motion`, and content stays visible without JS.
 - Chrome gotcha: match sketch strokes by tag (`path`, `circle`), not with `[pathLength]` selectors. Chrome doesn't restyle camelCase SVG attribute selectors when an ancestor's class changes.
 
 ## Before going live
@@ -128,6 +130,8 @@ All from Unsplash, under the Unsplash Licence (free for commercial use; credit i
 - hackathon (companies): Alex Kotliarskyi, "People doing office works" (unsplash.com/photos/QBpZGqEMsKg)
 - pitch (investors): Teemu Paananen, "Person discussing while standing in front of a large screen" (unsplash.com/photos/bzdhc5b3Bxs)
 - small-room (network): Product School, "People sitting and using laptops" (unsplash.com/photos/XZkk5xT8Xrk)
+
+Builders reel portraits (`assets/photos/builders/`): Jamsetji Tata, Nikola Tesla, Wilbur and Orville Wright, Bill Hewlett and David Packard, Robert Noyce, Steve Jobs and Morris Chang. These are not from Unsplash. Confirm the source and licence of each one and record it here before launch. The Robert Noyce and Steve Jobs photographs are recent enough to be under copyright and need a licence or a replacement.
 
 ## Naming
 

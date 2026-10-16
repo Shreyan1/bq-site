@@ -166,6 +166,72 @@ if (statement && !reduceMotion) {
   light();
 }
 
+// Builders reel: the stage is pinned while the section scrolls past, and the scroll
+// position plays it like a film. The opening lines take the first part, each builder
+// gets an equal slot after that, and the closing lines take the rest. Each frame wipes in
+// over the one before, which steps back and fades as the next one settles.
+const reel = document.querySelector('.reel');
+
+if (reel && !reduceMotion) {
+  const stage = reel.querySelector('.reel-stage');
+  const frames = [...reel.querySelectorAll('.reel-frame')];
+  const count = reel.querySelector('.reel-count');
+  const OPEN_END = 0.18;
+  const FRAMES_START = 0.2;
+  const CLOSE_START = 0.84;
+  const OVERLAP = 0.35;
+  const slot = (CLOSE_START - FRAMES_START) / frames.length;
+  const clamp = (v) => Math.min(1, Math.max(0, v));
+  const set = (el, name, v) => el.style.setProperty(name, v.toFixed(4));
+
+  reel.classList.add('is-live');
+
+  let shown = 0;
+  let queued = false;
+  const play = () => {
+    queued = false;
+    const box = reel.getBoundingClientRect();
+    if (box.bottom < 0 || box.top > window.innerHeight) return;
+
+    const p = clamp(-box.top / (box.height - window.innerHeight));
+    const f = (p - FRAMES_START) / slot - OVERLAP;
+    const closeFrom = CLOSE_START + slot * OVERLAP;
+
+    set(stage, '--open', clamp(p / OPEN_END));
+    set(stage, '--open-out', clamp((p - OPEN_END) / (FRAMES_START - OPEN_END + slot * OVERLAP * 0.5)));
+    set(stage, '--close', clamp(((p - closeFrom) / (1 - closeFrom)) * 1.4));
+    set(stage, '--frames', clamp((f + OVERLAP) / frames.length));
+    set(stage, '--meta', clamp(Math.min((f + OVERLAP) / OVERLAP, (frames.length + OVERLAP - f) / OVERLAP)));
+
+    let current = 0;
+    frames.forEach((frame, i) => {
+      const t = f - i;
+      const enter = clamp((t + OVERLAP) / OVERLAP);
+      const leave = Math.min(2, Math.max(0, (t - 1 + OVERLAP) / OVERLAP));
+      set(frame, '--in', enter);
+      set(frame, '--out', leave);
+      set(frame, '--zoom', clamp((t + OVERLAP) / (1 + OVERLAP)));
+      set(frame, '--cap', Math.min(enter, clamp(1 - leave * 2.5)));
+      if (enter >= 0.5) current = i + 1;
+    });
+
+    const next = Math.max(1, Math.min(frames.length, current));
+    if (next !== shown) {
+      shown = next;
+      count.textContent = String(next).padStart(2, '0');
+    }
+  };
+  const queue = () => {
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(play);
+    }
+  };
+  window.addEventListener('scroll', queue, { passive: true });
+  window.addEventListener('resize', queue);
+  play();
+}
+
 // "What's stopping you" tabs. Without JS every answer is shown.
 const tabs = [...document.querySelectorAll('.stuck [role="tab"]')];
 
