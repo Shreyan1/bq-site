@@ -1,2 +1,7 @@
 .DS_Store
+*.stackdump
 node_modules/
+
+# Source files kept locally; the site ships the optimised versions next to them.
+assets/fonts/*.zip
+assets/photos/builders/source/

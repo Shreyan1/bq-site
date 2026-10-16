@@ -14,7 +14,7 @@ network.html      the network of researchers, engineers, founders and investors:
                   network meets (invitation-only sessions), how members are chosen
 venues.html       generated: one open page listing spaces for tech events, with capacity, terms, contact
                   details, filters and an FAQ. Built from data/venues.json by tools/build_venues.py
-apply.html        "Work with us", written as a short letter in numbered parts. Four main ways in (university,
+apply.html        "Work with us", a short letter in numbered parts, each on its own soft panel. Four main ways in (university,
                   company, investor, network member) and four smaller ones; the questions and the "What
                   happens next" column change with the choice. It opens on universities. The organiser and
                   venue options only appear when a link from the venues page asks for them.
@@ -26,11 +26,15 @@ styles.css        design tokens at the top, then components, then motion
 main.js           nav, scroll reveal, sketch drawing, tabs, form, and lazy-loading the hero field
 src/field.js      the home hero's Three.js scene. Built into assets/field.js with `npm install` then
                   `npm run build` (run inside website/). Commit the built file; the site needs no build
-assets/fonts/     self-hosted woff2 files (Latin only), declared at the top of styles.css
+assets/fonts/     self-hosted woff2 files (Latin only) with their OFL licences, declared at the top of styles.css.
+                  The source zip may sit here locally; it is git-ignored
 src/land.json     the world's land as a grid of dots for the hero map (about 12,800 dots, 7 KB). Rebuild
                   with `npm run land` (tools/build_land.mjs: Natural Earth 1:50m via world-atlas, Miller
                   projection, spherical land test with d3-geo; takes about two minutes)
 assets/photos/    nine photographs at 1000 and 2000 px wide, WebP. Credits below
+assets/photos/builders/
+                  ten black-and-white portraits for the builders reel on the home page, WebP, all cropped
+                  to 4:5 with the head in frame. source/ holds the originals locally and is git-ignored
 assets/          logo.svg (icon in header and footer), favicon.svg, apple-touch-icon.png. Copied from ../logo
 favicon.ico       16, 32 and 48 px, also from ../logo
 404.html, robots.txt, sitemap.xml
@@ -63,9 +67,9 @@ In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages wi
 
 ## Design system
 
-- Type: Instrument Serif for display, with italics for one word per heading. Inter Tight 400 for body text and 500 for interface text (buttons, labels, navigation, small headings).
-- Colour: ink on warm paper (#FBFAF7) with a faint grain, one accent used sparingly. The header and the footer are the only dark areas: they frame every page, and everything between them stays light. The `.section-ink` style is still in the stylesheet but no page uses it. In the wordmark (header, footer and the large closing mark) the apostrophe and the full stop are always the accent colour: `Builders<span class="accent">’</span> Quorum<span class="accent">.</span>`. Running text spells the name plainly.
-- Shape and layout: square corners and hairlines throughout. Buttons and labels use small tracked capitals. On wide screens each section has a sticky left column with its number (01, 02...) and label, and the content sits on the right. The home page has a ticker of sectors and formats, a large statement that lights up word by word as you scroll, and every page ends with a large wordmark.
+- Type: Gloock for display and headings. It has one upright weight, so serif text is never italic or bold, and font synthesis is off so browsers never fake either. Urbanist for everything else: 400 for body text, 500 for interface text (buttons, labels, navigation, small headings) and 800 for the wordmark. To rebuild the fonts, subset to Latin and convert to woff2 with fontTools, keeping the name table, and limit Urbanist's weight axis to 400–800.
+- Colour: ink on warm paper (#FBFAF7) with a faint grain, one accent used sparingly. The header and the footer are the dark areas that frame every page, and everything between them stays light, except the builders reel on the home page, which plays on ink like a film. The `.section-ink` style is still in the stylesheet but no page uses it. In the wordmark (header, footer and the large closing mark) the apostrophe and the full stop are always the accent colour: `Builders<span class="accent">’</span> Quorum<span class="accent">.</span>`. Running text spells the name plainly.
+- Shape and layout: soft corners. Cards, panels and portraits are rounded (16px; 20px for the panels of the form), buttons and tags are pills, and hairlines still separate rows and sections. Buttons and labels use small tracked capitals. On hover a button's fill rises from its bottom edge, and the arrow on a primary button sits in its own disc and turns towards where it leads. On wide screens each section has a sticky left column with its number (01, 02...) and label, and the content sits on the right. The home page has a ticker of sectors and formats, a large statement that lights up word by word as you scroll, and every page ends with a large wordmark.
 - Spacing: section padding tops out at 7rem, and the sticky left column starts at 56rem (896px). The closing call-to-action band splits into heading left and text and buttons right from the same width, so no block leaves half the width empty.
 - The style sheet is layered: base styles first, then "Layout v2", then the "Refinement pass", which overrides earlier rules. When changing a component, check the refinement pass first.
 - Pencil sketches: inline SVG strokes in graphite, with one accent element each. A shared `#pencil` filter roughens the lines. Each stroke has `pathLength="1"`, so CSS can draw it in. To add a sketch, give it `class="sketch"`, put the strokes inside a `<g>`, and give every stroke `pathLength="1"`.
@@ -75,7 +79,7 @@ In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages wi
 - Global first: nothing outside the footer says where BQ is based. Language tags are en-GB and spelling is British.
 - Accent discipline: vermilion means "chosen". It marks the newest find in the home hero, the BQ Fellow step, the one key stroke in each sketch, the brand mark and the current page in the nav. Sub-heading underlines, callouts, note bullets, FAQ toggles, section markers and tags are ink. Keep it that way when adding sections.
 - Speed: fonts are self-hosted and the two above the fold are preloaded, so no request leaves the site before text renders. The paper grain carries its own alpha instead of using `mix-blend-mode`, which made every scroll frame repaint the whole page.
-- Motion: on page load the headline rises in and the underline under "founders" draws. Sketches draw stroke by stroke as they scroll into view. Reveals are triggered by scroll position, not IntersectionObserver, so anything already scrolled past is shown at once and fast scrolling never leaves gaps. Other content fades up as you scroll, and there is a reading-progress line under the header. Pages cross-fade in browsers that support view transitions. All motion switches off for `prefers-reduced-motion`, and content stays visible without JS.
+- Motion: on page load the headline rises in and the underline under "founders" draws. Sketches draw stroke by stroke as they scroll into view. Reveals are triggered by scroll position, not IntersectionObserver, so anything already scrolled past is shown at once and fast scrolling never leaves gaps. Other content fades up as you scroll, and there is a reading-progress line under the header. Pages cross-fade in browsers that support view transitions. The builders reel on the home page never holds the page: it scrolls like any section. Its opening lines come out of a blur one by one as you scroll (and blur again if you scroll back), then a film strip of the ten builders drifts to the left and loops, fading in and out at the edges. It can be dragged or swiped, scrolled sideways on a trackpad or moved with the arrow keys, and it keeps the momentum it is given before settling back to its drift; portraits lean a little into fast motion. Speed eases rather than jumps, so pressing Pause brings it to a soft stop, and scrolling the page gives it a push. It only runs while on screen and goes idle once stopped. With reduced motion or without JS the strip stands still and scrolls sideways. All motion switches off for `prefers-reduced-motion`, and content stays visible without JS.
 - Chrome gotcha: match sketch strokes by tag (`path`, `circle`), not with `[pathLength]` selectors. Chrome doesn't restyle camelCase SVG attribute selectors when an ancestor's class changes.
 
 ## Before going live
@@ -128,6 +132,8 @@ All from Unsplash, under the Unsplash Licence (free for commercial use; credit i
 - hackathon (companies): Alex Kotliarskyi, "People doing office works" (unsplash.com/photos/QBpZGqEMsKg)
 - pitch (investors): Teemu Paananen, "Person discussing while standing in front of a large screen" (unsplash.com/photos/bzdhc5b3Bxs)
 - small-room (network): Product School, "People sitting and using laptops" (unsplash.com/photos/XZkk5xT8Xrk)
+
+Builders reel portraits (`assets/photos/builders/`): Jamsetji Tata, Nikola Tesla, Marie Curie, Wilbur and Orville Wright, Bill Hewlett and David Packard, Grace Hopper, Robert Noyce, Margaret Hamilton, Steve Jobs and Morris Chang. These are not from Unsplash; their licences are cleared.
 
 ## Naming
 

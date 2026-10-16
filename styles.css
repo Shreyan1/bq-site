@@ -1,11 +1,11 @@
 /* Builders’ Quorum. Light, clean, one accent. */
 
 /* Fonts are self-hosted (Latin only), so text doesn't wait on another domain.
-   Inter Tight is one variable file for 400 and 500. */
-@font-face { font-family: "Instrument Serif"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/instrument-serif.woff2") format("woff2"); }
-@font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url("assets/fonts/instrument-serif-italic.woff2") format("woff2"); }
-@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 400 500; font-display: swap; src: url("assets/fonts/inter-tight.woff2") format("woff2"); }
-@font-face { font-family: "Urbanist"; font-style: normal; font-weight: 800; font-display: swap; src: url("assets/fonts/urbanist-800.woff2") format("woff2"); }
+   Gloock has a single upright weight, so nothing set in it is italic or bold.
+   Urbanist is one variable file per style for 400 to 800. */
+@font-face { font-family: "Gloock"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/gloock.woff2") format("woff2"); }
+@font-face { font-family: "Urbanist"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("assets/fonts/urbanist.woff2") format("woff2"); }
+@font-face { font-family: "Urbanist"; font-style: italic; font-weight: 400 800; font-display: swap; src: url("assets/fonts/urbanist-italic.woff2") format("woff2"); }
 
 :root {
   /* Brand. Change the accent here and nowhere else. */
@@ -21,8 +21,8 @@
   --wash: #F7F5F0;
   --dot: #E2DFD7;
 
-  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --sans: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Gloock", Georgia, "Times New Roman", serif;
+  --sans: "Urbanist", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --wrap: 74rem;
   --gutter: 1rem;
@@ -50,6 +50,7 @@ body {
   color: var(--ink);
   font: 500 1rem/1.6 var(--sans);
   font-feature-settings: "kern", "liga";
+  font-synthesis: none;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -68,7 +69,7 @@ h1, h2, .display {
 }
 h1 { font-size: clamp(2.75rem, 1.4rem + 6vw, 6.25rem); }
 h2 { font-size: clamp(2.25rem, 1.5rem + 3.2vw, 3.75rem); max-width: 18ch; }
-h1 em, h2 em { font-style: italic; }
+h1 em, h2 em { font-style: normal; }
 h3 { font-size: 1.0625rem; font-weight: 500; line-height: 1.35; text-wrap: balance; }
 .serif-h3 { font: 400 clamp(1.625rem, 1.4rem + 0.9vw, 2rem)/1.1 var(--serif); letter-spacing: -0.01em; }
 
@@ -150,7 +151,7 @@ h3 { font-size: 1.0625rem; font-weight: 500; line-height: 1.35; text-wrap: balan
   display: inline-flex;
   align-items: center;
   gap: 0.625rem;
-  font: 800 1.3125rem/1 "Urbanist", var(--sans);
+  font: 800 1.3125rem/1 var(--sans);
   letter-spacing: -0.01em;
   text-decoration: none;
 }
@@ -817,7 +818,7 @@ main { counter-reset: sec; }
 /* Footer: a large wordmark closes every page. */
 .footer-mark {
   margin-top: clamp(3rem, 7vw, 5rem);
-  font: 800 clamp(2.25rem, 0.5rem + 8.2vw, 8.5rem)/0.9 "Urbanist", var(--sans);
+  font: 800 clamp(2.25rem, 0.5rem + 8.2vw, 8.5rem)/0.9 var(--sans);
   letter-spacing: -0.03em;
   white-space: nowrap;
   overflow: hidden;
@@ -833,7 +834,7 @@ main { counter-reset: sec; }
 @keyframes ticker { to { transform: translateX(-50%); } }
 
 /* ------------------------------------------------------------------
-   Refinement pass: quieter, sharper, more exclusive.
+   Refinement pass: quieter, softer, more exclusive.
    Square corners, hairlines, warm paper, grain, the accent used sparingly,
    small tracked capitals against very large serif type, and slower motion.
    ------------------------------------------------------------------ */
@@ -843,7 +844,7 @@ main { counter-reset: sec; }
   --wash: #F3F1EB;
   --line: #E4E1DA;
   --ink-soft: #5E5D63;
-  --radius: 0px;
+  --radius: 16px;
 }
 
 body { background: var(--paper); }
@@ -863,12 +864,64 @@ body::after {
 
 .hero::before { display: none; }
 
-/* Buttons: rectangular, small tracked capitals. */
-.btn { border-radius: 0; padding: 1.0625rem 1.625rem; font-size: 0.8125rem; letter-spacing: 0.12em; text-transform: uppercase; }
-.btn-small { padding: 0.625rem 1.125rem; font-size: 0.75rem; }
-.site-nav .btn-primary { background: transparent; color: var(--ink); }
+/* Buttons: pills in small tracked capitals. On hover a fill rises from the bottom edge,
+   and an arrow sits in its own disc that turns towards where the button leads. */
+.btn {
+  --btn-fill: var(--accent-ink);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  gap: 0.875rem;
+  padding: 1.0625rem 1.75rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.45s var(--ease), border-color 0.45s var(--ease), box-shadow 0.45s var(--ease), transform 0.3s var(--ease);
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--btn-fill);
+  transform: translateY(101%);
+  transition: transform 0.55s var(--ease);
+}
+.btn:hover::before, .btn:focus-visible::before { transform: translateY(0); }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0) scale(0.98); }
+.btn:focus-visible { border-radius: 999px; }
+.btn-primary {
+  background: var(--ink);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14), 0 1px 2px rgb(21 21 26 / 0.18), 0 10px 24px -14px rgb(21 21 26 / 0.6);
+}
+.btn-primary:hover { background: var(--ink); border-color: var(--accent-ink); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14), 0 2px 4px rgb(21 21 26 / 0.16), 0 18px 32px -16px rgb(21 21 26 / 0.65); }
+.btn-ghost { --btn-fill: var(--ink); }
+.btn-ghost:hover { border-color: var(--ink); color: var(--paper); }
+.btn-small { padding: 0.6875rem 1.25rem; font-size: 0.75rem; }
+.btn-arrow { padding-block: 0.5rem; padding-right: 0.5rem; }
+.btn-arrow::after {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.125rem;
+  height: 2.125rem;
+  margin-left: 0;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.9375rem;
+  letter-spacing: 0;
+  transition: transform 0.45s var(--ease);
+}
+.btn-arrow:hover::after { transform: rotate(-45deg); }
+.btn-ghost.btn-arrow::after { background: var(--ink); color: var(--paper); }
+.btn-ghost.btn-arrow:hover::after { background: var(--paper); color: var(--ink); }
+.site-nav .btn-primary { background: transparent; color: var(--ink); box-shadow: none; }
 .site-nav .btn-primary:hover, .site-nav .btn-primary[aria-current="page"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-.nav-toggle { border-radius: 0; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.nav-toggle { border-radius: 999px; padding-inline: 1.125rem; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; }
 
 @media (min-width: 56rem) {
   .site-nav a:not(.btn) { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; }
@@ -876,15 +929,14 @@ body::after {
 
 .site-header { background: rgb(251 250 247 / 0.86); }
 
-/* Tags, inputs and panels lose their rounding too. */
-.tag { border-radius: 0; padding: 0.25rem 0.5rem; font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; }
-input, select, textarea { border-radius: 0; border-color: #D6D3CB; background: #fff; }
-.cta-band, .brief-card, .panel, .track, .callout, .stuck-panels [role="tabpanel"] { border-radius: 0; }
+/* Tags are small tracked capitals in a pill; inputs sit on white. */
+.tag { padding: 0.25rem 0.625rem; font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; }
+input, select, textarea { border-color: #D6D3CB; background: #fff; }
 
 /* The accent, used sparingly. */
 .eyebrow { color: var(--ink-soft); }
-.section > .wrap > .eyebrow::before { color: var(--ink); font-style: italic; }
-.numbered li::before { color: var(--ink-soft); font-style: italic; }
+.section > .wrap > .eyebrow::before { color: var(--ink); }
+.numbered li::before { color: var(--ink-soft); }
 .stages .makes span, .door .link-arrow { color: var(--ink); }
 .ticks li::before { top: 1.45rem; width: 0.625rem; height: 1px; background: var(--ink); }
 
@@ -907,14 +959,14 @@ input, select, textarea { border-radius: 0; border-color: #D6D3CB; background: #
 .hero-meta .live { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent-wash); }
 .hero-meta i { font-style: normal; color: var(--line); }
 
-/* Doors: a hairline grid rather than floating cards. */
-.doors { gap: 0; row-gap: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
-.door { min-height: 19rem; border: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: transparent; }
-.door:hover { background: var(--wash); transform: none; }
+/* Doors: soft cards that lift a little on hover. */
+.doors { row-gap: 1.25rem; }
+.door { min-height: 19rem; }
+.door:hover { background: var(--wash); }
 
-/* Ticker: italic serif, slower. */
+/* Ticker: slower, with ink dots. */
 .ticker { background: transparent; }
-.ticker-track span { font-style: italic; gap: 2.25rem; }
+.ticker-track span { gap: 2.25rem; }
 .ticker-track span::after { width: 0.3rem; height: 0.3rem; background: var(--ink); border-radius: 50%; }
 
 /* Footer in ink, closed by the wordmark. */
@@ -999,7 +1051,7 @@ h3, .btn, .site-nav a, .nav-toggle, label, .label, .eyebrow, .tag, summary, stro
     height: auto;
     margin-bottom: 0.75rem;
     background: none;
-    font: italic 400 clamp(2.5rem, 2rem + 1.2vw, 3.25rem)/1 var(--serif);
+    font: 400 clamp(2.5rem, 2rem + 1.2vw, 3.25rem)/1 var(--serif);
     letter-spacing: -0.02em;
     color: var(--ink);
   }
@@ -1119,8 +1171,9 @@ h3, .btn, .site-nav a, .nav-toggle, label, .label, .eyebrow, .tag, summary, stro
 .site-header .brand { color: var(--paper); }
 .site-nav a:not(.btn) { color: #A3A2A8; }
 .site-nav a:not(.btn):hover, .site-nav a:not(.btn)[aria-current="page"] { color: var(--paper); }
-.site-nav .btn-primary { background: transparent; color: var(--paper); border-color: var(--paper); }
-.site-nav .btn-primary:hover, .site-nav .btn-primary[aria-current="page"] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.site-nav .btn-primary { --btn-fill: var(--paper); background: transparent; color: var(--paper); border-color: rgb(251 250 247 / 0.45); }
+.site-nav .btn-primary:hover { background: transparent; color: var(--ink); border-color: var(--paper); }
+.site-nav .btn-primary[aria-current="page"] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
 .nav-toggle { color: var(--paper); border-color: var(--line); }
 @media (max-width: 55.99rem) {
   .site-nav a:not(.btn) { color: var(--paper); }
@@ -1140,7 +1193,7 @@ html:not(.js) .hero-field { display: none; }
 .find.is-current .find-ring { stroke: var(--accent); stroke-width: 1.6; }
 .find-link { fill: none; stroke: var(--ink); stroke-opacity: 0.3; stroke-width: 1; }
 .find-label text { font: 500 10.5px var(--sans); letter-spacing: 0.14em; fill: var(--ink-soft); stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; paint-order: stroke; }
-.find-label .find-n { font: italic 400 15px var(--serif); letter-spacing: 0; fill: var(--ink); }
+.find-label .find-n { font: 400 15px var(--serif); letter-spacing: 0; fill: var(--ink); }
 
 /* The pointer: a faint pencil circle offers the nearest person, and a found person
    under the pointer is picked out with their links. */
@@ -1275,102 +1328,201 @@ html:not(.js) .hero-field { display: none; }
 .section-ink .numbered li { border-color: var(--line); }
 .section-ink .intro { color: var(--ink-soft); }
 
-/* Work with us: written like a letter, not a form. Each part is numbered, the fields are
-   hairlines and the chosen way in is circled in pencil, like a find on the home page. */
+/* Work with us: a short letter in parts. Each part sits on its own soft panel, fields are
+   filled and rounded with a clear focus ring, the four main ways in are cards that show a
+   check when chosen, and sectors are chips you toggle. */
 .apply-hero { padding-bottom: clamp(2.5rem, 5vw, 4rem); }
 .apply-hero h1 { max-width: 16ch; }
 .apply { padding-bottom: clamp(4rem, 9vw, 7rem); }
 .apply-grid { margin-top: 0; gap: clamp(2.5rem, 6vw, 5rem); }
 @media (min-width: 60rem) { .apply-grid { grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); } }
 
-.form { gap: 0; counter-reset: step; }
-.step { display: grid; gap: 1.5rem; padding-block: 2rem 2.75rem; border-top: 1px solid var(--ink); counter-increment: step; }
-.step[hidden] { display: none; }
-.step-title { display: flex; align-items: baseline; gap: 1rem; font: 400 clamp(1.75rem, 1.4rem + 1.2vw, 2.375rem)/1.1 var(--serif); letter-spacing: -0.01em; }
-.step-title::before { content: counter(step, decimal-leading-zero); flex: none; min-width: 1.75rem; font: italic 400 1.125rem/1 var(--serif); color: var(--ink-soft); }
-
-.form label, .form .label, .apply-aside .label { font: 500 0.6875rem/1.4 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
-.form .optional { letter-spacing: 0.06em; text-transform: none; font-weight: 400; }
-.form .field { gap: 0.25rem; }
-.form .field-row { gap: 1.5rem 2rem; }
-.form input:not([type="checkbox"]):not([type="radio"]), .form select, .form textarea {
-  padding: 0.5rem 0 0.625rem;
-  border: 0;
-  border-bottom: 1px solid #CBC7BD;
-  background: transparent;
-  font: 400 1.125rem/1.4 var(--sans);
-  box-shadow: none;
+.form { gap: 1rem; counter-reset: step; }
+.step {
+  display: grid;
+  gap: 1.5rem;
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(21 21 26 / 0.04), 0 16px 40px -32px rgb(21 21 26 / 0.3);
+  counter-increment: step;
 }
-.form textarea { padding-top: 0.75rem; }
+.step[hidden] { display: none; }
+.step-title { display: flex; align-items: center; gap: 0.875rem; font: 400 clamp(1.5rem, 1.25rem + 1vw, 2rem)/1.15 var(--serif); letter-spacing: -0.01em; }
+.step-title::before {
+  content: counter(step);
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--wash);
+  font: 500 0.875rem/1 var(--sans);
+  color: var(--ink);
+}
+
+.form label, .form .label, .apply-aside .label { font: 500 0.9375rem/1.4 var(--sans); letter-spacing: 0; text-transform: none; color: var(--ink); }
+.form .optional { font-weight: 400; color: var(--ink-soft); }
+.form .field { gap: 0.5rem; }
+.form .field-row { gap: 1.25rem; }
+.form input:not([type="checkbox"]):not([type="radio"]), .form select, .form textarea {
+  min-height: 3.25rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background-color: var(--wash);
+  font: 400 1rem/1.4 var(--sans);
+  color: var(--ink);
+  box-shadow: none;
+  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.form textarea { min-height: 7.5rem; line-height: 1.5; }
 .form select {
   appearance: none;
-  padding-right: 1.5rem;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2315151A' stroke-width='1.2'/%3E%3C/svg%3E") right 0.25rem center / 0.75rem no-repeat;
+  padding-right: 2.75rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2315151A' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: right 1rem center;
+  background-size: 0.75rem;
+  background-repeat: no-repeat;
   cursor: pointer;
 }
-.form input::placeholder, .form textarea::placeholder { color: #A8A59D; }
-.form input:not([type="checkbox"]):not([type="radio"]):hover, .form select:hover, .form textarea:hover { border-bottom-color: var(--ink-soft); }
-.form input:not([type="checkbox"]):not([type="radio"]):focus-visible, .form select:focus-visible, .form textarea:focus-visible { border-bottom-color: var(--ink); box-shadow: 0 1px 0 var(--ink); }
-
-.form .checks { gap: 0; border-top: 1px solid var(--line); }
-@media (min-width: 40rem) { .form .checks { column-gap: 2rem; } }
-.form .checks label, .form .check, .ways-more label {
-  padding-block: 0.75rem;
-  border-bottom: 1px solid var(--line);
-  font: 400 0.9375rem/1.4 var(--sans);
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--ink-soft);
-  transition: color 0.2s;
+.form input::placeholder, .form textarea::placeholder { color: #77746D; }
+.form input:not([type="checkbox"]):not([type="radio"]):hover, .form select:hover, .form textarea:hover { border-color: #D9D5CC; }
+.form input:not([type="checkbox"]):not([type="radio"]):focus-visible, .form select:focus-visible, .form textarea:focus-visible {
+  outline: 0;
+  border-color: var(--ink);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgb(21 21 26 / 0.08);
 }
-.form .check { border-bottom: 0; color: var(--ink); }
-.form .checks label:has(:checked), .ways-more label:has(:checked) { color: var(--ink); }
-.form .checks label:hover, .ways-more label:hover { color: var(--ink); }
+.form input:user-invalid, .form select:user-invalid, .form textarea:user-invalid { border-color: #B42318; box-shadow: 0 0 0 4px rgb(180 35 24 / 0.1); }
 
-/* The four main ways in, as a hairline grid. */
-.ways { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.form .check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font: 400 0.9375rem/1.45 var(--sans);
+  color: var(--ink);
+  cursor: pointer;
+}
+.form .check input { width: 1.125rem; height: 1.125rem; margin: 0.125rem 0 0; flex: none; accent-color: var(--ink); }
+
+/* Sectors: chips that fill with ink when chosen. */
+.form .checks { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.form .checks label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  font: 400 0.9375rem/1.2 var(--sans);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+.form .checks input { position: absolute; opacity: 0; pointer-events: none; }
+.form .checks label::before {
+  content: "";
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  border: 1.5px solid #CFCBC2;
+  border-radius: 50%;
+  background: center / 0.5625rem no-repeat;
+  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.form .checks label:hover { border-color: #CFCBC2; color: var(--ink); }
+.form .checks label:has(:checked) { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.form .checks label:has(:checked)::before {
+  border-color: var(--paper);
+  background-color: var(--paper);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1.5 5.5l3 3L10.5 1.5' fill='none' stroke='%2315151A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.form .checks label:has(:focus-visible) { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* The four main ways in, as cards. The chosen one is outlined in ink and checked. */
+.ways { display: grid; gap: 0.75rem; }
 @media (min-width: 40rem) { .ways { grid-template-columns: 1fr 1fr; } }
 .form .way {
   position: relative;
   display: grid;
   align-content: start;
-  gap: 0.5rem;
-  padding: 1.25rem 1.5rem 1.625rem;
-  background: var(--paper);
+  gap: 0.375rem;
+  padding: 1.25rem 3.5rem 1.375rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
   font: inherit;
   letter-spacing: 0;
   text-transform: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.form .way::after {
+  content: "";
+  position: absolute;
+  top: 1.125rem;
+  right: 1.125rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1.5px solid #CFCBC2;
+  border-radius: 50%;
+  background: center / 0.75rem no-repeat;
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
 }
 .way input { position: absolute; opacity: 0; pointer-events: none; }
-.way:hover, .way:has(:checked) { background: var(--wash); }
-.way:has(:focus-visible) { outline: 2px solid var(--ink); outline-offset: -2px; }
-.way-n { position: relative; justify-self: start; padding: 0.25rem 0.375rem; font: italic 400 1.0625rem/1 var(--serif); color: var(--ink-soft); }
+.form .way:hover { border-color: #CFCBC2; box-shadow: 0 14px 30px -22px rgb(21 21 26 / 0.4); transform: translateY(-1px); }
+.form .way:has(:checked) { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); transform: none; }
+.form .way:has(:checked)::after {
+  border-color: var(--ink);
+  background-color: var(--ink);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1.5 5.5l3 3L10.5 1.5' fill='none' stroke='%23FBFAF7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.form .way:has(:focus-visible) { outline: 2px solid var(--ink); outline-offset: 3px; }
+.way-n { position: relative; justify-self: start; padding: 0.25rem 0.375rem; font: 400 1.0625rem/1 var(--serif); color: var(--ink-soft); }
 .way-ring { position: absolute; left: 50%; top: 50%; width: 2.75rem; height: 2.75rem; translate: -50% -50%; overflow: visible; fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; opacity: 0; }
 .way:has(:checked) .way-n { color: var(--ink); }
 .way:has(:checked) .way-ring { stroke-dashoffset: 0; opacity: 1; }
-.way-name { margin-top: 0.25rem; font: 400 clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem)/1.1 var(--serif); color: var(--ink); text-wrap: balance; }
+.way-name { margin-top: 0.25rem; font: 400 clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem)/1.1 var(--serif); color: var(--ink); text-wrap: balance; }
 .way-note { font: 400 0.9375rem/1.45 var(--sans); color: var(--ink-soft); text-wrap: pretty; }
 @media (prefers-reduced-motion: no-preference) {
   .way-ring { transition: stroke-dashoffset 0.8s cubic-bezier(0.5, 0.1, 0.3, 1); }
 }
 
-.ways-more { display: grid; }
-.ways-more .label { padding-bottom: 0.5rem; }
-.ways-more label { display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; }
+/* The other ways in, as quiet rows that highlight when chosen. */
+.ways-more { display: grid; gap: 0.25rem; }
+.ways-more .label { padding: 0.5rem 0 0.25rem; }
+.ways-more label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: 12px;
+  font: 400 0.9375rem/1.4 var(--sans);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.ways-more label:hover, .ways-more label:has(:checked) { background: var(--wash); color: var(--ink); }
 .ways-more label[hidden] { display: none; }
-.ways-more input { width: 1rem; height: 1rem; margin: 0.15rem 0 0; flex: none; accent-color: var(--ink); }
+.ways-more input { width: 1.125rem; height: 1.125rem; margin: 0; flex: none; accent-color: var(--ink); }
 
 .send { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 0.5rem; }
 .send-note { font-size: 0.875rem; color: var(--ink-soft); }
 
 /* What happens next follows the chosen way in. */
-.apply-aside { display: block; padding-top: 2rem; border-top: 1px solid var(--ink); }
+.apply-aside { display: block; padding: clamp(1.5rem, 3vw, 2rem); border-radius: 20px; background: var(--wash); }
 .next { margin-top: 1rem; counter-reset: next; }
 .next[hidden] { display: none; }
 .next li { display: grid; grid-template-columns: 2.25rem 1fr; padding-block: 1rem; border-bottom: 1px solid var(--line); counter-increment: next; font: 400 1.25rem/1.3 var(--serif); color: var(--ink); }
-.next li::before { content: counter(next, decimal-leading-zero); font: italic 400 1rem/1.6 var(--serif); color: var(--ink-soft); }
+.next li:last-child { border-bottom: 0; }
+.next li::before { content: counter(next, decimal-leading-zero); font: 400 1rem/1.6 var(--serif); color: var(--ink-soft); }
 .next p { padding-block: 1rem; font: 400 1.25rem/1.3 var(--serif); }
 .next .link-arrow { display: inline-block; margin-top: 0.5rem; }
 
@@ -1381,3 +1533,97 @@ html:not(.js) .hero-field { display: none; }
 .photo-trio img { height: auto; aspect-ratio: 16 / 10; background: var(--wash); }
 @media (min-width: 48rem) { .photo-trio img { aspect-ratio: 4 / 5; } }
 .photo-trio figcaption { margin-top: 0.75rem; font: 500 0.6875rem/1.4 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* Builders reel (home): the opening lines, a film strip of ten builders in black and
+   white, then the closing lines. The section scrolls like any other: nothing is pinned.
+   main.js brings the opening lines out of a blur as they move up the screen, and loops
+   the strip and drifts it to the left; it eases to a stop with its button or keyboard
+   focus, and a page scroll gives it a push. Without JS or with reduced
+   motion the strip stands still and scrolls sideways. All portraits are cropped to 4:5. */
+.reel {
+  --edge: max(var(--gutter), (100% - var(--wrap)) / 2 + var(--gutter));
+  padding-block: clamp(5rem, 11vw, 9rem);
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+}
+.reel-intro { display: grid; gap: clamp(2rem, 5vw, 3.5rem); }
+.reel-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #A3A2A8; }
+.reel-open { display: grid; gap: 0.625rem; max-width: 32ch; font: 400 clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem)/1.15 var(--serif); letter-spacing: -0.01em; color: #CFCDC6; text-wrap: balance; }
+.reel-line { display: block; }
+.reel-open.is-scrubbed .reel-line {
+  --v: clamp(0, var(--open, 0) * 5 - var(--i, 0), 1);
+  opacity: calc(0.08 + var(--v) * 0.92);
+  filter: blur(calc((1 - var(--v)) * 10px));
+  transform: translateY(calc((1 - var(--v)) * 0.5em));
+}
+.reel-line-big { max-width: 14ch; margin-top: 0.75rem; font-size: clamp(2.75rem, 1.2rem + 6.4vw, 6rem); line-height: 0.98; letter-spacing: -0.025em; color: var(--paper); }
+
+.reel-strip {
+  margin-top: clamp(3.5rem, 8vw, 6rem);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--edge);
+  scrollbar-width: thin;
+  scrollbar-color: #45454D transparent;
+}
+.reel-track { display: flex; width: max-content; padding: 0 var(--edge) 1.5rem; }
+.reel-frame { flex: none; width: clamp(12.5rem, 9rem + 12vw, 18rem); margin-right: clamp(1rem, 2.5vw, 2rem); scroll-snap-align: start; }
+.reel-frame:nth-child(even) { margin-top: clamp(1.5rem, 4vw, 3.5rem); }
+.reel-frame figure { margin: 0; }
+.reel-shot { position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 14px; background: #222228; }
+.reel-shot::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgb(251 250 247 / 0.08); pointer-events: none; }
+.reel-shot img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); }
+.reel-frame figcaption { display: grid; gap: 0.375rem; margin-top: 1rem; }
+.reel-n { font: 400 0.9375rem/1 var(--serif); color: #A3A2A8; }
+.reel-name { font: 400 clamp(1.25rem, 1.1rem + 0.5vw, 1.625rem)/1.1 var(--serif); letter-spacing: -0.01em; text-wrap: balance; }
+.reel-did { display: flex; flex-wrap: wrap; column-gap: 0.75rem; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #A3A2A8; }
+.reel-year { color: var(--paper); font-variant-numeric: tabular-nums; }
+
+.reel-foot { display: flex; justify-content: flex-end; margin-top: 1.5rem; }
+.reel-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.125rem;
+  border: 1px solid #45454D;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--paper);
+  font: 500 0.75rem/1 var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease);
+}
+.reel-toggle[hidden] { display: none; }
+.reel-toggle:hover { border-color: var(--paper); background: rgb(251 250 247 / 0.06); }
+.reel-toggle::before { content: ""; width: 0.625rem; height: 0.75rem; border-inline: 3px solid currentColor; box-sizing: border-box; }
+.reel-toggle[data-paused]::before { width: 0.6875rem; border: 0; background: currentColor; clip-path: polygon(0 0, 100% 50%, 0 100%); }
+
+.reel-close { display: grid; gap: 1.25rem; margin-top: clamp(4rem, 9vw, 7rem); }
+.reel-close h2 { max-width: 16ch; color: var(--paper); }
+.reel-close p { max-width: 40rem; font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem); line-height: 1.6; color: #CFCDC6; }
+
+/* The moving strip: the track holds two copies of the builders and is translated by
+   main.js. Its ends fade into the ink so portraits drift in and out softly. It can be
+   dragged sideways while vertical swipes still scroll the page, and main.js sets --lean
+   so portraits tilt into fast motion. */
+.reel-strip.is-moving {
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+}
+.reel-strip.is-moving.is-dragging { cursor: grabbing; }
+.reel-strip.is-moving:focus-visible { outline: 2px solid var(--paper); outline-offset: -2px; }
+.reel-strip.is-moving .reel-track { padding-inline: 0; will-change: transform; }
+.reel-strip.is-moving .reel-shot { transform: skewX(var(--lean, 0deg)); }
+.reel-strip.is-moving img { -webkit-user-drag: none; }
+.reel-strip.is-moving .reel-shot img { transform: scale(1.001); transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+.reel-strip.is-moving .reel-frame:hover .reel-shot img { transform: scale(1.05); filter: grayscale(1) contrast(1.12); }
