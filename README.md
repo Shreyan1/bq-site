@@ -32,7 +32,7 @@ src/land.json     the world's land as a grid of dots for the hero map (about 12,
                   projection, spherical land test with d3-geo; takes about two minutes)
 assets/photos/    nine photographs at 1000 and 2000 px wide, WebP. Credits below
 assets/photos/builders/
-                  seven black-and-white portraits for the builders reel on the home page, WebP
+                  ten black-and-white portraits for the builders reel on the home page, WebP
 assets/          logo.svg (icon in header and footer), favicon.svg, apple-touch-icon.png. Copied from ../logo
 favicon.ico       16, 32 and 48 px, also from ../logo
 404.html, robots.txt, sitemap.xml
@@ -131,7 +131,7 @@ All from Unsplash, under the Unsplash Licence (free for commercial use; credit i
 - pitch (investors): Teemu Paananen, "Person discussing while standing in front of a large screen" (unsplash.com/photos/bzdhc5b3Bxs)
 - small-room (network): Product School, "People sitting and using laptops" (unsplash.com/photos/XZkk5xT8Xrk)
 
-Builders reel portraits (`assets/photos/builders/`): Jamsetji Tata, Nikola Tesla, Wilbur and Orville Wright, Bill Hewlett and David Packard, Robert Noyce, Steve Jobs and Morris Chang. These are not from Unsplash. Confirm the source and licence of each one and record it here before launch. The Robert Noyce and Steve Jobs photographs are recent enough to be under copyright and need a licence or a replacement.
+Builders reel portraits (`assets/photos/builders/`): Jamsetji Tata, Nikola Tesla, Marie Curie, Wilbur and Orville Wright, Bill Hewlett and David Packard, Grace Hopper, Robert Noyce, Margaret Hamilton, Steve Jobs and Morris Chang. These are not from Unsplash. Confirm the source and licence of each one and record it here before launch. The Robert Noyce and Steve Jobs photographs are recent enough to be under copyright and need a licence or a replacement.
 
 ## Naming
 
