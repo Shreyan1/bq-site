@@ -73,7 +73,7 @@ if (!reduceMotion) {
 
   // Siblings get a stagger index so grids come in one by one.
   document.querySelectorAll(
-    '.section .eyebrow, .section h2, .section .intro, .grid > *, .flow > li, .split > *, .stages > li, .outcomes, .numbered, .stuck, .faq, .fellows-note, .callout, .cta-band, .sectors, .reel-line, .reel-strip, .reel-close > *'
+    '.section .eyebrow, .section h2, .section .intro, .grid > *, .flow > li, .split > *, .stages > li, .outcomes, .numbered, .stuck, .faq, .fellows-note, .callout, .cta-band, .sectors, .reel-strip, .reel-close > *'
   ).forEach((el) => {
     el.classList.add('reveal');
     el.style.setProperty('--i', [...el.parentElement.children].indexOf(el) % 4);
@@ -169,9 +169,9 @@ if (statement && !reduceMotion) {
 // Builders reel: a film strip that drifts to the left and loops. The track holds a second,
 // hidden copy of the builders so the loop has no seam. It can be dragged, swiped, scrolled
 // sideways on a trackpad or moved with the arrow keys, and it carries on with the momentum
-// it was given before settling back to its drift. Hovering a portrait or pressing Pause
-// eases it to a stop, a page scroll gives it a push, and the faster it moves the more the
-// portraits lean into the motion. It only runs while it is on screen.
+// it was given before settling back to its drift. Pressing Pause eases it to a stop, a
+// page scroll gives it a push, and the faster it moves the more the portraits lean into
+// the motion. It only runs while it is on screen.
 const strip = document.querySelector('.reel-strip');
 
 if (strip && !reduceMotion) {
@@ -249,12 +249,6 @@ if (strip && !reduceMotion) {
     wake();
   }).observe(strip);
 
-  strip.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') held = true; });
-  strip.addEventListener('pointerleave', () => {
-    held = false;
-    wake();
-  });
-
   // Dragging moves the strip with the pointer; letting go hands its speed over as momentum.
   strip.addEventListener('pointerdown', (e) => {
     if (e.button !== 0) return;
@@ -320,6 +314,30 @@ if (strip && !reduceMotion) {
     wake();
   }, { passive: true });
   window.addEventListener('resize', () => { loop = track.scrollWidth / 2; });
+}
+
+// Builders reel opening: its lines come out of a blur one after another as the block moves
+// up the screen, and blur again when it moves back down. Scroll position drives it, so it
+// never holds the page.
+const opening = document.querySelector('.reel-open');
+
+if (opening && !reduceMotion) {
+  opening.querySelectorAll('.reel-line').forEach((line, i) => line.style.setProperty('--i', i));
+  opening.classList.add('is-scrubbed');
+  let queued = false;
+  const scrub = () => {
+    queued = false;
+    const progress = (window.innerHeight * 0.9 - opening.getBoundingClientRect().top) / (window.innerHeight * 0.6);
+    opening.style.setProperty('--open', Math.min(1, Math.max(0, progress)).toFixed(3));
+  };
+  window.addEventListener('scroll', () => {
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(scrub);
+    }
+  }, { passive: true });
+  window.addEventListener('resize', scrub);
+  scrub();
 }
 
 // "What's stopping you" tabs. Without JS every answer is shown.

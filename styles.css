@@ -1534,10 +1534,11 @@ html:not(.js) .hero-field { display: none; }
 @media (min-width: 48rem) { .photo-trio img { aspect-ratio: 4 / 5; } }
 .photo-trio figcaption { margin-top: 0.75rem; font: 500 0.6875rem/1.4 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
 
-/* Builders reel (home): the opening lines, a slow film strip of ten builders in black and
+/* Builders reel (home): the opening lines, a film strip of ten builders in black and
    white, then the closing lines. The section scrolls like any other: nothing is pinned.
-   main.js loops the strip and drifts it to the left; it eases to a stop on hover, on focus
-   or with its button, and a page scroll gives it a gentle push. Without JS or with reduced
+   main.js brings the opening lines out of a blur as they move up the screen, and loops
+   the strip and drifts it to the left; it eases to a stop with its button or keyboard
+   focus, and a page scroll gives it a push. Without JS or with reduced
    motion the strip stands still and scrolls sideways. All portraits are cropped to 4:5. */
 .reel {
   --edge: max(var(--gutter), (100% - var(--wrap)) / 2 + var(--gutter));
@@ -1550,6 +1551,12 @@ html:not(.js) .hero-field { display: none; }
 .reel-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #A3A2A8; }
 .reel-open { display: grid; gap: 0.625rem; max-width: 32ch; font: 400 clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem)/1.15 var(--serif); letter-spacing: -0.01em; color: #CFCDC6; text-wrap: balance; }
 .reel-line { display: block; }
+.reel-open.is-scrubbed .reel-line {
+  --v: clamp(0, var(--open, 0) * 5 - var(--i, 0), 1);
+  opacity: calc(0.08 + var(--v) * 0.92);
+  filter: blur(calc((1 - var(--v)) * 10px));
+  transform: translateY(calc((1 - var(--v)) * 0.5em));
+}
 .reel-line-big { max-width: 14ch; margin-top: 0.75rem; font-size: clamp(2.75rem, 1.2rem + 6.4vw, 6rem); line-height: 0.98; letter-spacing: -0.025em; color: var(--paper); }
 
 .reel-strip {
