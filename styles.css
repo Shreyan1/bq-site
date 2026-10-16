@@ -1601,12 +1601,22 @@ html:not(.js) .hero-field { display: none; }
 .reel-close p { max-width: 40rem; font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem); line-height: 1.6; color: #CFCDC6; }
 
 /* The moving strip: the track holds two copies of the builders and is translated by
-   main.js. Its ends fade into the ink so portraits drift in and out softly. */
+   main.js. Its ends fade into the ink so portraits drift in and out softly. It can be
+   dragged sideways while vertical swipes still scroll the page, and main.js sets --lean
+   so portraits tilt into fast motion. */
 .reel-strip.is-moving {
   overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
 }
+.reel-strip.is-moving.is-dragging { cursor: grabbing; }
+.reel-strip.is-moving:focus-visible { outline: 2px solid var(--paper); outline-offset: -2px; }
 .reel-strip.is-moving .reel-track { padding-inline: 0; will-change: transform; }
+.reel-strip.is-moving .reel-shot { transform: skewX(var(--lean, 0deg)); }
+.reel-strip.is-moving img { -webkit-user-drag: none; }
 .reel-strip.is-moving .reel-shot img { transform: scale(1.001); transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
 .reel-strip.is-moving .reel-frame:hover .reel-shot img { transform: scale(1.05); filter: grayscale(1) contrast(1.12); }

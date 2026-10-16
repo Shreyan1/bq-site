@@ -166,20 +166,26 @@ if (statement && !reduceMotion) {
   light();
 }
 
-// Builders reel: a film strip that drifts slowly to the left and loops. The track holds a
-// second, hidden copy of the builders so the loop has no seam. Speed eases towards its
-// target rather than jumping, so hovering a portrait or pressing the button brings the
-// strip to a soft stop, and a page scroll gives it a gentle push either way.
-// It only runs while it is on screen.
+// Builders reel: a film strip that drifts to the left and loops. The track holds a second,
+// hidden copy of the builders so the loop has no seam. It can be dragged, swiped, scrolled
+// sideways on a trackpad or moved with the arrow keys, and it carries on with the momentum
+// it was given before settling back to its drift. Hovering a portrait or pressing Pause
+// eases it to a stop, a page scroll gives it a push, and the faster it moves the more the
+// portraits lean into the motion. It only runs while it is on screen.
 const strip = document.querySelector('.reel-strip');
 
 if (strip && !reduceMotion) {
   const track = strip.querySelector('.reel-track');
   const toggle = document.querySelector('.reel-toggle');
-  const SPEED = 34; // pixels per second at rest
-  const EASE = 2.5; // how quickly speed settles on its target, per second
-  const PUSH = 3; // pixels per second added for each pixel the page scrolls
-  const MAX_PUSH = 420;
+  const SPEED = 70; // pixels per second at rest
+  const EASE = 2.5; // how quickly the drift settles on its target speed, per second
+  const FRICTION = 2.2; // how quickly momentum from a drag or scroll fades, per second
+  const SCROLL_PUSH = 4; // pixels per second added for each pixel the page scrolls
+  const MAX_SCROLL_PUSH = 900;
+  const MAX_FLING = 2400;
+  const KEY_PUSH = 700;
+  const LEAN = 0.004; // degrees of lean per pixel per second of momentum
+  const MAX_LEAN = 6;
 
   [...track.children].forEach((frame) => {
     const copy = frame.cloneNode(true);
@@ -188,14 +194,22 @@ if (strip && !reduceMotion) {
     copy.querySelectorAll('img').forEach((img) => { img.alt = ''; });
     track.append(copy);
   });
+  track.querySelectorAll('img').forEach((img) => { img.draggable = false; });
   strip.classList.add('is-moving');
+  strip.tabIndex = 0;
+  strip.setAttribute('role', 'region');
+  strip.setAttribute('aria-label', 'Builders. Use the left and right arrow keys to move through them.');
   toggle.hidden = false;
+
+  const clamp = (v, max) => Math.max(-max, Math.min(max, v));
 
   // Start with the first builder lined up with the text column, not in the faded edge.
   let loop = track.scrollWidth / 2;
   let offset = loop - document.querySelector('.reel-label').getBoundingClientRect().left;
   let speed = SPEED;
   let push = 0;
+  let lean = 0;
+  let drag = null;
   let paused = false;
   let held = false;
   let onScreen = false;
@@ -203,17 +217,23 @@ if (strip && !reduceMotion) {
   let last = 0;
   let lastScroll = window.scrollY;
 
+  const wrap = (v) => ((v % loop) + loop) % loop;
+
   // Once the strip has eased to a stop it goes idle and asks for no more frames.
   const tick = (now) => {
-    const dt = Math.min(0.05, (now - last) / 1000);
+    const dt = Math.min(0.1, (now - last) / 1000);
     last = now;
     const target = paused || held ? 0 : SPEED;
     speed += (target - speed) * Math.min(1, dt * EASE);
-    push *= Math.exp(-dt * 3);
-    offset = (((offset + (speed + push) * dt) % loop) + loop) % loop;
+    if (!drag) {
+      push *= Math.exp(-dt * FRICTION);
+      offset = wrap(offset + (speed + push) * dt);
+    }
+    lean += (clamp((drag ? drag.v : push) * LEAN, MAX_LEAN) - lean) * Math.min(1, dt * 8);
     track.style.transform = `translate3d(${-offset.toFixed(2)}px, 0, 0)`;
-    const settled = target === 0 && Math.abs(speed) + Math.abs(push) < 0.5;
-    if (settled) speed = push = 0;
+    track.style.setProperty('--lean', `${lean.toFixed(3)}deg`);
+    const settled = !drag && target === 0 && Math.abs(speed) + Math.abs(push) + Math.abs(lean) < 0.5;
+    if (settled) speed = push = lean = 0;
     running = onScreen && !settled;
     if (running) requestAnimationFrame(tick);
   };
@@ -235,6 +255,56 @@ if (strip && !reduceMotion) {
     wake();
   });
 
+  // Dragging moves the strip with the pointer; letting go hands its speed over as momentum.
+  strip.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    drag = { x: e.clientX, t: e.timeStamp, v: 0 };
+    strip.setPointerCapture(e.pointerId);
+    strip.classList.add('is-dragging');
+    wake();
+  });
+  strip.addEventListener('pointermove', (e) => {
+    if (!drag) return;
+    const dx = e.clientX - drag.x;
+    const dt = Math.max(1, e.timeStamp - drag.t) / 1000;
+    offset = wrap(offset - dx);
+    drag.v += (-dx / dt - drag.v) * 0.4;
+    drag.x = e.clientX;
+    drag.t = e.timeStamp;
+  });
+  const release = (e) => {
+    if (!drag) return;
+    const still = e.timeStamp - drag.t > 80;
+    push = still ? 0 : clamp(drag.v - speed, MAX_FLING);
+    drag = null;
+    strip.classList.remove('is-dragging');
+    wake();
+  };
+  strip.addEventListener('pointerup', release);
+  strip.addEventListener('pointercancel', release);
+
+  strip.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    offset = wrap(offset + e.deltaX);
+    push = clamp(push + e.deltaX * 2, MAX_FLING);
+    wake();
+  }, { passive: false });
+
+  strip.addEventListener('keydown', (e) => {
+    const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (!step) return;
+    e.preventDefault();
+    push = clamp(push + step * KEY_PUSH, MAX_FLING);
+    wake();
+  });
+  // Keyboard focus holds the drift so the arrow keys are in charge; a click to drag does not.
+  strip.addEventListener('focus', () => { held = strip.matches(':focus-visible'); });
+  strip.addEventListener('blur', () => {
+    held = false;
+    wake();
+  });
+
   toggle.addEventListener('click', () => {
     paused = !paused;
     toggle.toggleAttribute('data-paused', paused);
@@ -245,8 +315,8 @@ if (strip && !reduceMotion) {
   window.addEventListener('scroll', () => {
     const delta = window.scrollY - lastScroll;
     lastScroll = window.scrollY;
-    if (!onScreen || paused) return;
-    push = Math.max(-MAX_PUSH, Math.min(MAX_PUSH, push + delta * PUSH));
+    if (!onScreen || paused || drag) return;
+    push = clamp(push + delta * SCROLL_PUSH, MAX_SCROLL_PUSH);
     wake();
   }, { passive: true });
   window.addEventListener('resize', () => { loop = track.scrollWidth / 2; });
