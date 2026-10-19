@@ -69,7 +69,7 @@ In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages wi
 
 - Logo: the chosen mark (11 October 2026) lives in `../logo`, with its own README and build scripts. To update the site, copy `svg/bq-icon.svg` to `assets/logo.svg`, `svg/bq-favicon.svg` to `assets/favicon.svg`, `png/apple-touch-icon.png` to `assets/` and `favicon.ico` to the site root.
 - Accent colour: change `--accent` in `styles.css`. `--accent-ink` and `--accent-wash` are derived from it.
-- Form: set `FORM_ENDPOINT` in `main.js` once a form service is approved. While it is empty, the form sends nothing.
+- Form: Web3Forms emails submissions to hello@buildersquorum.com. The public access key is set as `FORM_ACCESS_KEY` in `main.js`. If it is emptied, the form sends nothing.
 - FAQ: the answers appear twice in `index.html`, in the visible FAQ and in the FAQPage JSON-LD in `<head>`. Edit both.
 - Backed by: `#backers` in `partners.html` is hidden. Open `partners.html?preview` to see it. Only name people and organisations who have agreed in writing.
 - Venues: edit `data/venues.json`, then run `python3 website/tools/build_venues.py`. Don't edit `venues.html` by hand. Listings are labelled venue partner or paid, and contact details are shown in full so search engines and AI assistants can read them. Publish only the contacts a venue has agreed to in writing. While any entry has `"sample": true` the page is marked noindex; delete the samples before launch, then add `venues.html` to the sitemap if it isn't there.
@@ -98,7 +98,7 @@ In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages wi
 - [ ] Trademark check on the logo as a device mark, as well as the name
 - [ ] Registration and payment for the evenings: pick the tool, put it on a subdomain, and link it from invitations. The request form on this site only collects requests
 - [ ] 1200x630 PNG for `og:image`
-- [ ] Form endpoint approved and set, plus a privacy note next to the form
+- [x] Form endpoint approved and set (Web3Forms), plus a privacy note next to the form
 - [x] Contact email in the footer (hello@buildersquorum.com, 19 October 2026)
 - [ ] Venues: about 20 confirmed listings with photos before the page is shared, each with written agreement to publish its contact, and a named owner who rechecks every listing every three months
 

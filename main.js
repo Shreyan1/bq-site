@@ -1,6 +1,8 @@
-// Form endpoint. Leave empty until a form service is approved: while it is
-// empty the form only shows a message and sends nothing anywhere.
-const FORM_ENDPOINT = '';
+// Form delivery: Web3Forms emails each submission to hello@buildersquorum.com. The access
+// key is public by design (it can only send to that inbox). Leave it empty until the key
+// has been emailed to that inbox: while it is empty the form sends nothing anywhere.
+const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
+const FORM_ACCESS_KEY = 'd71b280b-35eb-4fa5-8d68-7c6d44b62ac5';
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const params = new URLSearchParams(location.search);
@@ -436,18 +438,23 @@ if (form) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    if (!FORM_ENDPOINT) {
+    if (!FORM_ACCESS_KEY) {
       status.textContent = 'Thanks. This form is not live yet, so nothing was sent. Please write to hello@buildersquorum.com instead.';
       return;
     }
 
     try {
+      const data = new FormData(form);
+      data.append('access_key', FORM_ACCESS_KEY);
+      data.append('from_name', 'Builders’ Quorum website');
+      data.append('subject', `BQ website: ${data.get('role')} (${data.get('name') || 'no name'})`);
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
-        body: new FormData(form),
+        body: data,
         headers: { Accept: 'application/json' },
       });
-      if (!res.ok) throw new Error(res.statusText);
+      const result = await res.json();
+      if (!res.ok || !result.success) throw new Error(result.message || res.statusText);
       form.reset();
       syncRole();
       status.textContent = 'Thanks. We will be in touch.';
