@@ -437,7 +437,7 @@ if (form) {
     e.preventDefault();
 
     if (!FORM_ENDPOINT) {
-      status.textContent = 'Thanks. This form is not live yet, so nothing was sent. Please check back soon.';
+      status.textContent = 'Thanks. This form is not live yet, so nothing was sent. Please write to hello@buildersquorum.com instead.';
       return;
     }
 
@@ -452,7 +452,7 @@ if (form) {
       syncRole();
       status.textContent = 'Thanks. We will be in touch.';
     } catch {
-      status.textContent = 'Something went wrong. Please try again in a moment.';
+      status.textContent = 'Something went wrong. Please try again in a moment or write to hello@buildersquorum.com.';
     }
   });
 }

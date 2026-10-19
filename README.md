@@ -99,7 +99,7 @@ In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages wi
 - [ ] Registration and payment for the evenings: pick the tool, put it on a subdomain, and link it from invitations. The request form on this site only collects requests
 - [ ] 1200x630 PNG for `og:image`
 - [ ] Form endpoint approved and set, plus a privacy note next to the form
-- [ ] Contact email in the footer
+- [x] Contact email in the footer (hello@buildersquorum.com, 19 October 2026)
 - [ ] Venues: about 20 confirmed listings with photos before the page is shared, each with written agreement to publish its contact, and a named owner who rechecks every listing every three months
 
 ## Positioning
