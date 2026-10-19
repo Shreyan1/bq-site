@@ -202,6 +202,8 @@ desc = (f'{len(venues)} spaces across Delhi NCR that host tech meetups, hackatho
         'terms and contact details for each.')
 head = re.sub(r'<title>.*?</title>', f'<title>{e(title)}</title>', head)
 head = re.sub(r'(<meta property="og:title" content=")[^"]*', lambda m: m.group(1) + e(title), head)
+# The template is partners.html, so point the canonical link and og:url at this page.
+head = head.replace('buildersquorum.com/partners.html', 'buildersquorum.com/venues.html')
 for attr in ('name="description"', 'property="og:description"'):
     head = re.sub(rf'(<meta {attr} content=")[^"]*', lambda m: m.group(1) + e(desc), head)
 head = head.replace(' aria-current="page"', '').replace('<a href="venues.html">', '<a href="venues.html" aria-current="page">', 1)

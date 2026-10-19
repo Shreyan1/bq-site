@@ -33,12 +33,12 @@ src/land.json     the world's land as a grid of dots for the hero map (about 12,
                   projection, spherical land test with d3-geo; takes about two minutes)
 assets/photos/    nine photographs at 1000 and 2000 px wide, WebP. Credits below
 assets/photos/builders/
-                  ten black-and-white portraits for the builders reel on the home page, WebP, all cropped
-                  to 4:5 with the head in frame, 800 px wide where the source allows. Sources and licences
-                  below. source/ holds the originals locally and is git-ignored
+                  twelve black-and-white portraits for the builders reel on the home page, WebP, all cropped
+                  to 4:5 with the head in frame, 800 x 1000 px. Sources and licences below. source/ holds the originals locally and is git-ignored
 assets/          logo.svg (icon in header and footer), favicon.svg, apple-touch-icon.png. Copied from ../logo
 favicon.ico       16, 32 and 48 px, also from ../logo
 404.html, robots.txt, sitemap.xml
+tools/            build_venues.py (generates venues.html), build_land.mjs (hero map), check_site.py (checks, see below)
 ```
 
 The header, footer and pencil filter are repeated on every page. If you change one, change all eight. 404.html uses root-relative links (`/network.html`) so it works at any path.
@@ -50,6 +50,14 @@ python3 -m http.server 8000 --directory website
 ```
 
 Then open http://localhost:8000.
+
+## Checks
+
+```bash
+python3 tools/check_site.py          # from website/; Python standard library only
+```
+
+It exits 1 if anything fails and prints `file:line [check] message`. It covers CSS class collisions (a bare selector such as `.step` that styles unrelated components on different pages), local links, anchors and ids, image alt, width and height against the real file size, portrait credits against this README, fonts, head tags, JSON-LD, whether `venues.html` is stale against its generator, and the CLAUDE.md writing rules (em dashes, brand spelling, Oxford comma, US spelling, Indian place names outside the footer). `FAIL` must be fixed, `WARN` needs a look, `NOTE` is information, and `KNOWN` is a failure the founders have been told about, listed with its reason in `KNOWN` at the top of the script. By default `NOTE` lines are only counted and `KNOWN` ones are grouped; `--verbose` lists every one of them, `--collisions` also lists every shared class, `--quiet` hides warnings and `--root PATH` checks another copy of the site. It runs from any folder. Run it before every push; it takes under a second. It does not render anything, so layout, overflow and contrast still need a look in the browser at 1440 px and 375 px.
 
 ## Deploy to GitHub Pages
 
@@ -80,7 +88,7 @@ In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages wi
 - Global first: nothing outside the footer says where BQ is based. Language tags are en-GB and spelling is British.
 - Accent discipline: vermilion means "chosen". It marks the newest find in the home hero, the BQ Fellow step, the one key stroke in each sketch, the brand mark and the current page in the nav. Sub-heading underlines, callouts, note bullets, FAQ toggles, section markers and tags are ink. Keep it that way when adding sections.
 - Speed: fonts are self-hosted and the two above the fold are preloaded, so no request leaves the site before text renders. The paper grain carries its own alpha instead of using `mix-blend-mode`, which made every scroll frame repaint the whole page.
-- Motion: on page load the headline rises in and the underline under "founders" draws. Sketches draw stroke by stroke as they scroll into view. Reveals are triggered by scroll position, not IntersectionObserver, so anything already scrolled past is shown at once and fast scrolling never leaves gaps. Other content fades up as you scroll, and there is a reading-progress line under the header. Pages cross-fade in browsers that support view transitions. The builders reel on the home page never holds the page: it scrolls like any section. Its opening lines come out of a blur one by one as you scroll (and blur again if you scroll back), then a film strip of the ten builders drifts to the left and loops, fading in and out at the edges. It can be dragged or swiped, scrolled sideways on a trackpad or moved with the arrow keys, and it keeps the momentum it is given before settling back to its drift; portraits lean a little into fast motion. Speed eases rather than jumps, so pressing Pause brings it to a soft stop, and scrolling the page gives it a push. It only runs while on screen and goes idle once stopped. With reduced motion or without JS the strip stands still and scrolls sideways. All motion switches off for `prefers-reduced-motion`, and content stays visible without JS.
+- Motion: on page load the headline rises in and the underline under "founders" draws. Sketches draw stroke by stroke as they scroll into view. Reveals are triggered by scroll position, not IntersectionObserver, so anything already scrolled past is shown at once and fast scrolling never leaves gaps. Other content fades up as you scroll, and there is a reading-progress line under the header. Pages cross-fade in browsers that support view transitions. The builders reel on the home page never holds the page: it scrolls like any section. Its opening lines come out of a blur one by one as you scroll (and blur again if you scroll back), then a film strip of the twelve builders drifts to the left and loops, fading in and out at the edges. It can be dragged or swiped, scrolled sideways on a trackpad or moved with the arrow keys, and it keeps the momentum it is given before settling back to its drift; portraits lean a little into fast motion. Speed eases rather than jumps, so pressing Pause brings it to a soft stop, and scrolling the page gives it a push. It only runs while on screen and goes idle once stopped. With reduced motion or without JS the strip stands still and scrolls sideways. All motion switches off for `prefers-reduced-motion`, and content stays visible without JS.
 - Chrome gotcha: match sketch strokes by tag (`path`, `circle`), not with `[pathLength]` selectors. Chrome doesn't restyle camelCase SVG attribute selectors when an ancestor's class changes.
 
 ## Before going live
@@ -134,18 +142,22 @@ All from Unsplash, under the Unsplash Licence (free for commercial use; credit i
 - pitch (investors): Teemu Paananen, "Person discussing while standing in front of a large screen" (unsplash.com/photos/bzdhc5b3Bxs)
 - small-room (network): Product School, "People sitting and using laptops" (unsplash.com/photos/XZkk5xT8Xrk)
 
-Builders reel portraits (`assets/photos/builders/`), all from Wikimedia Commons, cropped to 4:5 and converted to black and white. Eight are in the public domain. The two under Creative Commons need the visible credit line under the strip on the home page; keep it if either photograph stays.
+Builders reel portraits (`assets/photos/builders/`), all from Wikimedia Commons, cropped to 4:5 and converted to black and white. The reel shows founders whose brands the world still knows and whose start was hard, because that is what BQ helps students do. Keep it to founders who clearly made it, and let each caption carry the struggle in a few words (every fact is from the person's Wikipedia article). All twelve photographs are in the public domain, so the page carries no credit line. Don't add one under a Creative Commons licence unless the page also credits it: the check script fails if one is missing.
 
-- jamsetji-tata: postcard, c. 1910, scan by Paper Jewels, CC BY 4.0 (commons.wikimedia.org/wiki/File:Sir_J._N._Tata.jpg)
-- nikola-tesla: Napoleon Sarony, c. 1895, public domain (commons.wikimedia.org/wiki/File:Nikola_Tesla_by_Sarony_-_Seifer_archives_(cropped).jpeg)
-- marie-curie: in her Paris laboratory, 1912, public domain (commons.wikimedia.org/wiki/File:Marie_Curie_in_her_Paris_Laboratory,_1912.jpg)
-- wright-brothers: at home in Dayton, June 1909, Smithsonian National Air and Space Museum, public domain (commons.wikimedia.org/wiki/File:Wright_Brothers_at_home,_1909.jpg)
+- jamsetji-tata: Andhra Patrika annual, 1911, public domain (commons.wikimedia.org/wiki/File:Jamshedji_Nusserwanji_Tata_from_Andhrapatrika_samvatsaradi_sanchika_1911_(page_197_crop).jpg)
+- bertha-benz: Bühler, Mannheim, around 1871, Automuseum Dr. Carl Benz, public domain (commons.wikimedia.org/wiki/File:Berthabenzportrait.jpg)
+- george-eastman: Paul Nadar, 1890, Smithsonian National Portrait Gallery, public domain (commons.wikimedia.org/wiki/File:George_Eastman_founder_of_Eastman_Kodak_Company.jpg)
+- thomas-lipton: Bolles, 1903, Library of Congress, public domain (commons.wikimedia.org/wiki/File:Thomas_Lipton_cph.3a43970.jpg)
+- milton-hershey: around 1905, Hershey Community Archives, public domain (commons.wikimedia.org/wiki/File:Milton_S._Hershey_c1905.jpg)
+- elizabeth-arden: Alan Fisher, New York World-Telegram and the Sun, 1939, Library of Congress, public domain (commons.wikimedia.org/wiki/File:Elizabeth_Arden_NYWTS.jpg)
+- walt-disney: NASA, 1954, public domain (commons.wikimedia.org/wiki/File:Walt_disney_portrait_right.jpg)
 - hewlett-packard: Daily Palo Alto Times, 17 February 1960, public domain (commons.wikimedia.org/wiki/File:William_Hewlett_and_David_Packard_1960.jpg)
-- grace-hopper: James S. Davis, US Navy, 1984, public domain (commons.wikimedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg)
-- robert-noyce: 1959, Intel Free Press, CC BY-SA 2.0; our crop is shared under the same licence (commons.wikimedia.org/wiki/File:Robert_Noyce_with_Motherboard_1959.png). The original is only 640 px wide, so this is the softest image in the strip; replace it if a larger free one turns up
-- margaret-hamilton: MIT Instrumentation Laboratory, 1969, restored by Adam Cuerden, public domain (commons.wikimedia.org/wiki/File:Margaret_Hamilton_-_restoration.jpg)
+- estee-lauder: Bill Sauro, New York World-Telegram and the Sun, 1966, Library of Congress, public domain (commons.wikimedia.org/wiki/File:Estee_Lauder_NYWTS.jpg)
 - steve-jobs: Bernard Gotfryd, January 1984, Library of Congress (gtfy.01855), public domain (commons.wikimedia.org/wiki/File:Steve_Jobs_and_Macintosh_computer,_January_1984,_by_Bernard_Gotfryd_-_edited.jpg)
+- oprah-winfrey: Lawrence Jackson, official White House photograph, 20 November 2013, public domain; cropped so only she is in frame (commons.wikimedia.org/wiki/File:Oprah_Winfrey_receives_2013_Presidential_Medal_of_Freedom.jpg)
 - morris-chang: MIT Technique yearbook, 1951, public domain (commons.wikimedia.org/wiki/File:Morris_Chang_1951_MIT_yearbook_portrait.jpg)
+
+Rejected while choosing, so they are not tried again: Commons tags some photographs as public domain on weak grounds. The 1946 G. D. Birla photographs are LIFE pictures by Margaret Bourke-White; the 1914 Harland Sanders photograph was first published by KFC around 2014; the young William Boeing photograph's only source is Pinterest; Ruth Handler's photographs are CC BY 4.0; the 1955 J. R. D. Tata photograph is an Indian government picture whose US status is unclear. The portraits are shown as examples of founders, with a caption saying what each built. Oprah Winfrey and Morris Chang are alive; if either objects, remove the portrait.
 
 ## Naming
 
