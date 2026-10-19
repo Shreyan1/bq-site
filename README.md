@@ -34,7 +34,8 @@ src/land.json     the world's land as a grid of dots for the hero map (about 12,
 assets/photos/    nine photographs at 1000 and 2000 px wide, WebP. Credits below
 assets/photos/builders/
                   ten black-and-white portraits for the builders reel on the home page, WebP, all cropped
-                  to 4:5 with the head in frame. source/ holds the originals locally and is git-ignored
+                  to 4:5 with the head in frame, 800 px wide where the source allows. Sources and licences
+                  below. source/ holds the originals locally and is git-ignored
 assets/          logo.svg (icon in header and footer), favicon.svg, apple-touch-icon.png. Copied from ../logo
 favicon.ico       16, 32 and 48 px, also from ../logo
 404.html, robots.txt, sitemap.xml
@@ -133,7 +134,18 @@ All from Unsplash, under the Unsplash Licence (free for commercial use; credit i
 - pitch (investors): Teemu Paananen, "Person discussing while standing in front of a large screen" (unsplash.com/photos/bzdhc5b3Bxs)
 - small-room (network): Product School, "People sitting and using laptops" (unsplash.com/photos/XZkk5xT8Xrk)
 
-Builders reel portraits (`assets/photos/builders/`): Jamsetji Tata, Nikola Tesla, Marie Curie, Wilbur and Orville Wright, Bill Hewlett and David Packard, Grace Hopper, Robert Noyce, Margaret Hamilton, Steve Jobs and Morris Chang. These are not from Unsplash; their licences are cleared.
+Builders reel portraits (`assets/photos/builders/`), all from Wikimedia Commons, cropped to 4:5 and converted to black and white. Eight are in the public domain. The two under Creative Commons need the visible credit line under the strip on the home page; keep it if either photograph stays.
+
+- jamsetji-tata: postcard, c. 1910, scan by Paper Jewels, CC BY 4.0 (commons.wikimedia.org/wiki/File:Sir_J._N._Tata.jpg)
+- nikola-tesla: Napoleon Sarony, c. 1895, public domain (commons.wikimedia.org/wiki/File:Nikola_Tesla_by_Sarony_-_Seifer_archives_(cropped).jpeg)
+- marie-curie: in her Paris laboratory, 1912, public domain (commons.wikimedia.org/wiki/File:Marie_Curie_in_her_Paris_Laboratory,_1912.jpg)
+- wright-brothers: at home in Dayton, June 1909, Smithsonian National Air and Space Museum, public domain (commons.wikimedia.org/wiki/File:Wright_Brothers_at_home,_1909.jpg)
+- hewlett-packard: Daily Palo Alto Times, 17 February 1960, public domain (commons.wikimedia.org/wiki/File:William_Hewlett_and_David_Packard_1960.jpg)
+- grace-hopper: James S. Davis, US Navy, 1984, public domain (commons.wikimedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg)
+- robert-noyce: 1959, Intel Free Press, CC BY-SA 2.0; our crop is shared under the same licence (commons.wikimedia.org/wiki/File:Robert_Noyce_with_Motherboard_1959.png). The original is only 640 px wide, so this is the softest image in the strip; replace it if a larger free one turns up
+- margaret-hamilton: MIT Instrumentation Laboratory, 1969, restored by Adam Cuerden, public domain (commons.wikimedia.org/wiki/File:Margaret_Hamilton_-_restoration.jpg)
+- steve-jobs: Bernard Gotfryd, January 1984, Library of Congress (gtfy.01855), public domain (commons.wikimedia.org/wiki/File:Steve_Jobs_and_Macintosh_computer,_January_1984,_by_Bernard_Gotfryd_-_edited.jpg)
+- morris-chang: MIT Technique yearbook, 1951, public domain (commons.wikimedia.org/wiki/File:Morris_Chang_1951_MIT_yearbook_portrait.jpg)
 
 ## Naming
 

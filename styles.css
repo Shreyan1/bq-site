@@ -835,8 +835,8 @@ main { counter-reset: sec; }
 
 /* ------------------------------------------------------------------
    Refinement pass: quieter, softer, more exclusive.
-   Square corners, hairlines, warm paper, grain, the accent used sparingly,
-   small tracked capitals against very large serif type, and slower motion.
+   Soft corners and pill buttons, hairlines between rows, warm paper, grain, the accent
+   used sparingly, small tracked capitals against very large serif type, and slow motion.
    ------------------------------------------------------------------ */
 
 :root {
@@ -1338,7 +1338,7 @@ html:not(.js) .hero-field { display: none; }
 @media (min-width: 60rem) { .apply-grid { grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); } }
 
 .form { gap: 1rem; counter-reset: step; }
-.step {
+.form .step {
   display: grid;
   gap: 1.5rem;
   padding: clamp(1.25rem, 4vw, 2.25rem);
@@ -1348,7 +1348,7 @@ html:not(.js) .hero-field { display: none; }
   box-shadow: 0 1px 2px rgb(21 21 26 / 0.04), 0 16px 40px -32px rgb(21 21 26 / 0.3);
   counter-increment: step;
 }
-.step[hidden] { display: none; }
+.form .step[hidden] { display: none; }
 .step-title { display: flex; align-items: center; gap: 0.875rem; font: 400 clamp(1.5rem, 1.25rem + 1vw, 2rem)/1.15 var(--serif); letter-spacing: -0.01em; }
 .step-title::before {
   content: counter(step);
@@ -1445,7 +1445,8 @@ html:not(.js) .hero-field { display: none; }
 }
 .form .checks label:has(:focus-visible) { outline: 2px solid var(--ink); outline-offset: 2px; }
 
-/* The four main ways in, as cards. The chosen one is outlined in ink and checked. */
+/* The four main ways in, as cards. The chosen one is outlined in ink and checked;
+   the empty circle on the others shows they can be picked. */
 .ways { display: grid; gap: 0.75rem; }
 @media (min-width: 40rem) { .ways { grid-template-columns: 1fr 1fr; } }
 .form .way {
@@ -1484,15 +1485,10 @@ html:not(.js) .hero-field { display: none; }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1.5 5.5l3 3L10.5 1.5' fill='none' stroke='%23FBFAF7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 .form .way:has(:focus-visible) { outline: 2px solid var(--ink); outline-offset: 3px; }
-.way-n { position: relative; justify-self: start; padding: 0.25rem 0.375rem; font: 400 1.0625rem/1 var(--serif); color: var(--ink-soft); }
-.way-ring { position: absolute; left: 50%; top: 50%; width: 2.75rem; height: 2.75rem; translate: -50% -50%; overflow: visible; fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; opacity: 0; }
+.way-n { justify-self: start; font: 400 1.0625rem/1 var(--serif); color: var(--ink-soft); }
 .way:has(:checked) .way-n { color: var(--ink); }
-.way:has(:checked) .way-ring { stroke-dashoffset: 0; opacity: 1; }
 .way-name { margin-top: 0.25rem; font: 400 clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem)/1.1 var(--serif); color: var(--ink); text-wrap: balance; }
 .way-note { font: 400 0.9375rem/1.45 var(--sans); color: var(--ink-soft); text-wrap: pretty; }
-@media (prefers-reduced-motion: no-preference) {
-  .way-ring { transition: stroke-dashoffset 0.8s cubic-bezier(0.5, 0.1, 0.3, 1); }
-}
 
 /* The other ways in, as quiet rows that highlight when chosen. */
 .ways-more { display: grid; gap: 0.25rem; }
@@ -1581,7 +1577,10 @@ html:not(.js) .hero-field { display: none; }
 .reel-did { display: flex; flex-wrap: wrap; column-gap: 0.75rem; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #A3A2A8; }
 .reel-year { color: var(--paper); font-variant-numeric: tabular-nums; }
 
-.reel-foot { display: flex; justify-content: flex-end; margin-top: 1.5rem; }
+.reel-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; margin-top: 1.5rem; }
+.reel-credit { max-width: 34rem; font-size: 0.75rem; line-height: 1.5; color: #8A8990; }
+.reel-credit a { color: inherit; text-underline-offset: 0.2em; }
+.reel-credit a:hover { color: var(--paper); }
 .reel-toggle {
   display: inline-flex;
   align-items: center;
