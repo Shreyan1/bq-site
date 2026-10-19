@@ -234,6 +234,10 @@ h3 { font-size: 1.0625rem; font-weight: 500; line-height: 1.35; text-wrap: balan
 .note::before { content: ""; display: inline-block; width: 0.4rem; height: 0.4rem; margin-right: 0.5rem; vertical-align: 0.15em; background: var(--accent); border-radius: 50%; }
 
 .hero-art { max-width: 30rem; width: 100%; justify-self: center; }
+/* Audience pages open on their photograph, beside the headline on wide screens and under
+   the buttons on narrow ones. */
+.hero-photo { width: 100%; aspect-ratio: 4 / 3; border-radius: var(--radius); }
+@media (min-width: 60rem) { .hero-photo { aspect-ratio: 4 / 5; max-height: min(36rem, 72svh); justify-self: end; } }
 
 /* Sections */
 
@@ -300,10 +304,10 @@ h3 { font-size: 1.0625rem; font-weight: 500; line-height: 1.35; text-wrap: balan
   border-radius: var(--radius);
   background: var(--paper);
   text-decoration: none;
-  transition: border-color 0.3s, transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  transition: border-color 0.2s, background-color 0.2s, transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
 .door:hover { border-color: var(--ink); transform: translateY(-4px); box-shadow: 0 18px 40px -24px rgb(21 21 26 / 0.35); }
-.door .icon { width: 4rem; height: 4rem; margin-bottom: 0.75rem; transition: transform 0.5s var(--ease); }
+.door .icon { width: 4rem; height: 4rem; margin-bottom: 0.75rem; transition: transform 0.3s var(--ease); }
 .door:hover .icon { transform: rotate(-6deg) scale(1.06); }
 .door h3 { font: 400 1.875rem/1.05 var(--serif); }
 .door p { color: var(--ink-soft); }
@@ -390,10 +394,6 @@ h3 { font-size: 1.0625rem; font-weight: 500; line-height: 1.35; text-wrap: balan
 .tag { display: inline-block; padding: 0.25rem 0.625rem; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); font-size: 0.8125rem; line-height: 1.4; }
 .tag-accent { color: var(--accent-ink); border-color: currentColor; }
 
-.sectors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem 1rem; margin-top: 2rem; }
-@media (min-width: 40rem) { .sectors { grid-template-columns: repeat(6, 1fr); } }
-.sectors li { display: grid; justify-items: center; gap: 0.5rem; text-align: center; font-size: 0.875rem; color: var(--ink-soft); }
-.sectors .icon { width: 3rem; height: 3rem; }
 
 /* Outcomes */
 
@@ -405,7 +405,7 @@ h3 { font-size: 1.0625rem; font-weight: 500; line-height: 1.35; text-wrap: balan
 
 /* Journey */
 
-span.step { font-size: 0.8125rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+span.step { font-size: 0.75rem; letter-spacing: 0.14em; color: var(--ink); font-variant-numeric: tabular-nums; }
 .journey h3 { margin-top: 0.5rem; font: 400 1.875rem/1.1 var(--serif); }
 .journey h3 .tag { vertical-align: middle; margin-left: 0.25rem; font: 500 0.75rem/1.4 var(--sans); }
 .journey li.is-selective { border-top: 3px solid var(--accent); padding-top: calc(1.25rem - 2px); }
@@ -413,7 +413,7 @@ span.step { font-size: 0.8125rem; color: var(--ink-soft); font-variant-numeric: 
 
 /* Dot fields thin out at each stage. Illustrative only. */
 .dots { display: flex; flex-wrap: wrap; gap: 6px; min-height: 2.25rem; align-content: flex-start; margin-bottom: 1.25rem; }
-.dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--ink); opacity: 0.25; }
+.dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--ink); opacity: 0.45; }
 .journey li.is-selective .dots i { opacity: 0.8; }
 .journey li:last-child .dots i { width: 10px; height: 10px; background: var(--accent); opacity: 1; }
 
@@ -493,12 +493,24 @@ span.step { font-size: 0.8125rem; color: var(--ink-soft); font-variant-numeric: 
 
 .faq { margin-top: 2.75rem; border-bottom: 1px solid var(--line); }
 .faq details { border-top: 1px solid var(--line); }
-.faq summary { display: flex; justify-content: space-between; gap: 1rem; padding-block: 1.25rem; font-size: 1.0625rem; cursor: pointer; list-style: none; transition: color 0.2s; }
-.faq summary:hover { color: var(--accent-ink); }
+.faq summary { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; padding-block: 1.375rem; font: 400 clamp(1.25rem, 1.05rem + 0.6vw, 1.625rem)/1.25 var(--serif); letter-spacing: -0.005em; cursor: pointer; list-style: none; }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; flex: none; color: var(--accent-ink); font-size: 1.375rem; line-height: 1.1; transition: transform 0.3s var(--ease); }
+.faq summary::after {
+  content: "+";
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font: 400 1.25rem/1 var(--sans);
+  color: var(--ink);
+  transition: transform 0.25s var(--ease), background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.faq summary:hover::after, .faq summary:focus-visible::after { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 .faq details[open] summary::after { transform: rotate(45deg); }
-.faq details p { padding-bottom: 1.5rem; max-width: 40rem; color: var(--ink-soft); }
+.faq details p { padding-bottom: 1.75rem; max-width: 42rem; font-size: 1.0625rem; color: var(--ink-soft); }
 
 /* Form */
 
@@ -1297,21 +1309,24 @@ html:not(.js) .hero-field { display: none; }
 
 /* Photographs: warm black and white, so they sit in the ink-on-paper palette. Full-bleed
    bands between sections, and a pair on the home page. Credits are in the README. */
-.photo, .photo-band { margin: 0; overflow: hidden; background: var(--wash); }
-.photo img, .photo-band img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) sepia(0.12) contrast(1.04); }
+.photo { margin: 0; overflow: hidden; background: var(--wash); }
+.photo img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) sepia(0.12) contrast(1.04); }
+/* Full-bleed bands break up long runs of text on the audience pages. Mark them up as
+   `<figure class="photo photo-band">` so they open upwards like the other photographs. */
 .photo-band { height: clamp(16rem, 46vw, 38rem); }
 .photo-pair { display: grid; gap: 1rem; padding-block: clamp(1rem, 3vw, 2rem); }
 .photo-pair .photo { height: clamp(16rem, 34vw, 30rem); }
 @media (min-width: 60rem) { .photo-pair { grid-template-columns: 7fr 5fr; } }
 
 @media (prefers-reduced-motion: no-preference) {
-  .js .photo, .js .photo-band { transition: clip-path 1.4s var(--ease); }
-  .js .photo:not(.is-in), .js .photo-band:not(.is-in) { clip-path: inset(14% 0 0 0); }
-  .js .photo img, .js .photo-band img { transition: transform 2s var(--ease); }
-  .js .photo:not(.is-in) img, .js .photo-band:not(.is-in) img { transform: scale(1.08); }
+  .js .photo { transition: clip-path 1.4s var(--ease); }
+  .js .photo:not(.is-in) { clip-path: inset(14% 0 0 0); }
+  .js .photo img { transition: transform 2s var(--ease); }
+  .js .photo:not(.is-in) img { transform: scale(1.08); }
 }
 
 /* Frontiers: the sectors in large serif type on a hairline grid. */
+.nowrap { white-space: nowrap; }
 .frontiers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
 @media (min-width: 48rem) { .frontiers { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .frontiers li {
@@ -1324,10 +1339,27 @@ html:not(.js) .hero-field { display: none; }
   font: 400 clamp(1.375rem, 1rem + 1.4vw, 2.25rem)/1.1 var(--serif);
   letter-spacing: -0.01em;
   text-align: center;
-  color: #9A988F;
-  transition: color 0.4s ease, background-color 0.4s ease;
+  color: #6F6D66;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  cursor: default;
+  transition: color 0.2s var(--ease);
 }
-.frontiers li:hover { color: var(--ink); background: var(--wash); }
+.frontiers li::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ink);
+  clip-path: circle(0% at var(--x, 50%) var(--y, 100%));
+  transition: clip-path 0.35s var(--ease);
+}
+.frontiers li:hover { color: var(--paper); }
+.frontiers li:hover::before { clip-path: circle(150% at var(--x, 50%) var(--y, 100%)); }
+@media (prefers-reduced-motion: reduce) {
+  .frontiers li, .frontiers li::before { transition-duration: 0.01s; }
+}
 
 /* Dark band for "Why BQ": labels stay neutral and the captions stay legible on ink. */
 .section-ink .eyebrow { color: var(--ink-soft); }

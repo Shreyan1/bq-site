@@ -73,7 +73,7 @@ if (!reduceMotion) {
 
   // Siblings get a stagger index so grids come in one by one.
   document.querySelectorAll(
-    '.section .eyebrow, .section h2, .section .intro, .grid > *, .flow > li, .split > *, .stages > li, .outcomes, .numbered, .stuck, .faq, .fellows-note, .callout, .cta-band, .sectors, .reel-strip, .reel-close > *'
+    '.section .eyebrow, .section h2, .section .intro, .grid > *, .flow > li, .split > *, .stages > li, .outcomes, .numbered, .stuck, .faq, .fellows-note, .callout, .cta-band, .frontiers, .reel-strip, .reel-close > *'
   ).forEach((el) => {
     el.classList.add('reveal');
     el.style.setProperty('--i', [...el.parentElement.children].indexOf(el) % 4);
@@ -92,7 +92,7 @@ if (!reduceMotion) {
   const footer = document.querySelector('.site-footer');
   if (footer) pending.add(footer);
   // Photographs open upwards as they arrive.
-  document.querySelectorAll('.photo, .photo-band').forEach((el) => pending.add(el));
+  document.querySelectorAll('.photo').forEach((el) => pending.add(el));
 
   let queued = false;
   const check = () => {
@@ -339,6 +339,18 @@ if (opening && !reduceMotion) {
   window.addEventListener('resize', scrub);
   scrub();
 }
+
+// Frontiers: the hover fill grows from where the pointer comes in and shrinks towards
+// where it leaves.
+document.querySelectorAll('.frontiers li').forEach((cell) => {
+  const aim = (e) => {
+    const r = cell.getBoundingClientRect();
+    cell.style.setProperty('--x', `${((e.clientX - r.left) / r.width) * 100}%`);
+    cell.style.setProperty('--y', `${((e.clientY - r.top) / r.height) * 100}%`);
+  };
+  cell.addEventListener('pointerenter', aim);
+  cell.addEventListener('pointerleave', aim);
+});
 
 // "What's stopping you" tabs. Without JS every answer is shown.
 const tabs = [...document.querySelectorAll('.stuck [role="tab"]')];
