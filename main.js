@@ -342,9 +342,9 @@ if (opening && !reduceMotion) {
   scrub();
 }
 
-// Frontiers: the hover fill grows from where the pointer comes in and shrinks towards
-// where it leaves.
-document.querySelectorAll('.frontiers li').forEach((cell) => {
+// Frontiers and social links: the hover fill grows from where the pointer comes in and
+// shrinks towards where it leaves.
+document.querySelectorAll('.frontiers li, .social a').forEach((cell) => {
   const aim = (e) => {
     const r = cell.getBoundingClientRect();
     cell.style.setProperty('--x', `${((e.clientX - r.left) / r.width) * 100}%`);
