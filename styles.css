@@ -1666,7 +1666,7 @@ html:not(.js) .hero-field { display: none; }
 /* Social links: round buttons that carry each platform's mark and fill with vermilion from
    where the pointer comes in, like the sectors. The deeper vermilion keeps the white mark
    clear. The name lives in each link's aria-label. */
-.social { display: flex; flex-wrap: wrap; gap: 0.625rem; margin-top: 0.75rem; }
+.social { display: flex; flex-wrap: wrap; gap: 0.625rem; margin-top: 1.5rem; }
 .footer-title + .social { margin-top: 0; }
 .footer-follow { margin-top: 1.75rem; }
 .aside-follow { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
