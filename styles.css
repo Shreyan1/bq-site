@@ -1662,3 +1662,46 @@ html:not(.js) .hero-field { display: none; }
 .reel-strip.is-moving img { -webkit-user-drag: none; }
 .reel-strip.is-moving .reel-shot img { transform: scale(1.001); transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
 .reel-strip.is-moving .reel-frame:hover .reel-shot img { transform: scale(1.05); filter: grayscale(1) contrast(1.12); }
+
+/* Social links: round buttons that carry each platform's mark and fill with vermilion from
+   where the pointer comes in, like the sectors. The deeper vermilion keeps the white mark
+   clear. The name lives in each link's aria-label. */
+.social { display: flex; flex-wrap: wrap; gap: 0.625rem; margin-top: 0.75rem; }
+.footer-title + .social { margin-top: 0; }
+.footer-follow { margin-top: 1.75rem; }
+.aside-follow { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.social a {
+  --rest: var(--ink);
+  --rest-line: #CBC7BD;
+  --fill: var(--accent-ink);
+  --on-fill: var(--paper);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 1px solid var(--rest-line);
+  border-radius: 50%;
+  color: var(--rest);
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.social a::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--fill);
+  clip-path: circle(0% at var(--x, 50%) var(--y, 100%));
+  transition: clip-path 0.45s var(--ease);
+}
+.social-icon { flex: none; width: 1.375rem; height: 1.375rem; fill: currentColor; }
+.social a:hover, .social a:focus-visible { color: var(--on-fill); border-color: var(--fill); }
+.social a:hover::before, .social a:focus-visible::before { clip-path: circle(150% at var(--x, 50%) var(--y, 100%)); }
+.social a:focus-visible { border-radius: 50%; }
+.site-footer .social a { --rest: var(--paper); --rest-line: var(--line); }
+@media (prefers-reduced-motion: reduce) {
+  .social a, .social a::before { transition-duration: 0.01s; }
+}
