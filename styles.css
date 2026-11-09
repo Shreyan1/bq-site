@@ -1705,3 +1705,94 @@ html:not(.js) .hero-field { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .social a, .social a::before { transition-duration: 0.01s; }
 }
+
+/* Waitlist (waitlist.html): a campaign page for seat requests. It reuses the apply form's
+   panels and chips; what is new is the facts row under the hero, the numbered rows, the
+   contribution line, and the seat request card in the side column that fills in as the
+   form is filled and gets its number when the request is sent. */
+.wl-hero h1 { max-width: 18ch; }
+.wl-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: clamp(2.5rem, 6vw, 4rem); border-top: 1px solid var(--line); }
+.wl-facts div { display: grid; align-content: start; gap: 0.5rem; padding: 1.125rem 1rem 1.125rem 0; border-bottom: 1px solid var(--line); }
+.wl-facts div:nth-child(even) { padding-left: 1rem; border-left: 1px solid var(--line); }
+@media (min-width: 48rem) {
+  .wl-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .wl-facts div { padding: 1.25rem 1.5rem 0 0; border-bottom: 0; }
+  .wl-facts div + div { padding-left: 1.5rem; border-left: 1px solid var(--line); }
+}
+.wl-facts dt { font: 500 0.6875rem/1.4 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.wl-facts dd { margin: 0; font: 400 clamp(1.125rem, 1rem + 0.4vw, 1.375rem)/1.25 var(--serif); text-wrap: balance; }
+
+.wl-rows { margin-top: clamp(2rem, 5vw, 3rem); border-top: 1px solid var(--line); counter-reset: none; }
+.wl-rows li { display: grid; gap: 0.5rem 2rem; padding-block: clamp(1.5rem, 3vw, 2rem); border-bottom: 1px solid var(--line); }
+@media (min-width: 48rem) { .wl-rows li { grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 1.4fr); align-items: baseline; } }
+.wl-n { font: 400 1.0625rem/1 var(--serif); color: var(--ink-soft); }
+.wl-rows h3 { font: 400 clamp(1.5rem, 1.25rem + 0.9vw, 2rem)/1.15 var(--serif); letter-spacing: -0.01em; text-transform: none; }
+.wl-rows p { max-width: 36rem; color: var(--ink-soft); }
+
+.wl-grid { margin-top: clamp(2rem, 5vw, 3rem); }
+.wl-step-note { margin-top: -0.75rem; font-size: 0.9375rem; color: var(--ink-soft); }
+.wl-hint { font: 400 0.8125rem/1.4 var(--sans); color: var(--ink-soft); }
+#wl-working-count { justify-self: end; font-variant-numeric: tabular-nums; }
+.wl-label-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
+.form .checks label:has(:disabled) { opacity: 0.4; cursor: not-allowed; }
+.form .checks label:has(:disabled):hover { border-color: var(--line); color: var(--ink-soft); }
+.form .step.is-done .step-title::before { background: var(--ink); color: var(--paper); transition: background-color 0.4s var(--ease), color 0.4s var(--ease); }
+
+.wl-seat-note { max-width: 34rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--ink-soft); }
+.ways.wl-choices { grid-template-columns: minmax(0, 1fr); }
+.form .wl-choices .way { padding-block: 1.125rem 1.25rem; }
+.form .wl-choices .way-name { margin-top: 0; font-size: clamp(1.1875rem, 1.1rem + 0.4vw, 1.4375rem); }
+
+/* The request once sent: same soft panel as the form, with a link to share. */
+#waitlist-form[hidden] { display: none; }
+.wl-done { display: grid; gap: 1rem; padding: clamp(1.5rem, 4vw, 2.5rem); border: 1px solid var(--line); border-radius: 20px; background: #fff; box-shadow: 0 1px 2px rgb(21 21 26 / 0.04), 0 16px 40px -32px rgb(21 21 26 / 0.3); }
+.wl-done[hidden] { display: none; }
+.wl-done:focus { outline: 0; }
+.wl-done .label { font: 500 0.6875rem/1.4 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.wl-done h3 { font: 400 clamp(2rem, 1.5rem + 2vw, 3rem)/1.05 var(--serif); letter-spacing: -0.02em; text-transform: none; }
+.wl-done > p { max-width: 34rem; color: var(--ink-soft); }
+.wl-prepay { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; }
+.wl-prepay[hidden], .wl-prepay [hidden] { display: none; }
+.wl-share { display: grid; gap: 0.5rem; margin-top: 0.75rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.wl-share-title { font: 400 1.375rem/1.2 var(--serif); }
+.wl-share p:not(.wl-share-title) { color: var(--ink-soft); }
+.wl-share-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+.wl-share-row input { flex: 1 1 16rem; min-width: 0; min-height: 2.75rem; padding: 0.5rem 1rem; border: 1px solid var(--line); border-radius: 999px; background: var(--wash); font: 400 0.9375rem/1.4 var(--sans); color: var(--ink); }
+
+/* The seat request card. Wide screens only: on phones it would sit below the form it summarises. */
+.wl-aside { padding: 0; background: transparent; }
+.wl-card { display: none; }
+@media (min-width: 60rem) {
+  .wl-card {
+    display: block;
+    margin-bottom: 2rem;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgb(21 21 26 / 0.04), 0 24px 48px -36px rgb(21 21 26 / 0.35);
+  }
+}
+.wl-card-top { display: flex; justify-content: space-between; padding: 1.25rem 1.5rem 0; font: 500 0.6875rem/1.4 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.wl-card-no { font-variant-numeric: tabular-nums; transition: color 0.4s var(--ease); }
+.wl-card.is-sent .wl-card-no { color: var(--accent-ink); }
+.wl-card-name { padding: 1.5rem 1.5rem 0; font: 400 2rem/1.05 var(--serif); letter-spacing: -0.015em; overflow-wrap: anywhere; }
+.wl-card-sub { padding: 0.5rem 1.5rem 0; font-size: 0.9375rem; }
+.wl-card-rows { margin: 1.25rem 1.5rem 0; }
+.wl-card-rows div { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: 1rem; padding-block: 0.625rem; border-top: 1px solid var(--line); }
+.wl-card-rows dt { font: 500 0.6875rem/1.9 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.wl-card-rows dd { margin: 0; font-size: 0.9375rem; line-height: 1.45; }
+.wl-card .is-empty { color: #A8A49A; }
+.wl-card [data-show] { transition: color 0.3s var(--ease); }
+/* The stub: a dashed tear line with a notch cut into each edge, like a ticket. */
+.wl-card-stub { position: relative; display: grid; gap: 0.625rem; margin-top: 1.25rem; padding: 1.25rem 1.5rem 1.375rem; border-top: 1px dashed #D9D5CC; }
+.wl-card-stub::before, .wl-card-stub::after { content: ""; position: absolute; top: -0.6875rem; width: 1.25rem; height: 1.25rem; border: 1px solid var(--line); border-radius: 50%; background: var(--wash); clip-path: inset(0 0 0 50%); }
+.wl-card-stub::before { left: -0.6875rem; }
+.wl-card-stub::after { right: -0.6875rem; clip-path: inset(0 50% 0 0); }
+.wl-meter { height: 3px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.wl-meter span { display: block; width: calc(var(--p, 0) * 25%); height: 100%; background: var(--ink); transition: width 0.6s var(--ease); }
+.wl-card.is-sent .wl-meter span { background: var(--accent); }
+.wl-meter-label { font: 500 0.75rem/1.4 var(--sans); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.wl-aside .next { margin-top: 0.5rem; }
+@media (prefers-reduced-motion: reduce) {
+  .wl-meter span, .wl-card [data-show], .wl-card-no { transition: none; }
+}
