@@ -1,14 +1,25 @@
 // Builders' Quorum seat requests: receives the form on waitlist.html and adds each request
 // as a row in this Google Sheet. It is not part of the published site.
 //
-// Setup, once (about five minutes):
-// 1. In the BQ Google account, create a Google Sheet called "BQ seat requests".
-// 2. Extensions > Apps Script. Replace everything in Code.gs with this file and save.
-// 3. Choose setup in the function menu, press Run and accept the permissions. It creates
-//    the Requests and Summary tabs.
-// 4. Deploy > New deployment > Web app. Execute as: Me. Who has access: Anyone. Deploy,
-//    then copy the web app address (it ends in /exec).
+// Setup, once (about five minutes). It works from Drive or from inside a sheet:
+// 1. In the BQ Google account, open script.google.com (or Drive > New > More > Google Apps
+//    Script) and start a new project. Name it "BQ seat requests".
+//    From inside a sheet instead: Extensions > Apps Script. That menu only appears in a
+//    native Google Sheet, not in an .xlsx file opened in Sheets (File > Save as Google
+//    Sheets first).
+// 2. Replace everything in Code.gs with this file and save (Cmd+S). The function menu says
+//    "No functions" until the file is saved.
+// 3. Choose setup in the function menu, press Run and accept the permissions. From Drive it
+//    creates a sheet called "BQ seat requests" in your Drive; from a sheet it uses that
+//    sheet. Either way it adds the Requests and Summary tabs, and the Execution log prints
+//    the sheet's address.
+// 4. Deploy > New deployment > type Web app. Execute as: Me. Who has access: Anyone. Deploy,
+//    then copy the web app address (it ends in /exec). Open it in a browser: it should say
+//    {"ok":true,...}.
 // 5. Paste that address into WAITLIST_ENDPOINT at the top of website/main.js and push.
+//
+// To use a sheet that already exists, paste its ID (the part of its address between /d/ and
+// /edit) into SHEET_ID below before running setup.
 //
 // After changing this file: Deploy > Manage deployments > Edit > Version: New version.
 // Otherwise the live address keeps running the old code.
@@ -16,6 +27,7 @@
 // Only the founders should have access to the sheet. Share it with them, nobody else.
 
 const NOTIFY = ''; // an address to email on each request, for example hello@buildersquorum.com, or '' for none
+const SHEET_ID = ''; // optional: an existing sheet to write to. Leave empty and setup makes one
 
 // [form field, column heading]. The order here is the column order in the sheet. Status and
 // Notes are left empty for the founders to fill in while they choose each room.
@@ -96,7 +108,7 @@ function setup() {
   const status = sheet.getRange(2, column('status'), sheet.getMaxRows() - 1, 1);
   status.setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(STATUSES, true).build());
 
-  const book = SpreadsheetApp.getActiveSpreadsheet();
+  const book = spreadsheet();
   const summary = book.getSheetByName('Summary') || book.insertSheet('Summary');
   summary.clear();
   summary.getRange('A1').setValue('Requests').setFontWeight('bold');
@@ -115,10 +127,26 @@ function setup() {
       `"select Col1, count(Col1) where Col1 is not null group by Col1 order by count(Col1) desc label count(Col1) ''", 0), "None yet")`);
   });
   summary.setFrozenRows(4);
+  Logger.log(`Requests are saved to ${book.getUrl()}`);
+}
+
+// The sheet the requests go to. A script made inside a sheet uses that sheet. A script made
+// from Drive has no sheet of its own (getActiveSpreadsheet() is null there), so it uses
+// SHEET_ID, or the sheet it created on its first run, whose ID it keeps in Script Properties.
+function spreadsheet() {
+  const active = SpreadsheetApp.getActiveSpreadsheet();
+  if (active) return active;
+  if (SHEET_ID) return SpreadsheetApp.openById(SHEET_ID);
+  const props = PropertiesService.getScriptProperties();
+  const id = props.getProperty('SHEET_ID');
+  if (id) return SpreadsheetApp.openById(id);
+  const created = SpreadsheetApp.create('BQ seat requests');
+  props.setProperty('SHEET_ID', created.getId());
+  return created;
 }
 
 function requests() {
-  const book = SpreadsheetApp.getActiveSpreadsheet();
+  const book = spreadsheet();
   let sheet = book.getSheetByName('Requests');
   if (!sheet) {
     sheet = book.getSheets()[0];
