@@ -7,7 +7,7 @@ const FORM_ACCESS_KEY = 'd71b280b-35eb-4fa5-8d68-7c6d44b62ac5';
 // Seat requests (waitlist.html) go to a Google Sheet through an Apps Script web app. Paste its
 // /exec address here once it is deployed (tools/waitlist-sheet.gs has the steps). While it is
 // empty, requests are emailed through Web3Forms like the apply form.
-const WAITLIST_ENDPOINT = '';
+const WAITLIST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzPWk3cVELRnvJ_m6UTF7piuvnA1EcQWFgNvJsTySGT1HzWqhNLQYStj5InW41KqkNV/exec';
 // A Razorpay payment page or UPI link for the pay-half-now option. While empty, people who choose it
 // are told a payment link will come with our reply.
 const PAY_NOW_URL = '';
