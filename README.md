@@ -22,6 +22,8 @@ apply.html        "Work with us", a short letter in numbered parts, each on its 
                   apply.html?role=campus | partner | investor | member | practitioner | speaker | student
                   | reader | organiser | venue
                   apply.html?role=organiser&venue=Name fills in the space the organiser picked
+waitlist.html     seat requests for the first sessions (noindex, not in the nav or sitemap). Linked as "Join
+                  the waitlist" from every footer and from "How the network meets" on network.html. See "Waitlist" below
 styles.css        design tokens at the top, then components, then motion
 main.js           nav, scroll reveal, sketch drawing, tabs, form, and lazy-loading the hero field
 src/field.js      the home hero's Three.js scene. Built into assets/field.js with `npm install` then
@@ -73,6 +75,17 @@ In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages wi
 - FAQ: the answers appear twice in `index.html`, in the visible FAQ and in the FAQPage JSON-LD in `<head>`. Edit both.
 - Backed by: `#backers` in `partners.html` is hidden. Open `partners.html?preview` to see it. Only name people and organisations who have agreed in writing.
 - Venues: edit `data/venues.json`, then run `python3 website/tools/build_venues.py`. Don't edit `venues.html` by hand. Listings are labelled venue partner or paid, and contact details are shown in full so search engines and AI assistants can read them. Publish only the contacts a venue has agreed to in writing. While any entry has `"sample": true` the page is marked noindex; delete the samples before launch, then add `venues.html` to the sitemap if it isn't there.
+
+## Waitlist
+
+`waitlist.html` collects seat requests for the first invitation-only sessions in Delhi NCR, so the founders can see who is interested and choose the venue, day, time and speakers from the answers. It is the one page that names a place outside the footer, so it stays out of search (`noindex`), the main nav and the sitemap, and `tools/check_site.py` lists it as KNOWN. It is linked from every footer and from network.html, and shared directly in the founders' communities.
+
+The page never states an amount. It says the contribution "covers the session" (internally it is redeemable against food and drink, and may cover merchandise). People choose between paying in full when selected and paying half now to be prioritised. There is deliberately no "paying would be difficult" option (decided 9 November 2026): offered as a choice, most people would pick it. Genuine cases can write to hello@buildersquorum.com and are handled one by one.
+
+- Where responses go: a private Google Sheet, through the Apps Script in `tools/waitlist-sheet.gs` (setup steps at the top of that file). Paste the web app address into `WAITLIST_ENDPOINT` in `main.js`. Until then, requests are emailed to hello@buildersquorum.com through Web3Forms, which is fine for testing but has a monthly cap on the free plan.
+- The sheet: one row per request, a "Repeat email" flag, and Status and Notes columns for choosing each room. `setup()` also builds a Summary tab that counts every answer (area, day, time, topics, how people would confirm, where they heard about BQ).
+- Tracking: every request gets a six-character code. After sending, people get a link with `?ref=CODE` to share, and requests that arrive through it record the code, so the sheet shows who brings whom. `utm_source`, `utm_medium` and `utm_campaign` are saved too, so give each channel its own link, for example `waitlist.html?utm_source=whatsapp&utm_campaign=cdi`.
+- The pay-half-now option: the site takes no payments. Put a Razorpay payment page or UPI link in `PAY_NOW_URL` in `main.js` to show a pay button after sending; while it is empty, people are told a link will come with the reply.
 
 ## Design system
 
@@ -128,6 +141,7 @@ The positioning was corrected on 11 October 2026: universities are the customer 
 - Example problems on the universities page come from the proposal's Annexure A. Swap them for live problems when you have them
 - Proven formats on the universities page: names Stanford GSB, MIT Sloan and Oxford Saïd programmes as inspiration, with a no-affiliation note. Keep or cut
 - Venues page: "you can change or remove it at any time" and "through the communities we run"
+- Waitlist: paying half now "to be prioritised", "your request stays with us for the next session", "we tell you either way", and the topic list
 
 ## Photo credits
 

@@ -53,6 +53,9 @@ GENERIC_PARENTS = {'wrap', 'section', 'section-wash', 'section-ink', 'grid', 'st
 KNOWN = {
     ('writing-places', 'apply.html'):
         'The organiser and venue options on the form list Delhi NCR areas for the venues page (same decision as venues.html).',
+    ('writing-places', 'waitlist.html'):
+        'The seat request page is a noindex campaign page for the first sessions in Delhi NCR, shared through '
+        'the founders\' communities and kept out of the nav (9 November 2026).',
     ('writing-places', 'venues.html'):
         'venues.html is about Delhi NCR by design (7 October decision) but the 11 October "global first" rule '
         'says nothing outside the footer names Indian places. Founders to decide: keep, or make the page '

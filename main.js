@@ -4,6 +4,14 @@
 const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
 const FORM_ACCESS_KEY = 'd71b280b-35eb-4fa5-8d68-7c6d44b62ac5';
 
+// Seat requests (waitlist.html) go to a Google Sheet through an Apps Script web app. Paste its
+// /exec address here once it is deployed (tools/waitlist-sheet.gs has the steps). While it is
+// empty, requests are emailed through Web3Forms like the apply form.
+const WAITLIST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzPWk3cVELRnvJ_m6UTF7piuvnA1EcQWFgNvJsTySGT1HzWqhNLQYStj5InW41KqkNV/exec';
+// A Razorpay payment page or UPI link for the pay-half-now option. While empty, people who choose it
+// are told a payment link will come with our reply.
+const PAY_NOW_URL = '';
+
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const params = new URLSearchParams(location.search);
 
@@ -460,6 +468,156 @@ if (form) {
       status.textContent = 'Thanks. We will be in touch.';
     } catch {
       status.textContent = 'Something went wrong. Please try again in a moment or write to hello@buildersquorum.com.';
+    }
+  });
+}
+
+// Seat requests (waitlist.html). The side card fills in as the form is filled, finished parts
+// get a filled number, two topics at most can be picked, and once a request is sent the form
+// gives way to a link the person can share. Each request carries a short random code; links
+// shared from it carry the code back as ?ref=, so the sheet shows who brought whom.
+const wl = document.getElementById('waitlist-form');
+
+if (wl) {
+  const card = document.querySelector('.wl-card');
+  const steps = [...wl.querySelectorAll('.step')];
+  const topics = [...wl.querySelectorAll('[name="topics"]')];
+  const working = wl.elements.working_on;
+  const status = document.getElementById('wl-status');
+  const done = document.getElementById('wl-done');
+  const submit = wl.querySelector('[type="submit"]');
+
+  const alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  const code = Array.from(crypto.getRandomValues(new Uint8Array(6)), (n) => alphabet[n % alphabet.length]).join('');
+  const tracking = {
+    ref_code: code,
+    referred_by: (params.get('ref') || '').slice(0, 12),
+    utm_source: params.get('utm_source') || '',
+    utm_medium: params.get('utm_medium') || '',
+    utm_campaign: params.get('utm_campaign') || '',
+    landing_referrer: document.referrer,
+  };
+  Object.entries(tracking).forEach(([name, value]) => {
+    const input = document.createElement('input');
+    Object.assign(input, { type: 'hidden', name, value });
+    wl.append(input);
+  });
+
+  const picked = (name) => [...wl.querySelectorAll(`[name="${name}"]:checked`)].map((i) => i.value);
+  const text = (name) => wl.elements[name].value.trim();
+
+  // Checkbox groups that need at least one tick report it on their first box.
+  const checkGroups = () => ['areas', 'topics'].forEach((name) => {
+    wl.querySelector(`[name="${name}"]`).setCustomValidity(picked(name).length ? '' : 'Choose at least one.');
+  });
+
+  const show = (key, value) => {
+    const el = card?.querySelector(`[data-show="${key}"]`);
+    if (!el) return;
+    el.textContent = value || el.dataset.empty;
+    el.classList.toggle('is-empty', !value);
+  };
+
+  const sync = () => {
+    const chosen = picked('topics');
+    topics.forEach((t) => { t.disabled = chosen.length >= 2 && !t.checked; });
+    document.getElementById('wl-topics-count').textContent = chosen.length ? `${chosen.length} of 2 chosen` : 'Pick two';
+    document.getElementById('wl-working-count').textContent = `${working.value.length} / ${working.maxLength}`;
+    checkGroups();
+
+    const finished = steps.filter((step) => {
+      const complete = [...step.elements].every((el) => el.checkValidity());
+      step.classList.toggle('is-done', complete);
+      return complete;
+    }).length;
+
+    if (!card) return;
+    show('name', text('name'));
+    show('who', [text('role'), text('organisation')].filter(Boolean).join(', '));
+    show('areas', picked('areas').join(', '));
+    show('where', picked('area')[0]);
+    show('when', [picked('day')[0], picked('time')[0]].filter(Boolean).join(', '));
+    show('topics', chosen.join(', '));
+    show('seat', picked('confirm_choice')[0]);
+    card.querySelector('.wl-meter').style.setProperty('--p', finished);
+    card.querySelector('.wl-meter-label').textContent = `${finished} of ${steps.length} parts done`;
+  };
+
+  wl.addEventListener('input', sync);
+  wl.addEventListener('change', sync);
+  sync();
+
+  const send = async (data) => {
+    if (WAITLIST_ENDPOINT) {
+      // Form-encoded keeps it a simple request (no CORS preflight), and Apps Script reads
+      // repeated names, such as the ticked areas, as lists.
+      const res = await fetch(WAITLIST_ENDPOINT, { method: 'POST', body: new URLSearchParams(data) });
+      const result = await res.json();
+      if (!result.ok) throw new Error(result.error || 'Not saved');
+      return;
+    }
+    if (!FORM_ACCESS_KEY) throw new Error('No form endpoint');
+    // The email shows one line per field, so ticked boxes are joined first.
+    const mail = new FormData();
+    new Set(data.keys()).forEach((key) => mail.append(key, data.getAll(key).join('; ')));
+    mail.append('access_key', FORM_ACCESS_KEY);
+    mail.append('from_name', 'Builders’ Quorum website');
+    mail.append('subject', `BQ seat request: ${data.get('name')}`);
+    const res = await fetch(FORM_ENDPOINT, { method: 'POST', body: mail, headers: { Accept: 'application/json' } });
+    const result = await res.json();
+    if (!res.ok || !result.success) throw new Error(result.message || res.statusText);
+  };
+
+  const finish = (data) => {
+    done.querySelector('[data-first]').textContent = data.get('name').trim().split(/\s+/)[0];
+
+    if (data.get('confirm_choice').startsWith('Pay half')) {
+      done.querySelector('.wl-prepay').hidden = false;
+      if (PAY_NOW_URL) {
+        done.querySelector('[data-pay-later]').hidden = true;
+        Object.assign(done.querySelector('[data-pay-now]'), { href: PAY_NOW_URL, hidden: false });
+      }
+    }
+
+    const link = new URL(location.pathname, location.origin);
+    link.searchParams.set('ref', code);
+    document.getElementById('wl-share-link').value = link.href;
+    document.getElementById('wl-whatsapp-share').href = `https://wa.me/?text=${encodeURIComponent(`I’ve asked for a seat at a Builders’ Quorum session: one researcher, one frontier problem, a small room. Request yours: ${link.href}`)}`;
+
+    if (card) {
+      card.querySelector('.wl-card-no').textContent = `No. ${code}`;
+      card.classList.add('is-sent');
+    }
+    wl.hidden = true;
+    done.hidden = false;
+    done.focus({ preventScroll: true });
+    done.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  };
+
+  document.getElementById('wl-copy').addEventListener('click', async (e) => {
+    const field = document.getElementById('wl-share-link');
+    try {
+      await navigator.clipboard.writeText(field.value);
+    } catch {
+      field.select();
+      document.execCommand('copy');
+    }
+    e.currentTarget.textContent = 'Copied';
+  });
+
+  wl.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submit.disabled = true;
+    status.textContent = 'Sending your request…';
+    const data = new FormData(wl);
+    try {
+      await send(data);
+      status.textContent = '';
+      finish(data);
+    } catch {
+      status.textContent = 'Something went wrong, and your request wasn’t sent. Please try again in a moment or write to hello@buildersquorum.com.';
+    } finally {
+      submit.disabled = false;
     }
   });
 }
