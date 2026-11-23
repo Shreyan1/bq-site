@@ -4,12 +4,12 @@
 const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
 const FORM_ACCESS_KEY = 'd71b280b-35eb-4fa5-8d68-7c6d44b62ac5';
 
-// Seat requests (waitlist.html) go to a Google Sheet through an Apps Script web app. Paste its
-// /exec address here once it is deployed (tools/waitlist-sheet.gs has the steps). While it is
-// empty, requests are emailed through Web3Forms like the apply form.
+// Applications for the first event (waitlist.html) go to a Google Sheet through an Apps Script
+// web app. Paste its /exec address here once it is deployed (tools/waitlist-sheet.gs has the
+// steps). While it is empty, applications are emailed through Web3Forms like the apply form.
 const WAITLIST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzPWk3cVELRnvJ_m6UTF7piuvnA1EcQWFgNvJsTySGT1HzWqhNLQYStj5InW41KqkNV/exec';
-// A Razorpay payment page or UPI link for the pay-half-now option. While empty, people who choose it
-// are told a payment link will come with our reply.
+// A Razorpay payment page or UPI link for the ticket. It goes to selected applicants with their
+// invitation; the site never shows a pay button before selection.
 const PAY_NOW_URL = '';
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -472,16 +472,16 @@ if (form) {
   });
 }
 
-// Seat requests (waitlist.html). The side card fills in as the form is filled, finished parts
-// get a filled number, two topics at most can be picked, and once a request is sent the form
-// gives way to a link the person can share. Each request carries a short random code; links
-// shared from it carry the code back as ?ref=, so the sheet shows who brought whom.
+// Applications (waitlist.html). The side card fills in as the form is filled, finished parts
+// get a filled number, the teammates field appears for teams, and once an application is sent
+// the form gives way to a link the person can share. Each application carries a short random
+// code; links shared from it carry the code back as ?ref=, so the sheet shows who brought whom.
 const wl = document.getElementById('waitlist-form');
 
 if (wl) {
   const card = document.querySelector('.wl-card');
   const steps = [...wl.querySelectorAll('.step')];
-  const topics = [...wl.querySelectorAll('[name="topics"]')];
+  const teammates = document.getElementById('wl-teammates-field');
   const working = wl.elements.working_on;
   const status = document.getElementById('wl-status');
   const done = document.getElementById('wl-done');
@@ -507,7 +507,7 @@ if (wl) {
   const text = (name) => wl.elements[name].value.trim();
 
   // Checkbox groups that need at least one tick report it on their first box.
-  const checkGroups = () => ['areas', 'topics'].forEach((name) => {
+  const checkGroups = () => ['areas'].forEach((name) => {
     wl.querySelector(`[name="${name}"]`).setCustomValidity(picked(name).length ? '' : 'Choose at least one.');
   });
 
@@ -519,9 +519,7 @@ if (wl) {
   };
 
   const sync = () => {
-    const chosen = picked('topics');
-    topics.forEach((t) => { t.disabled = chosen.length >= 2 && !t.checked; });
-    document.getElementById('wl-topics-count').textContent = chosen.length ? `${chosen.length} of 2 chosen` : 'Pick two';
+    teammates.hidden = picked('team')[0] !== 'Team of two to four';
     document.getElementById('wl-working-count').textContent = `${working.value.length} / ${working.maxLength}`;
     checkGroups();
 
@@ -534,11 +532,11 @@ if (wl) {
     if (!card) return;
     show('name', text('name'));
     show('who', [text('role'), text('organisation')].filter(Boolean).join(', '));
+    show('builder', picked('builder_type')[0]);
+    show('team', picked('team')[0]);
     show('areas', picked('areas').join(', '));
     show('where', picked('area')[0]);
     show('when', [picked('day')[0], picked('time')[0]].filter(Boolean).join(', '));
-    show('topics', chosen.join(', '));
-    show('seat', picked('confirm_choice')[0]);
     card.querySelector('.wl-meter').style.setProperty('--p', finished);
     card.querySelector('.wl-meter-label').textContent = `${finished} of ${steps.length} parts done`;
   };
@@ -562,7 +560,7 @@ if (wl) {
     new Set(data.keys()).forEach((key) => mail.append(key, data.getAll(key).join('; ')));
     mail.append('access_key', FORM_ACCESS_KEY);
     mail.append('from_name', 'Builders’ Quorum website');
-    mail.append('subject', `BQ seat request: ${data.get('name')}`);
+    mail.append('subject', `BQ application: ${data.get('name')}`);
     const res = await fetch(FORM_ENDPOINT, { method: 'POST', body: mail, headers: { Accept: 'application/json' } });
     const result = await res.json();
     if (!res.ok || !result.success) throw new Error(result.message || res.statusText);
@@ -571,18 +569,10 @@ if (wl) {
   const finish = (data) => {
     done.querySelector('[data-first]').textContent = data.get('name').trim().split(/\s+/)[0];
 
-    if (data.get('confirm_choice').startsWith('Pay half')) {
-      done.querySelector('.wl-prepay').hidden = false;
-      if (PAY_NOW_URL) {
-        done.querySelector('[data-pay-later]').hidden = true;
-        Object.assign(done.querySelector('[data-pay-now]'), { href: PAY_NOW_URL, hidden: false });
-      }
-    }
-
     const link = new URL(location.pathname, location.origin);
     link.searchParams.set('ref', code);
     document.getElementById('wl-share-link').value = link.href;
-    document.getElementById('wl-whatsapp-share').href = `https://wa.me/?text=${encodeURIComponent(`I’ve asked for a seat at a Builders’ Quorum session: one researcher, one frontier problem, a small room. Request yours: ${link.href}`)}`;
+    document.getElementById('wl-whatsapp-share').href = `https://wa.me/?text=${encodeURIComponent(`I’ve applied for [EVENT NAME] by Builders’ Quorum. Open to apply, selected to build. Apply here: ${link.href}`)}`;
 
     if (card) {
       card.querySelector('.wl-card-no').textContent = `No. ${code}`;
@@ -608,14 +598,14 @@ if (wl) {
   wl.addEventListener('submit', async (e) => {
     e.preventDefault();
     submit.disabled = true;
-    status.textContent = 'Sending your request…';
+    status.textContent = 'Sending your application…';
     const data = new FormData(wl);
     try {
       await send(data);
       status.textContent = '';
       finish(data);
     } catch {
-      status.textContent = 'Something went wrong, and your request wasn’t sent. Please try again in a moment or write to hello@buildersquorum.com.';
+      status.textContent = 'Something went wrong, and your application wasn’t sent. Please try again in a moment or write to hello@buildersquorum.com.';
     } finally {
       submit.disabled = false;
     }
