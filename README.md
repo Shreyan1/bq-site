@@ -84,7 +84,7 @@ The event details are placeholders for the founders to fill in: `[EVENT NAME]`, 
 - Where applications go: a private Google Sheet, through the Apps Script in `tools/waitlist-sheet.gs` (setup steps at the top of that file). Its web app address is in `WAITLIST_ENDPOINT` in `main.js`. After changing the script, redeploy it (Deploy > Manage deployments > Edit > New version), or the live address keeps the old columns.
 - The sheet: an Applications tab with one row per application, a "Repeat email" flag, and Status and Notes columns for selection. An older Requests tab from the seat requests is left as it was. `setup()` also rebuilds a Summary tab that counts every answer (kind of builder, team, role, experience, interest areas, area, where people heard about BQ).
 - Tracking: every application gets a six-character code. After sending, people get a link with `?ref=CODE` to share, and applications that arrive through it record the code. `utm_source`, `utm_medium` and `utm_campaign` are saved too, so give each channel its own link, for example `waitlist.html?utm_source=whatsapp&utm_campaign=cdi`.
-- `PAY_NOW_URL` in `main.js` holds a Razorpay payment page or UPI link for the ticket. It goes to selected applicants; the site does not show it.
+- The site has no pay button. If there is a ticket price, the payment link goes to selected applicants in their selection email.
 
 ## Design system
 
@@ -124,7 +124,7 @@ BQ helps teams answer three questions before they pitch: is the problem real, wi
 ## Copy that still needs founder sign-off
 
 - Every placeholder for the first event: `[EVENT NAME]`, `[DATE IN DECEMBER]`, `[UNDER 100]`, `[TICKET]`, `[AGENDA]` and `[APPLICATIONS CLOSE]`
-- The 12-week cycle, team numbers and mentor commitments on the universities page, which come from the partner proposal and are indicative
+- The 12-week cycle and mentor commitments on the universities page, which come from the partner proposal and are indicative
 - The six ways to partner, and "pricing on request" or "scoped to the brief" for universities and partners
 - The nav labels "Partners" and "Mentors" (previously "Enterprises" and "Network")
 - Work with us: "One of the founders reads every message and writes back", "Never shared outside the BQ team", and the "What happens next" steps for each role
