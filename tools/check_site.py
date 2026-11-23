@@ -21,6 +21,9 @@ What it checks
   head        title, description, canonical, og:url, lang, one h1 per page
   writing     CLAUDE.md rules on visible text (em dashes, brand spelling, Oxford comma, US spelling,
               Indian place names outside the footer); fragments and "X, not Y" are warnings
+  placeholders  no [EVENT NAME]-style placeholder is left anywhere in a published file, including
+              titles, meta tags, structured data and scripts. The deploy workflow runs this script,
+              so a merge with placeholders left in it is not published.
 """
 
 import argparse
@@ -54,8 +57,8 @@ KNOWN = {
     ('writing-places', 'apply.html'):
         'The organiser and venue options on the form list Delhi NCR areas for the venues page (same decision as venues.html).',
     ('writing-places', 'waitlist.html'):
-        'The seat request page is a noindex campaign page for the first sessions in Delhi NCR, shared through '
-        'the founders\' communities and kept out of the nav (9 November 2026).',
+        'The application page for the first event names where it happens. It is noindex and out of the '
+        'header nav and the sitemap (9 November 2026).',
     ('writing-places', 'venues.html'):
         'venues.html is about Delhi NCR by design (7 October decision) but the 11 October "global first" rule '
         'says nothing outside the footer names Indian places. Founders to decide: keep, or make the page '
@@ -71,6 +74,8 @@ US_SPELLING = [
     (re.compile(r'\b(colors?|colored|behaviors?|favorites?|honors?|labor|neighbors?|analy[sz]e|catalog|defense|gray|'
                 r'traveling|modeling|canceled|fulfill|centers?|centered|programs?)\b', re.I), 'US spelling'),
 ]
+# Copy waiting for a founder to fill in, written in square brackets: [EVENT NAME], [TICKET], [UNDER 100].
+PLACEHOLDER = re.compile(r'\[[A-Z][A-Z0-9 ]{2,}[A-Z0-9]\]')
 AI_WORDS = re.compile(r"\b(delve|delves|leverage|leverages|leveraging|unlock|unlocks|unlocking|seamless|"
                       r"fast-paced|game-changer|tapestry)\b", re.I)
 
@@ -855,6 +860,19 @@ def check_generated(rep, root):
             rep.fail('venues.html', min(len(a), len(b)) + 1, 'generated', 'length differs from what tools/build_venues.py writes')
 
 
+def check_placeholders(rep, root):
+    """Reads the raw files, not the parsed text, so placeholders in <title>, meta tags, JSON-LD and
+    scripts are caught too. The files are the ones the deploy workflow publishes."""
+    files = sorted(root.glob('*.html')) + [root / 'main.js'] + sorted((root / 'assets').rglob('*.js'))
+    for path in files:
+        if not path.exists():
+            continue
+        text = path.read_text(encoding='utf-8')
+        for m in PLACEHOLDER.finditer(text):
+            line = text.count('\n', 0, m.start()) + 1
+            rep.fail(path.relative_to(root).as_posix(), line, 'placeholders', f'{m.group()} still needs filling in')
+
+
 def check_misc(rep, root, pages):
     sm = root / 'sitemap.xml'
     if sm.exists():
@@ -900,6 +918,7 @@ def main():
     check_writing(rep, pages)
     check_jsonld(rep, root, pages)
     check_generated(rep, root)
+    check_placeholders(rep, root)
     check_misc(rep, root, pages)
 
     print(f'Checked {len(pages)} pages, {len(rules)} CSS rules in {root}')
