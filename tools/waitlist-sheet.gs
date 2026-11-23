@@ -49,8 +49,6 @@ const FIELDS = [
   ['areas', 'Interest areas'],
   ['problem', 'Problem worth solving'],
   ['area', 'Area'],
-  ['day', 'Day'],
-  ['time', 'Time'],
   ['heard_from', 'Heard about us'],
   ['sent_by', 'Sent by'],
   ['contact_ok', 'Contact consent'],
@@ -67,7 +65,7 @@ const FIELDS = [
 const STATUSES = ['New', 'Shortlisted', 'Selected', 'Confirmed', 'Waitlist', 'Declined'];
 
 // Columns the Summary tab counts. Lists (areas) are split before counting.
-const SUMMARY = ['builder_type', 'team', 'role', 'experience', 'areas', 'area', 'day', 'time', 'heard_from', 'utm_source', 'referred_by'];
+const SUMMARY = ['builder_type', 'team', 'role', 'experience', 'areas', 'area', 'heard_from', 'utm_source', 'referred_by'];
 
 function doPost(e) {
   const p = e.parameters; // every value is a list, so ticked boxes arrive together

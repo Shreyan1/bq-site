@@ -415,6 +415,8 @@ if (form) {
     member: 'Company or organisation', organiser: 'Community or organisation', venue: 'Name of the space',
   };
   const needsOrg = ['member', 'campus', 'partner', 'organiser', 'venue'];
+  // Builders apply on waitlist.html, so for them this form shows the link and sends nothing.
+  const sendSteps = ['you', 'else'].map((id) => document.getElementById(id).closest('fieldset'));
 
   const syncRole = () => {
     roleFields.forEach((group) => {
@@ -422,6 +424,7 @@ if (form) {
       group.hidden = !active;
       if (group.matches('fieldset')) group.disabled = !active; // disabled fields skip validation and aren't sent
     });
+    sendSteps.forEach((step) => { step.hidden = step.disabled = role.value === 'builder'; });
     org.required = needsOrg.includes(role.value);
     orgOptional.hidden = org.required;
     submit.textContent = submitLabels[role.value] || 'Send';
@@ -516,7 +519,9 @@ if (wl) {
   };
 
   const sync = () => {
-    teammates.hidden = picked('team')[0] !== 'Team of two to four';
+    // A solo applicant's teammates field is disabled as well as hidden, so anything typed
+    // there before switching to Solo isn't sent.
+    teammates.hidden = wl.elements.teammates.disabled = picked('team')[0] !== 'Team of two to four';
     document.getElementById('wl-working-count').textContent = `${working.value.length} / ${working.maxLength}`;
     checkGroups();
 
@@ -533,7 +538,6 @@ if (wl) {
     show('team', picked('team')[0]);
     show('areas', picked('areas').join(', '));
     show('where', picked('area')[0]);
-    show('when', [picked('day')[0], picked('time')[0]].filter(Boolean).join(', '));
     card.querySelector('.wl-meter').style.setProperty('--p', finished);
     card.querySelector('.wl-meter-label').textContent = `${finished} of ${steps.length} parts done`;
   };
