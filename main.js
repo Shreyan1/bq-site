@@ -9,7 +9,7 @@ const FORM_ACCESS_KEY = 'd71b280b-35eb-4fa5-8d68-7c6d44b62ac5';
 // steps). While it is empty, applications are emailed through Web3Forms like the apply form.
 const WAITLIST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzPWk3cVELRnvJ_m6UTF7piuvnA1EcQWFgNvJsTySGT1HzWqhNLQYStj5InW41KqkNV/exec';
 // A Razorpay payment page or UPI link for the ticket. It goes to selected applicants with their
-// invitation; the site never shows a pay button before selection.
+// selection email; the site never shows a pay button before selection.
 const PAY_NOW_URL = '';
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -83,7 +83,7 @@ if (!reduceMotion) {
 
   // Siblings get a stagger index so grids come in one by one.
   document.querySelectorAll(
-    '.section .eyebrow, .section h2, .section .intro, .grid > *, .flow > li, .split > *, .stages > li, .outcomes, .numbered, .stuck, .faq, .fellows-note, .callout, .cta-band, .frontiers, .reel-strip, .reel-close > *'
+    '.section .eyebrow, .section h2, .section .intro, .grid > *, .flow > li, .split > *, .stages > li, .outcomes, .numbered, .stuck, .faq, .callout, .cta-band, .frontiers, .reel-strip, .reel-close > *'
   ).forEach((el) => {
     el.classList.add('reveal');
     el.style.setProperty('--i', [...el.parentElement.children].indexOf(el) % 4);

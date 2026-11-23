@@ -432,15 +432,6 @@ span.step { font-size: 0.75rem; letter-spacing: 0.14em; color: var(--ink); font-
 .section-ink .mark { --accent-wash: color-mix(in srgb, var(--accent) 55%, transparent); }
 .section-ink .ticks li { border-color: var(--line); }
 .section-ink .link-arrow { border-color: var(--line); }
-.fellows { gap: 3rem; }
-.fellows-note {
-  max-width: 40rem;
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
-  font: 400 clamp(1.5rem, 1.2rem + 1.2vw, 2rem)/1.2 var(--serif);
-  text-wrap: balance;
-}
 
 /* Lists */
 
