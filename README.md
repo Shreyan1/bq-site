@@ -22,7 +22,7 @@ apply.html        "Work with us", a short letter in numbered parts, each on its 
                   apply.html?role=campus | partner | investor | member | builder | reader | organiser | venue
                   apply.html?role=organiser&venue=Name fills in the space the organiser picked
 waitlist.html     the application page for the first event (noindex, not in the nav or sitemap). Linked as
-                  "Apply for [EVENT NAME]" from the home hero and every footer. See "Waitlist" below
+                  "Apply for the first event" from the home page and every footer. See "Waitlist" below
 styles.css        design tokens at the top, then components, then motion
 main.js           nav, scroll reveal, sketch drawing, tabs, form, and lazy-loading the hero field
 src/field.js      the home hero's Three.js scene. Built into assets/field.js with `npm install` then
@@ -58,7 +58,7 @@ Then open http://localhost:8000.
 python3 tools/check_site.py          # from website/; Python standard library only
 ```
 
-It exits 1 if anything fails and prints `file:line [check] message`. It covers CSS class collisions (a bare selector such as `.step` that styles unrelated components on different pages), local links, anchors and ids, image alt, width and height against the real file size, portrait credits against this README, fonts, head tags, JSON-LD, whether `venues.html` is stale against its generator, and the CLAUDE.md writing rules (em dashes, brand spelling, Oxford comma, US spelling, Indian place names outside the footer). `FAIL` must be fixed, `WARN` needs a look, `NOTE` is information, and `KNOWN` is a failure the founders have been told about, listed with its reason in `KNOWN` at the top of the script. By default `NOTE` lines are only counted and `KNOWN` ones are grouped; `--verbose` lists every one of them, `--collisions` also lists every shared class, `--quiet` hides warnings and `--root PATH` checks another copy of the site. It runs from any folder. Run it before every push; it takes under a second. It does not render anything, so layout, overflow and contrast still need a look in the browser at 1440 px and 375 px.
+It exits 1 if anything fails and prints `file:line [check] message`. It covers CSS class collisions (a bare selector such as `.step` that styles unrelated components on different pages), local links, anchors and ids, image alt, width and height against the real file size, portrait credits against this README, fonts, head tags, JSON-LD, whether `venues.html` is stale against its generator, the CLAUDE.md writing rules (em dashes, brand spelling, Oxford comma, US spelling, Indian place names outside the footer) and leftover square-bracket placeholders such as `[EVENT NAME]`. `FAIL` must be fixed, `WARN` needs a look, `NOTE` is information, and `KNOWN` is a failure the founders have been told about, listed with its reason in `KNOWN` at the top of the script. By default `NOTE` lines are only counted and `KNOWN` ones are grouped; `--verbose` lists every one of them, `--collisions` also lists every shared class, `--quiet` hides warnings and `--root PATH` checks another copy of the site. It runs from any folder. Run it before every push; it takes under a second. The deploy workflow runs it too, and a `FAIL` stops the site being published. It does not render anything, so layout, overflow and contrast still need a look in the browser at 1440 px and 375 px.
 
 ## Deploy to GitHub Pages
 
@@ -79,7 +79,18 @@ In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages wi
 
 `waitlist.html` is the application page for BQ's first event. It keeps its file name so existing and UTM links still work. Anyone who builds can apply; BQ reads every application and selects a mixed group of tech and business builders, who then get the date and the venue. It is the one page that names a place outside the footer, so it stays out of search (`noindex`), the main nav and the sitemap, and `tools/check_site.py` lists it as KNOWN.
 
-The event details are placeholders for the founders to fill in: `[EVENT NAME]`, `[DATE IN DECEMBER]`, `[UNDER 100]`, `[TICKET]`, `[AGENDA]` and `[APPLICATIONS CLOSE]`. Search for them across the site. If there is a ticket price, it is paid only after selection; the page never shows a pay button.
+The event details are written in general terms until the founders confirm them. When they do, change these lines (search for the wording shown):
+
+| Detail | General wording now | Where |
+|---|---|---|
+| Event name | "the first event", "the first Builders’ Quorum event", "the first BQ event" | `waitlist.html` (title, description, link-preview title, hero, event facts, consent line), every footer and `404.html` ("Apply for the first event"), the home hero, builders card and closing band, `apply.html` (builder option, its step and next steps), the share text in `main.js` |
+| Date | "December, about four to five hours"; "in December" | `waitlist.html` event facts and the "Where and when is it?" answer |
+| Number of builders | "A small group" | `waitlist.html` event facts and the "On the day" intro |
+| Ticket | "Paid only after selection, if there is one"; "If the event has a ticket price, you pay it only after you are selected" | `waitlist.html` event facts, "Before you send" and the cost answer; the home FAQ and its FAQPage data |
+| Agenda | Three rows: Real problems, Mixed teams, Build and test | `waitlist.html`, "On the day" |
+| Applications close | "Applications for the first event are open now" | the home closing band; add a closing date to the `waitlist.html` intro ("Four short parts...") too |
+
+Don't put square-bracket placeholders such as `[EVENT NAME]` back on the pages: `tools/check_site.py` fails on them, and the deploy workflow runs it, so a page with one won't be published. If there is a ticket price, it is paid only after selection; the page never shows a pay button.
 
 - Where applications go: a private Google Sheet, through the Apps Script in `tools/waitlist-sheet.gs` (setup steps at the top of that file). Its web app address is in `WAITLIST_ENDPOINT` in `main.js`. After changing the script, redeploy it (Deploy > Manage deployments > Edit > New version), or the live address keeps the old columns.
 - The sheet: an Applications tab with one row per application, a "Repeat email" flag, and Status and Notes columns for selection. An older Requests tab from the seat requests is left as it was. `setup()` also rebuilds a Summary tab that counts every answer (kind of builder, team, role, experience, interest areas, area, where people heard about BQ).
@@ -123,7 +134,7 @@ BQ helps teams answer three questions before they pitch: is the problem real, wi
 
 ## Copy that still needs founder sign-off
 
-- Every placeholder for the first event: `[EVENT NAME]`, `[DATE IN DECEMBER]`, `[UNDER 100]`, `[TICKET]`, `[AGENDA]` and `[APPLICATIONS CLOSE]`
+- The general wording for the first event (name, date, group size, ticket, agenda, closing date), listed under "Waitlist", until the real details replace it
 - The 12-week cycle and mentor commitments on the universities page, which come from the partner proposal and are indicative
 - The six ways to partner, and "pricing on request" or "scoped to the brief" for universities and partners
 - The nav labels "Partners" and "Mentors" (previously "Enterprises" and "Network")

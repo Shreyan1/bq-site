@@ -570,7 +570,7 @@ if (wl) {
     const link = new URL(location.pathname, location.origin);
     link.searchParams.set('ref', code);
     document.getElementById('wl-share-link').value = link.href;
-    document.getElementById('wl-whatsapp-share').href = `https://wa.me/?text=${encodeURIComponent(`I’ve applied for [EVENT NAME] by Builders’ Quorum. Open to apply, selected to build. Apply here: ${link.href}`)}`;
+    document.getElementById('wl-whatsapp-share').href = `https://wa.me/?text=${encodeURIComponent(`I’ve applied for the first Builders’ Quorum event. Open to apply, selected to build. Apply here: ${link.href}`)}`;
 
     if (card) {
       card.querySelector('.wl-card-no').textContent = `No. ${code}`;
