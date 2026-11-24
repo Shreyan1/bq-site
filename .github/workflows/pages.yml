@@ -18,6 +18,9 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@v6
+      - name: Check the site
+        # Stops the deploy on any FAIL, such as a broken link or an [EVENT NAME]-style placeholder.
+        run: python3 tools/check_site.py --quiet
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Prepare Pages artifact

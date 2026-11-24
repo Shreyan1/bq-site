@@ -432,15 +432,6 @@ span.step { font-size: 0.75rem; letter-spacing: 0.14em; color: var(--ink); font-
 .section-ink .mark { --accent-wash: color-mix(in srgb, var(--accent) 55%, transparent); }
 .section-ink .ticks li { border-color: var(--line); }
 .section-ink .link-arrow { border-color: var(--line); }
-.fellows { gap: 3rem; }
-.fellows-note {
-  max-width: 40rem;
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
-  font: 400 clamp(1.5rem, 1.2rem + 1.2vw, 2rem)/1.2 var(--serif);
-  text-wrap: balance;
-}
 
 /* Lists */
 
@@ -1795,4 +1786,22 @@ html:not(.js) .hero-field { display: none; }
 .wl-aside .next { margin-top: 0.5rem; }
 @media (prefers-reduced-motion: reduce) {
   .wl-meter span, .wl-card [data-show], .wl-card-no { transition: none; }
+}
+
+/* Programme tables (the cycle on universities, the ways to partner on partners): hairline rows,
+   the stage in the serif, and the selection stage in vermilion. On phones each row stacks. */
+.cycle { width: 100%; margin-top: clamp(2rem, 4vw, 3rem); border-collapse: collapse; }
+.cycle th, .cycle td { padding: 1.125rem 1.5rem 1.125rem 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.cycle thead th { padding-block: 0 0.75rem; border-bottom-color: var(--ink); font: 500 0.75rem/1.4 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
+.cycle tbody th { font: 400 1.375rem/1.15 var(--serif); color: var(--ink); }
+.cycle tbody th span { display: block; margin-top: 0.375rem; font: 500 0.75rem/1.4 var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.cycle td { color: var(--ink-soft); }
+.cycle td:last-child { padding-right: 0; white-space: nowrap; color: var(--ink); }
+.cycle .is-selective th { color: var(--accent-ink); }
+@media (max-width: 47.99rem) {
+  .cycle thead { display: none; }
+  .cycle tr { display: grid; gap: 0.375rem; padding-block: 1rem; border-bottom: 1px solid var(--line); }
+  .cycle th, .cycle td { padding: 0; border: 0; }
+  .cycle td:last-child { white-space: normal; }
+  .cycle td[data-label]::before { content: attr(data-label) ": "; color: var(--ink-soft); }
 }

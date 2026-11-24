@@ -1,18 +1,20 @@
-// Builders' Quorum seat requests: receives the form on waitlist.html and adds each request
-// as a row in this Google Sheet. It is not part of the published site.
+// Builders' Quorum applications: receives the application form on waitlist.html (the first
+// event) and adds each application as a row in this Google Sheet. It is not part of the
+// published site.
 //
 // Setup, once (about five minutes). It works from Drive or from inside a sheet:
 // 1. In the BQ Google account, open script.google.com (or Drive > New > More > Google Apps
-//    Script) and start a new project. Name it "BQ seat requests".
+//    Script) and start a new project. Name it "BQ applications".
 //    From inside a sheet instead: Extensions > Apps Script. That menu only appears in a
 //    native Google Sheet, not in an .xlsx file opened in Sheets (File > Save as Google
 //    Sheets first).
 // 2. Replace everything in Code.gs with this file and save (Cmd+S). The function menu says
 //    "No functions" until the file is saved.
 // 3. Choose setup in the function menu, press Run and accept the permissions. From Drive it
-//    creates a sheet called "BQ seat requests" in your Drive; from a sheet it uses that
-//    sheet. Either way it adds the Requests and Summary tabs, and the Execution log prints
-//    the sheet's address.
+//    creates a sheet called "BQ applications" in your Drive; from a sheet it uses that
+//    sheet. Either way it adds the Applications and Summary tabs, and the Execution log
+//    prints the sheet's address. An older Requests tab, from the seat requests, is left as
+//    it was.
 // 4. Deploy > New deployment > type Web app. Execute as: Me. Who has access: Anyone. Deploy,
 //    then copy the web app address (it ends in /exec). Open it in a browser: it should say
 //    {"ok":true,...}.
@@ -30,7 +32,7 @@ const NOTIFY = ''; // an address to email on each request, for example hello@bui
 const SHEET_ID = ''; // optional: an existing sheet to write to. Leave empty and setup makes one
 
 // [form field, column heading]. The order here is the column order in the sheet. Status and
-// Notes are left empty for the founders to fill in while they choose each room.
+// Notes are left empty for the founders to fill in while they select.
 const FIELDS = [
   ['submitted_at', 'Submitted'],
   ['name', 'Name'],
@@ -38,16 +40,15 @@ const FIELDS = [
   ['whatsapp', 'WhatsApp'],
   ['linkedin', 'LinkedIn'],
   ['role', 'Current role'],
-  ['organisation', 'Company or university'],
+  ['organisation', 'Company, university or organisation'],
   ['experience', 'Experience'],
-  ['working_on', 'Working on'],
-  ['areas', 'Frontier areas'],
-  ['problem', 'Problem they would bring'],
+  ['builder_type', 'Kind of builder'],
+  ['team', 'Team'],
+  ['teammates', 'Teammates'],
+  ['working_on', 'Built, shipped or run'],
+  ['areas', 'Interest areas'],
+  ['problem', 'Problem worth solving'],
   ['area', 'Area'],
-  ['day', 'Day'],
-  ['time', 'Time'],
-  ['topics', 'Topics (two)'],
-  ['confirm_choice', 'How they would confirm'],
   ['heard_from', 'Heard about us'],
   ['sent_by', 'Sent by'],
   ['contact_ok', 'Contact consent'],
@@ -61,10 +62,10 @@ const FIELDS = [
   ['status', 'Status'],
   ['notes', 'Notes'],
 ];
-const STATUSES = ['New', 'Shortlisted', 'Invited', 'Confirmed', 'Waitlist', 'Declined'];
+const STATUSES = ['New', 'Shortlisted', 'Selected', 'Confirmed', 'Waitlist', 'Declined'];
 
-// Columns the Summary tab counts. Lists (areas, topics) are split before counting.
-const SUMMARY = ['area', 'day', 'time', 'topics', 'areas', 'confirm_choice', 'role', 'experience', 'heard_from', 'utm_source', 'referred_by'];
+// Columns the Summary tab counts. Lists (areas) are split before counting.
+const SUMMARY = ['builder_type', 'team', 'role', 'experience', 'areas', 'area', 'heard_from', 'utm_source', 'referred_by'];
 
 function doPost(e) {
   const p = e.parameters; // every value is a list, so ticked boxes arrive together
@@ -74,7 +75,7 @@ function doPost(e) {
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
-    const sheet = requests();
+    const sheet = applications();
     const email = first(p.email).trim().toLowerCase();
     const last = sheet.getLastRow();
     const emails = last > 1 ? sheet.getRange(2, column('email'), last - 1, 1).getValues() : [];
@@ -91,7 +92,7 @@ function doPost(e) {
   }
 
   if (NOTIFY) {
-    MailApp.sendEmail(NOTIFY, `BQ seat request: ${first(p.name)}`,
+    MailApp.sendEmail(NOTIFY, `BQ application: ${first(p.name)}`,
       FIELDS.filter(([key]) => p[key]).map(([key, label]) => `${label}: ${p[key].join('; ')}`).join('\n'));
   }
   return reply({ ok: true });
@@ -99,38 +100,38 @@ function doPost(e) {
 
 // Opening the web app address in a browser shows it is running.
 function doGet() {
-  return reply({ ok: true, service: 'BQ seat requests' });
+  return reply({ ok: true, service: 'BQ applications' });
 }
 
 // Run once from the editor. Safe to run again: it rebuilds the Summary tab and leaves the rows alone.
 function setup() {
-  const sheet = requests();
+  const sheet = applications();
   const status = sheet.getRange(2, column('status'), sheet.getMaxRows() - 1, 1);
   status.setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(STATUSES, true).build());
 
   const book = spreadsheet();
   const summary = book.getSheetByName('Summary') || book.insertSheet('Summary');
   summary.clear();
-  summary.getRange('A1').setValue('Requests').setFontWeight('bold');
-  summary.getRange('A2').setFormula('=COUNTA(Requests!B2:B)');
+  summary.getRange('A1').setValue('Applications').setFontWeight('bold');
+  summary.getRange('A2').setFormula('=COUNTA(Applications!B2:B)');
   summary.getRange('B1').setValue('Different people').setFontWeight('bold');
-  summary.getRange('B2').setFormula('=COUNTUNIQUE(Requests!C2:C)');
+  summary.getRange('B2').setFormula('=COUNTUNIQUE(Applications!C2:C)');
 
   // One block per question, side by side from row 4: each answer and how many chose it.
   SUMMARY.forEach((key, i) => {
     const col = 1 + i * 3;
     const letter = columnLetter(column(key));
-    const range = `Requests!${letter}2:${letter}`;
+    const range = `Applications!${letter}2:${letter}`;
     summary.getRange(4, col).setValue(FIELDS.find(([k]) => k === key)[1]).setFontWeight('bold');
     summary.getRange(5, col).setFormula(
       `=IFERROR(QUERY(FLATTEN(ARRAYFORMULA(IFERROR(SPLIT(${range}, "; ", FALSE)))), ` +
       `"select Col1, count(Col1) where Col1 is not null group by Col1 order by count(Col1) desc label count(Col1) ''", 0), "None yet")`);
   });
   summary.setFrozenRows(4);
-  Logger.log(`Requests are saved to ${book.getUrl()}`);
+  Logger.log(`Applications are saved to ${book.getUrl()}`);
 }
 
-// The sheet the requests go to. A script made inside a sheet uses that sheet. A script made
+// The sheet the applications go to. A script made inside a sheet uses that sheet. A script made
 // from Drive has no sheet of its own (getActiveSpreadsheet() is null there), so it uses
 // SHEET_ID, or the sheet it created on its first run, whose ID it keeps in Script Properties.
 function spreadsheet() {
@@ -140,17 +141,19 @@ function spreadsheet() {
   const props = PropertiesService.getScriptProperties();
   const id = props.getProperty('SHEET_ID');
   if (id) return SpreadsheetApp.openById(id);
-  const created = SpreadsheetApp.create('BQ seat requests');
+  const created = SpreadsheetApp.create('BQ applications');
   props.setProperty('SHEET_ID', created.getId());
   return created;
 }
 
-function requests() {
+// The Applications tab. It reuses an empty first tab in a new sheet, and otherwise is added
+// alongside any older Requests tab so earlier rows keep their own columns.
+function applications() {
   const book = spreadsheet();
-  let sheet = book.getSheetByName('Requests');
+  let sheet = book.getSheetByName('Applications');
   if (!sheet) {
-    sheet = book.getSheets()[0];
-    sheet.setName('Requests');
+    const blank = book.getSheets().find((s) => s.getLastRow() === 0 && s.getName() !== 'Summary');
+    sheet = blank ? blank.setName('Applications') : book.insertSheet('Applications', 0);
   }
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(FIELDS.map(([, label]) => label));

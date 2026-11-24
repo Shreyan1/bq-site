@@ -3,27 +3,26 @@
 Plain HTML, CSS and a little JS. No framework. Only venues.html and assets/field.js are generated (see below). Prepared for GitHub Pages at https://buildersquorum.com.
 
 ```
-index.html        home: hero (the "found" crowd), what we do (curation), the student journey, why BQ,
-                  four doors, pilot first, FAQ
-universities.html the main customer page: what students get, journey and Fellows, tracks, what a
-                  university gets, how a pilot works, proven formats
-partners.html     for companies, sponsors and practitioners: hackathons, live problems, engineers, backing
-                  a chapter or city, plus the hidden "Backed by" section
-investors.html    for investors: angel and pre-seed first, later stages as mentors, judges and problem owners
-network.html      the network of researchers, engineers, founders and investors: what members do, how the
-                  network meets (invitation-only sessions), how members are chosen
+index.html        home: hero ("Build what’s worth building."), the problem (three questions), how BQ works
+                  in four steps, who it is for, the builders reel, real problems, four doors, pilot first, FAQ
+universities.html a mentored venture cohort: what students get, the 12-week cycle, mentors, what a
+                  university gets and commits, the pilot, ground rules
+partners.html     for industry partners and sponsors: the challenge partner offer and commitments, the six
+                  ways to partner, plus the hidden "Backed by" section
+investors.html    for investors: selected teams matched to their stage, mentor assessments, the ground rules
+network.html      the mentor network: builder and senior mentors, how networking events lead to a role in a
+                  cycle, BQ's promise to mentors
 venues.html       generated: one open page listing spaces for tech events, with capacity, terms, contact
                   details, filters and an FAQ. Built from data/venues.json by tools/build_venues.py
-apply.html        "Work with us", a short letter in numbered parts, each on its own soft panel. Four main ways in (university,
-                  company, investor, network member) and four smaller ones; the questions and the "What
-                  happens next" column change with the choice. It opens on universities. The organiser and
-                  venue options only appear when a link from the venues page asks for them.
-                  Links can preselect a role:
-                  apply.html?role=campus | partner | investor | member | practitioner | speaker | student
-                  | reader | organiser | venue
+apply.html        "Work with us", a short letter in numbered parts, each on its own soft panel. Four main ways in
+                  (university, industry partner or sponsor, investor, mentor), plus a builder option that
+                  points to the event application and The BQ Brief; the questions and the "What happens next"
+                  column change with the choice. The organiser and venue options only appear when a link
+                  from the venues page asks for them. Links can preselect a role:
+                  apply.html?role=campus | partner | investor | member | builder | reader | organiser | venue
                   apply.html?role=organiser&venue=Name fills in the space the organiser picked
-waitlist.html     seat requests for the first sessions (noindex, not in the nav or sitemap). Linked as "Join
-                  the waitlist" from every footer and from "How the network meets" on network.html. See "Waitlist" below
+waitlist.html     the application page for the first event (noindex, not in the nav or sitemap). Linked as
+                  "Apply for the first event" from the home page and every footer. See "Waitlist" below
 styles.css        design tokens at the top, then components, then motion
 main.js           nav, scroll reveal, sketch drawing, tabs, form, and lazy-loading the hero field
 src/field.js      the home hero's Three.js scene. Built into assets/field.js with `npm install` then
@@ -59,7 +58,7 @@ Then open http://localhost:8000.
 python3 tools/check_site.py          # from website/; Python standard library only
 ```
 
-It exits 1 if anything fails and prints `file:line [check] message`. It covers CSS class collisions (a bare selector such as `.step` that styles unrelated components on different pages), local links, anchors and ids, image alt, width and height against the real file size, portrait credits against this README, fonts, head tags, JSON-LD, whether `venues.html` is stale against its generator, and the CLAUDE.md writing rules (em dashes, brand spelling, Oxford comma, US spelling, Indian place names outside the footer). `FAIL` must be fixed, `WARN` needs a look, `NOTE` is information, and `KNOWN` is a failure the founders have been told about, listed with its reason in `KNOWN` at the top of the script. By default `NOTE` lines are only counted and `KNOWN` ones are grouped; `--verbose` lists every one of them, `--collisions` also lists every shared class, `--quiet` hides warnings and `--root PATH` checks another copy of the site. It runs from any folder. Run it before every push; it takes under a second. It does not render anything, so layout, overflow and contrast still need a look in the browser at 1440 px and 375 px.
+It exits 1 if anything fails and prints `file:line [check] message`. It covers CSS class collisions (a bare selector such as `.step` that styles unrelated components on different pages), local links, anchors and ids, image alt, width and height against the real file size, portrait credits against this README, fonts, head tags, JSON-LD, whether `venues.html` is stale against its generator, the CLAUDE.md writing rules (em dashes, brand spelling, Oxford comma, US spelling, Indian place names outside the footer) and leftover square-bracket placeholders such as `[EVENT NAME]`. `FAIL` must be fixed, `WARN` needs a look, `NOTE` is information, and `KNOWN` is a failure the founders have been told about, listed with its reason in `KNOWN` at the top of the script. By default `NOTE` lines are only counted and `KNOWN` ones are grouped; `--verbose` lists every one of them, `--collisions` also lists every shared class, `--quiet` hides warnings and `--root PATH` checks another copy of the site. It runs from any folder. Run it before every push; it takes under a second. The deploy workflow runs it too, and a `FAIL` stops the site being published. It does not render anything, so layout, overflow and contrast still need a look in the browser at 1440 px and 375 px.
 
 ## Deploy to GitHub Pages
 
@@ -78,14 +77,25 @@ In GoDaddy DNS for `buildersquorum.com`, point the apex (`@`) to GitHub Pages wi
 
 ## Waitlist
 
-`waitlist.html` collects seat requests for the first invitation-only sessions in Delhi NCR, so the founders can see who is interested and choose the venue, day, time and speakers from the answers. It is the one page that names a place outside the footer, so it stays out of search (`noindex`), the main nav and the sitemap, and `tools/check_site.py` lists it as KNOWN. It is linked from every footer and from network.html, and shared directly in the founders' communities.
+`waitlist.html` is the application page for BQ's first event. It keeps its file name so existing and UTM links still work. Anyone who builds can apply; BQ reads every application and selects a mixed group of tech and business builders, who then get the date and the venue. It is the one page that names a place outside the footer, so it stays out of search (`noindex`), the main nav and the sitemap, and `tools/check_site.py` lists it as KNOWN.
 
-The page never states an amount. It says the contribution "covers the session" (internally it is redeemable against food and drink, and may cover merchandise). People choose between paying in full when selected and paying half now to be prioritised. There is deliberately no "paying would be difficult" option (decided 9 November 2026): offered as a choice, most people would pick it. Genuine cases can write to hello@buildersquorum.com and are handled one by one.
+The event details are written in general terms until the founders confirm them. When they do, change these lines (search for the wording shown):
 
-- Where responses go: a private Google Sheet, through the Apps Script in `tools/waitlist-sheet.gs` (setup steps at the top of that file). Paste the web app address into `WAITLIST_ENDPOINT` in `main.js`. Until then, requests are emailed to hello@buildersquorum.com through Web3Forms, which is fine for testing but has a monthly cap on the free plan.
-- The sheet: one row per request, a "Repeat email" flag, and Status and Notes columns for choosing each room. `setup()` also builds a Summary tab that counts every answer (area, day, time, topics, how people would confirm, where they heard about BQ).
-- Tracking: every request gets a six-character code. After sending, people get a link with `?ref=CODE` to share, and requests that arrive through it record the code, so the sheet shows who brings whom. `utm_source`, `utm_medium` and `utm_campaign` are saved too, so give each channel its own link, for example `waitlist.html?utm_source=whatsapp&utm_campaign=cdi`.
-- The pay-half-now option: the site takes no payments. Put a Razorpay payment page or UPI link in `PAY_NOW_URL` in `main.js` to show a pay button after sending; while it is empty, people are told a link will come with the reply.
+| Detail | General wording now | Where |
+|---|---|---|
+| Event name | "the first event", "the first Builders’ Quorum event", "the first BQ event" | `waitlist.html` (title, description, link-preview title, hero, event facts, consent line), every footer and `404.html` ("Apply for the first event"), the home hero, builders card and closing band, `apply.html` (builder option, its step and next steps), the share text in `main.js` |
+| Date | "December, about four to five hours"; "in December" | `waitlist.html` event facts and the "Where and when is it?" answer |
+| Number of builders | "A small group" | `waitlist.html` event facts and the "On the day" intro |
+| Ticket | "Paid only after selection, if there is one"; "If the event has a ticket price, you pay it only after you are selected" | `waitlist.html` event facts, "Before you send" and the cost answer; the home FAQ and its FAQPage data |
+| Agenda | Three rows: Real problems, Mixed teams, Build and test | `waitlist.html`, "On the day" |
+| Applications close | "Applications for the first event are open now" | the home closing band; add a closing date to the `waitlist.html` intro ("Four short parts...") too |
+
+Don't put square-bracket placeholders such as `[EVENT NAME]` back on the pages: `tools/check_site.py` fails on them, and the deploy workflow runs it, so a page with one won't be published. If there is a ticket price, it is paid only after selection; the page never shows a pay button.
+
+- Where applications go: a private Google Sheet, through the Apps Script in `tools/waitlist-sheet.gs` (setup steps at the top of that file). Its web app address is in `WAITLIST_ENDPOINT` in `main.js`. After changing the script, redeploy it (Deploy > Manage deployments > Edit > New version), or the live address keeps the old columns.
+- The sheet: an Applications tab with one row per application, a "Repeat email" flag, and Status and Notes columns for selection. An older Requests tab from the seat requests is left as it was. `setup()` also rebuilds a Summary tab that counts every answer (kind of builder, team, role, experience, interest areas, area, where people heard about BQ).
+- Tracking: every application gets a six-character code. After sending, people get a link with `?ref=CODE` to share, and applications that arrive through it record the code. `utm_source`, `utm_medium` and `utm_campaign` are saved too, so give each channel its own link, for example `waitlist.html?utm_source=whatsapp&utm_campaign=cdi`.
+- The site has no pay button. If there is a ticket price, the payment link goes to selected applicants in their selection email.
 
 ## Design system
 
@@ -99,10 +109,10 @@ The page never states an amount. It says the contribution "covers the session" (
 - Hero map (home only): the world's land drawn as ink dots, each one a person, across the full width of the hero (faint behind the text, full on the right). The map is flat and in true proportion (Miller projection, 84°N to 56°S), so continents keep the shapes people know; don't tilt or stretch it. Every couple of seconds someone is found: circled in pencil, labelled with the industry that found them, and linked to the nearest earlier find by an arc. Only the newest circle is in the accent. Near the pointer people come into focus and gather in, the camera shifts with it, a faint circle offers the nearest person and clicking (or tapping) finds them. The scene loads after the page is idle (about 130 KB gzipped), pauses off screen and in background tabs, shows one finished cohort for reduced motion, and is removed for data saver or when WebGL fails. On narrow screens it is a figure below the buttons. Tune it in `src/field.js`, then `npm run build`.
 - Photographs: warm black and white (grayscale with a little sepia). The four audience pages (universities, enterprises, investors, network) open on their photograph, beside the headline on wide screens and under the buttons on phones, in place of a pencil sketch, so the first screen has a real scene in it. Long pages are broken up with full-width photograph bands (`<figure class="photo photo-band">`), each chosen for what the section above it says and used only once on the site: a mentor with a mixed pod after the universities programme, a London skyline with cranes after the sectors (real estate and the City), a university lecture hall before the formats borrowed from leading universities, a conference audience on enterprises (flagship events), a small team pitching on investors and a researcher at a chalkboard of equations on the network page. No band shows a logo, a flag or a recognisable public figure. Replace them with BQ's own photographs when there are some. The home page has a pair of photographs and three captioned sectors (robotics, space tech, energy) under the frontiers grid. Each one shows what its page is about: students building on the home page, a hackathon for companies, a pitch for investors, a small technical session for the network. Avoid stock that only signals "technology" (chips, circuit boards), and avoid close-up faces and visible brands. They open upwards as they arrive. They are atmosphere, so `alt` is empty, and none of them is presented as BQ's own people or events. Replace them with photographs from real BQ chapters and sessions when there are some.
 - Global first: nothing outside the footer says where BQ is based. Language tags are en-GB and spelling is British.
-- Accent discipline: vermilion means "chosen". It marks the newest find in the home hero, the BQ Fellow step, the one key stroke in each sketch, the brand mark and the current page in the nav. Sub-heading underlines, callouts, note bullets, FAQ toggles, section markers and tags are ink. Keep it that way when adding sections.
+- Accent discipline: vermilion means "chosen". It marks the newest find in the home hero, the selection step (selection on the home page, the shortlist on universities), the one key stroke in each sketch, the brand mark and the current page in the nav. Sub-heading underlines, callouts, note bullets, FAQ toggles, section markers and tags are ink. Keep it that way when adding sections.
 - Social links: LinkedIn, Instagram, Facebook and X sit in every footer, in the side panel of `apply.html` and in the Organization `sameAs` in `index.html`. They are round buttons with each platform's mark alone (the name is in `aria-label`) that fill vermilion from the pointer like the sector grid (`.social`, aimed by `main.js`). The marks are in `assets/social.svg`, from Bootstrap Icons (MIT, licence beside it). The profile addresses are repeated in those places, so change them in all of them.
 - Speed: fonts are self-hosted and the two above the fold are preloaded, so no request leaves the site before text renders. The paper grain carries its own alpha instead of using `mix-blend-mode`, which made every scroll frame repaint the whole page.
-- Motion: on page load the headline rises in and the underline under "founders" draws. Sketches draw stroke by stroke as they scroll into view. Reveals are triggered by scroll position, not IntersectionObserver, so anything already scrolled past is shown at once and fast scrolling never leaves gaps. Other content fades up as you scroll, and there is a reading-progress line under the header. Pages cross-fade in browsers that support view transitions. The builders reel on the home page never holds the page: it scrolls like any section. Its opening lines come out of a blur one by one as you scroll (and blur again if you scroll back), then a film strip of the twelve builders drifts to the left and loops, fading in and out at the edges. It can be dragged or swiped, scrolled sideways on a trackpad or moved with the arrow keys, and it keeps the momentum it is given before settling back to its drift; portraits lean a little into fast motion. Speed eases rather than jumps, so pressing Pause brings it to a soft stop, and scrolling the page gives it a push. It only runs while on screen and goes idle once stopped. With reduced motion or without JS the strip stands still and scrolls sideways. All motion switches off for `prefers-reduced-motion`, and content stays visible without JS.
+- Motion: on page load the headline rises in and the underline under "worth" draws. Sketches draw stroke by stroke as they scroll into view. Reveals are triggered by scroll position, not IntersectionObserver, so anything already scrolled past is shown at once and fast scrolling never leaves gaps. Other content fades up as you scroll, and there is a reading-progress line under the header. Pages cross-fade in browsers that support view transitions. The builders reel on the home page never holds the page: it scrolls like any section. Its opening lines come out of a blur one by one as you scroll (and blur again if you scroll back), then a film strip of the twelve builders drifts to the left and loops, fading in and out at the edges. It can be dragged or swiped, scrolled sideways on a trackpad or moved with the arrow keys, and it keeps the momentum it is given before settling back to its drift; portraits lean a little into fast motion. Speed eases rather than jumps, so pressing Pause brings it to a soft stop, and scrolling the page gives it a push. It only runs while on screen and goes idle once stopped. With reduced motion or without JS the strip stands still and scrolls sideways. All motion switches off for `prefers-reduced-motion`, and content stays visible without JS.
 - Chrome gotcha: match sketch strokes by tag (`path`, `circle`), not with `[pathLength]` selectors. Chrome doesn't restyle camelCase SVG attribute selectors when an ancestor's class changes.
 
 ## Before going live
@@ -118,30 +128,18 @@ The page never states an amount. It says the contribution "covers the session" (
 
 ## Positioning
 
-Universities and institutions are the customers. BQ turns their most ambitious students into founders by curating the investors, mentors, engineers and live problems around them, running sprints, hackathons and Demo Night, and staying with the strongest teams towards a company. The invitation-only technical sessions (the evenings) exist to build and keep that network. On the site they appear only as "how the network meets" on network.html. Don't describe their format, venues, food or fees anywhere public, and don't present them as the product or the moat.
+Repositioned in December 2026. Builders’ Quorum is an open-to-apply, selected-to-build venture programme. Tech and business builders team up on real problems from industry, work them through with experienced mentors and pitch the strongest to early-stage investors. Tagline: "Build what’s worth building." Supporting line: "Open to apply. Selected to build." Short line: "Proof over pitch."
 
-The writing follows how the strongest programmes describe themselves (Entrepreneur First, South Park Commons, Creative Destruction Lab, Conception X, Schwarzman Scholars): one sentence that states the offer and the audience, the product named plainly ("Our work is curation"), selectivity shown as a standard rather than claimed with words like exclusive or elite, and the model described as a few named parts.
+BQ helps teams answer three questions before they pitch: is the problem real, will anyone pay and is the case credible. Anyone who builds can apply, and BQ mixes tech and business builders in the same teams. Sectors appear only as examples of where problems come from, never as an entry requirement. Never name or compare BQ to another programme anywhere on the site, in metadata or in JSON-LD. Don't add numbers, partners, mentors, investors or results that the founders have not confirmed.
 
 ## Copy that still needs founder sign-off
 
-The positioning was corrected on 11 October 2026: universities are the customer and the evenings are a way to build the network. These lines need a yes from all three founders.
-
-- Home: "Builders’ Quorum (BQ) turns a university’s most ambitious students into founders. We curate the investors, mentors, engineers and problems around them, and stay with the strongest teams from a first problem to a first company"
-- Home: "Our work is curation" and "Ambitious students are everywhere. The people and problems that turn them into founders are much harder to find"
-- Home top line: "Venture creation / Frontier sectors / Worldwide"
-- Hackathons and flagship events "with technology companies". No company is named; keep it that way until one agrees in writing
-- "Why BQ" says "we run practitioner communities of more than 1,000 AI builders and researchers" without naming them, so the site reads as global. Confirm the number is current
-- Universities: chapters "co-branded with your university", "a clear account after every sprint of what worked and what didn’t", and whether chapter students pay. The site doesn't say who pays
-- Universities pilot: "No fixed session counts and no long contracts up front", and "We share the numbers, good or bad"
-- BQ Fellows: "You can't apply", "If a cohort doesn't produce one, we don't name one", and what Fellows get (one-to-one time with founders, introductions to investors)
-- Network page: "Membership is by invitation", what members do, and "the network stays small on purpose"
-- Companies page: "Back a chapter or a city", "help take BQ to a new city or country"
-- FAQ "Where does BQ work?": "With a small number of universities at a time, wherever their students are. The network works across borders, online and in person"
-- Work with us: "One of the founders reads every message and writes back", "Read by one of the founders. Never shared outside the BQ team", and the "What happens next" steps for each role (for example "As teams form, you hear about the ones that fit before anyone else does" for investors)
-- Example problems on the universities page come from the proposal's Annexure A. Swap them for live problems when you have them
-- Proven formats on the universities page: names Stanford GSB, MIT Sloan and Oxford Saïd programmes as inspiration, with a no-affiliation note. Keep or cut
-- Venues page: "you can change or remove it at any time" and "through the communities we run"
-- Waitlist: paying half now "to be prioritised", "your request stays with us for the next session", "we tell you either way", and the topic list
+- The general wording for the first event (name, date, group size, ticket, agenda, closing date), listed under "Waitlist", until the real details replace it
+- The 12-week cycle and mentor commitments on the universities page, which come from the partner proposal and are indicative
+- The six ways to partner, and "pricing on request" or "scoped to the brief" for universities and partners
+- The nav labels "Partners" and "Mentors" (previously "Enterprises" and "Network")
+- Work with us: "One of the founders reads every message and writes back", "Never shared outside the BQ team", and the "What happens next" steps for each role
+- Venues page (unchanged): "you can change or remove it at any time" and "through the communities we run"
 
 ## Photo credits
 

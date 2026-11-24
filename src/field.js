@@ -14,7 +14,7 @@
 import { WebGLRenderer, Scene, PerspectiveCamera, BufferGeometry, BufferAttribute, Points, ShaderMaterial, Color, Vector2, Vector3 } from 'three';
 import LAND from './land.json';
 
-const SECTORS = ['AI and cloud', 'Robotics', 'Semiconductors', 'Space tech', 'Advanced materials', 'Energy', 'Fintech', 'Proptech', 'Agri-tech'];
+const SECTORS = ['AI products', 'Fintech', 'Climate and energy', 'Health', 'Consumer and D2C', 'Education', 'B2B SaaS', 'Mobility', 'Social impact'];
 const SVG = 'http://www.w3.org/2000/svg';
 const DRIFT = 0.012;
 // Near the pointer people come into focus and gather in a little.

@@ -43,9 +43,9 @@
       <nav id="site-nav" class="site-nav" aria-label="Main">
         <ul>
           <li><a href="universities.html">Universities</a></li>
-          <li><a href="partners.html">Enterprises</a></li>
+          <li><a href="partners.html">Partners</a></li>
           <li><a href="investors.html">Investors</a></li>
-          <li><a href="network.html">Network</a></li>
+          <li><a href="network.html">Mentors</a></li>
           <li><a class="btn btn-primary btn-small" href="apply.html" aria-current="page">Work with us</a></li>
         </ul>
       </nav>
@@ -73,32 +73,30 @@
                 <input type="radio" name="role" value="campus" checked>
                 <span class="way-n">01</span>
                 <span class="way-name">A university</span>
-                <span class="way-note">Faculty, an entrepreneurship centre, an incubator or the leadership team</span>
+                <span class="way-note">Faculty, an entrepreneurship centre or an incubator that wants a cycle for its students</span>
               </label>
               <label class="way">
                 <input type="radio" name="role" value="partner">
                 <span class="way-n">02</span>
-                <span class="way-name">An enterprise</span>
-                <span class="way-note">A hackathon, a live problem, engineers who mentor or a chapter to back</span>
+                <span class="way-name">An industry partner or sponsor</span>
+                <span class="way-note">A challenge for builders, mentor time, a finale slot or an event to sponsor</span>
               </label>
               <label class="way">
                 <input type="radio" name="role" value="investor">
                 <span class="way-n">03</span>
                 <span class="way-name">An investor</span>
-                <span class="way-note">Early sight of the strongest teams, and a seat at Demo Night</span>
+                <span class="way-note">Selected teams matched to your stage, at the pitch finale</span>
               </label>
               <label class="way">
                 <input type="radio" name="role" value="member">
                 <span class="way-n">04</span>
-                <span class="way-name">A researcher, engineer or founder</span>
-                <span class="way-note">Set problems, mentor pods and meet the teams worth meeting</span>
+                <span class="way-name">A mentor</span>
+                <span class="way-note">Weekly support for one team, or sessions in your own domain</span>
               </label>
             </div>
             <div class="ways-more" role="group" aria-labelledby="ways-more-label">
               <p class="label" id="ways-more-label">Or something more specific</p>
-              <label><input type="radio" name="role" value="speaker"> A professor or researcher who could lead a session</label>
-              <label><input type="radio" name="role" value="practitioner"> A practitioner with a problem students could work on</label>
-              <label><input type="radio" name="role" value="student"> A student who would like a chapter</label>
+                                          <label><input type="radio" name="role" value="builder"> A builder applying for the first event</label>
               <label><input type="radio" name="role" value="reader"> A reader of The BQ Brief</label>
               <label data-local hidden><input type="radio" name="role" value="organiser"> Organising an event and looking for a space</label>
               <label data-local hidden><input type="radio" name="role" value="venue"> Listing a space for community events</label>
@@ -124,41 +122,42 @@
           </fieldset>
 
             <fieldset class="step" data-for="member" aria-labelledby="about-you">
-              <h2 class="step-title" id="about-you">About your work</h2>
+              <h2 class="step-title" id="about-you">How you would mentor</h2>
               <div class="field-row">
                 <div class="field">
                   <label for="level">Where you are</label>
                   <select id="level" name="level" required>
                     <option value="">Choose one</option>
-                    <option>PhD researcher</option>
-                    <option>Master’s student or researcher</option>
-                    <option>Engineer or technologist in industry</option>
                     <option>Founder</option>
-                    <option>Other technology professional</option>
+                    <option>Leader in a company or organisation</option>
+                    <option>Seasoned builder</option>
+                    <option>Young professional</option>
+                    <option>Other</option>
                   </select>
                 </div>
                 <div class="field">
                   <label for="field-of-work">Your field, in a few words</label>
-                  <input id="field-of-work" name="field_of_work" type="text" placeholder="For example: robot learning" required>
+                  <input id="field-of-work" name="field_of_work" type="text" placeholder="For example: B2B sales, payments or product design" required>
                 </div>
               </div>
               <div class="field">
-                <span class="label" id="topics-label">Sectors you know best</span>
+                <span class="label" id="topics-label">Areas you know best</span>
                 <div class="checks" role="group" aria-labelledby="topics-label">
-                  <label><input type="checkbox" name="topics" value="AI and cloud"> AI and cloud</label>
-                  <label><input type="checkbox" name="topics" value="Robotics"> Robotics</label>
-                  <label><input type="checkbox" name="topics" value="Semiconductors"> Semiconductors</label>
-                  <label><input type="checkbox" name="topics" value="Advanced materials"> Advanced materials</label>
-                  <label><input type="checkbox" name="topics" value="Space tech"> Space tech</label>
-                  <label><input type="checkbox" name="topics" value="Energy"> Energy</label>
-                  <label><input type="checkbox" name="topics" value="Fintech"> Fintech</label>
-                  <label><input type="checkbox" name="topics" value="Real estate and proptech"> Real estate and proptech</label>
-                  <label><input type="checkbox" name="topics" value="Food and agri-tech"> Food and agri-tech</label>
-                </div>
+                    <label><input type="checkbox" name="topics" value="AI products"> AI products</label>
+                    <label><input type="checkbox" name="topics" value="Fintech"> Fintech</label>
+                    <label><input type="checkbox" name="topics" value="Climate and energy"> Climate and energy</label>
+                    <label><input type="checkbox" name="topics" value="Health"> Health</label>
+                    <label><input type="checkbox" name="topics" value="Consumer and D2C"> Consumer and D2C</label>
+                    <label><input type="checkbox" name="topics" value="Education"> Education</label>
+                    <label><input type="checkbox" name="topics" value="B2B SaaS"> B2B SaaS</label>
+                    <label><input type="checkbox" name="topics" value="Mobility"> Mobility</label>
+                    <label><input type="checkbox" name="topics" value="Social impact"> Social impact</label>
+                    <label><input type="checkbox" name="topics" value="Something else"> Something else</label>
+                  </div>
               </div>
               <div class="field">
                 <label for="bring">How would you like to be involved?</label>
-                <input id="bring" name="bring" type="text" placeholder="Mentoring a pod, a problem from your work, a Build Lab or a session" required>
+                <input id="bring" name="bring" type="text" placeholder="Builder mentor, senior mentor, judging at the finale or a problem to bring" required>
               </div>
               <div class="field-row">
                 <div class="field">
@@ -172,109 +171,12 @@
               </div>
             </fieldset>
 
-            <fieldset class="step" data-for="speaker" aria-labelledby="about-talk">
-              <h2 class="step-title" id="about-talk">The session you would lead</h2>
-              <div class="field-row">
-                <div class="field">
-                  <label for="position">Your position</label>
-                  <select id="position" name="position" required>
-                    <option value="">Choose one</option>
-                    <option>Professor</option>
-                    <option>Associate or assistant professor</option>
-                    <option>Postdoc or research scientist</option>
-                    <option>Researcher in industry</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="when">When could you lead it?</label>
-                  <select id="when" name="when">
-                    <option>In the next month</option>
-                    <option>In the next three months</option>
-                    <option>Later</option>
-                    <option>Not sure yet</option>
-                  </select>
-                </div>
-              </div>
-              <div class="field">
-                <label for="talk">What problem would you take the room through?</label>
-                <textarea id="talk" name="talk" rows="3" required></textarea>
-              </div>
-              <div class="field">
-                <label for="speaker-link">Your research page or recent work <span class="optional">(optional)</span></label>
-                <input id="speaker-link" name="speaker_link" type="url" placeholder="https://">
-              </div>
-            </fieldset>
 
-            <fieldset class="step" data-for="student" aria-labelledby="about-work">
-              <h2 class="step-title" id="about-work">What you are working towards</h2>
-              <div class="field">
-                <label for="aim">What are you working towards?</label>
-                <select id="aim" name="aim" required>
-                  <option value="">Choose one</option>
-                  <option>Building a company</option>
-                  <option>Becoming unusually good at something</option>
-                  <option>A great role after university</option>
-                  <option>Access to industries and people I can’t reach yet</option>
-                  <option>Exploring before I decide</option>
-                  <option>Still figuring it out</option>
-                </select>
-              </div>
-              <div class="field-row">
-                <div class="field">
-                  <label for="stage">Where are you right now?</label>
-                  <select id="stage" name="stage" required>
-                    <option value="">Choose one</option>
-                    <option>Looking for a problem worth solving</option>
-                    <option>Exploring a problem or idea</option>
-                    <option>Building something</option>
-                    <option>I have an MVP</option>
-                    <option>I have users or pilots</option>
-                    <option>Making revenue</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="side">Your background</label>
-                  <select id="side" name="side" required>
-                    <option value="">Choose one</option>
-                    <option>Management or business</option>
-                    <option>AI, data or technology</option>
-                    <option>Engineering</option>
-                    <option>Design</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-              </div>
-              <div class="field">
-                <label for="kind">What are you building, or want to build? <span class="optional">(optional)</span></label>
-                <select id="kind" name="kind">
-                  <option value="">Choose one</option>
-                  <option>Software or AI</option>
-                  <option>A consumer product or brand</option>
-                  <option>Hardware or deep tech</option>
-                  <option>Something else</option>
-                  <option>Not sure yet</option>
-                </select>
-              </div>
-              <div class="field">
-                <span class="label" id="sectors-label">Sectors you could go deep into</span>
-                <div class="checks" role="group" aria-labelledby="sectors-label">
-                  <label><input type="checkbox" name="sectors" value="AI and cloud"> AI and cloud</label>
-                  <label><input type="checkbox" name="sectors" value="Fintech"> Fintech</label>
-                  <label><input type="checkbox" name="sectors" value="Real estate and proptech"> Real estate and proptech</label>
-                  <label><input type="checkbox" name="sectors" value="Robotics"> Robotics</label>
-                  <label><input type="checkbox" name="sectors" value="Semiconductors"> Semiconductors</label>
-                  <label><input type="checkbox" name="sectors" value="Advanced materials"> Advanced materials</label>
-                  <label><input type="checkbox" name="sectors" value="Space tech"> Space tech</label>
-                  <label><input type="checkbox" name="sectors" value="Energy"> Energy</label>
-                  <label><input type="checkbox" name="sectors" value="Food and agri-tech"> Food and agri-tech</label>
-                </div>
-              </div>
-              <div class="field">
-                <label for="built">Something you’ve built, shipped or led <span class="optional">(optional, a link is fine)</span></label>
-                <input id="built" name="built" type="text">
-              </div>
-              <label class="check"><input type="checkbox" name="age_18_plus" required> I’m 18 or older</label>
+
+            <fieldset class="step" data-for="builder" aria-labelledby="about-builder">
+              <h2 class="step-title" id="about-builder">Apply for the first event</h2>
+              <p>Builders apply on the event page, which asks the questions BQ uses to select. Anyone who builds can apply, from tech or from business, alone or with a team.</p>
+              <p><a class="btn btn-primary btn-arrow" href="waitlist.html">Go to the application</a></p>
             </fieldset>
 
             <fieldset class="step" data-for="campus" aria-labelledby="about-campus">
@@ -298,16 +200,15 @@
               <div class="field">
                 <span class="label" id="campus-wants-label">What are you looking for?</span>
                 <div class="checks" role="group" aria-labelledby="campus-wants-label">
-                  <label><input type="checkbox" name="campus_wants" value="Chapter"> A BQ chapter for our students</label>
-                  <label><input type="checkbox" name="campus_wants" value="Pilot sprint"> A pilot sprint to start</label>
-                  <label><input type="checkbox" name="campus_wants" value="Network"> Investors and mentors for our students</label>
-                  <label><input type="checkbox" name="campus_wants" value="Hackathons"> Hackathons or flagship events with enterprises</label>
-                  <label><input type="checkbox" name="campus_wants" value="Demo Night"> Demo Night places for our best teams</label>
-                  <label><input type="checkbox" name="campus_wants" value="Not sure"> Not sure yet, let’s talk</label>
-                </div>
+                    <label><input type="checkbox" name="campus_wants" value="Cycle"> A cycle for our students</label>
+                    <label><input type="checkbox" name="campus_wants" value="Pilot"> A pilot to start</label>
+                    <label><input type="checkbox" name="campus_wants" value="Chapter"> A student-led BQ chapter</label>
+                    <label><input type="checkbox" name="campus_wants" value="Finale"> Mentors and an investor finale for our students</label>
+                    <label><input type="checkbox" name="campus_wants" value="Not sure"> Not sure yet, let’s talk</label>
+                  </div>
               </div>
               <div class="field">
-                <label for="cohort-size">Students likely to commit to a full sprint</label>
+                <label for="cohort-size">Students likely to take part in a cycle</label>
                 <select id="cohort-size" name="cohort_size">
                   <option>Don’t know yet</option>
                   <option>Under 20</option>
@@ -332,12 +233,12 @@
               <div class="field">
                 <span class="label" id="involve-label">How you’d like to be involved</span>
                 <div class="checks" role="group" aria-labelledby="involve-label">
-                  <label><input type="checkbox" name="invest_involve" value="Sessions"> Come to network sessions</label>
-                  <label><input type="checkbox" name="invest_involve" value="Early look"> An early look at teams</label>
-                  <label><input type="checkbox" name="invest_involve" value="Mentor"> Mentor a chapter pod</label>
-                  <label><input type="checkbox" name="invest_involve" value="Judge"> Judge Demo Night</label>
-                  <label><input type="checkbox" name="invest_involve" value="Portfolio problems"> Bring portfolio problems</label>
-                </div>
+                    <label><input type="checkbox" name="invest_involve" value="Finale"> Come to the pitch finale</label>
+                    <label><input type="checkbox" name="invest_involve" value="Early look"> An early look at selected teams</label>
+                    <label><input type="checkbox" name="invest_involve" value="Mentor"> Mentor a team before the finale</label>
+                    <label><input type="checkbox" name="invest_involve" value="Judge"> Judge at the finale</label>
+                    <label><input type="checkbox" name="invest_involve" value="Portfolio problems"> Bring a challenge from my portfolio</label>
+                  </div>
               </div>
             </fieldset>
 
@@ -480,39 +381,29 @@
         <aside class="apply-aside" aria-labelledby="next-title">
           <p class="label" id="next-title">What happens next</p>
           <ol class="next" data-for="campus">
-            <li>One of the founders reads your note and writes back to arrange a call.</li>
-            <li>On the call we mostly listen: what your students want, what you have tried and what success would look like.</li>
-            <li>We propose a pilot shaped around your students, with no fixed session counts and no long contract.</li>
+            <li>One of the founders reads your note and writes back to arrange a scoping call.</li>
+            <li>We agree the plan: the challenge brief, the campus and industry leads, the dates and the terms.</li>
+            <li>We sign and launch the cycle.</li>
           </ol>
           <ol class="next" data-for="partner">
             <li>We read your note and write back to arrange a call.</li>
-            <li>We talk through what you want from the work: a problem solved, a hackathon, early sight of talent or a chapter to back.</li>
-            <li>We propose a format and the universities it would suit.</li>
+            <li>We scope the brief with you and agree which way to partner.</li>
+            <li>Your challenge goes live in a cycle.</li>
           </ol>
           <ol class="next" data-for="investor">
             <li>We read your note and write back.</li>
-            <li>A short call about the stages and sectors you invest in.</li>
-            <li>As teams form, you hear about the ones that fit before anyone else does.</li>
+            <li>A short call about the stage and sectors you invest in.</li>
+            <li>You meet the selected teams at the pitch finale.</li>
           </ol>
           <ol class="next" data-for="member">
-            <li>We read every request ourselves.</li>
-            <li>If it is a fit, we write with the first way you could be involved: a problem to set, a pod to mentor or a session to join.</li>
-            <li>Not every request is accepted, and we will tell you either way.</li>
+            <li>We read every note ourselves.</li>
+            <li>We come back with one specific first ask, with a date.</li>
+            <li>If it suits you, you take a role in a cycle.</li>
           </ol>
-          <ol class="next" data-for="speaker">
-            <li>We reply to every offer.</li>
-            <li>A short call about the problem you would take the room through.</li>
-            <li>We find a date and an audience that suit it.</li>
-          </ol>
-          <ol class="next" data-for="practitioner">
-            <li>We read your note and write back.</li>
-            <li>We shape the problem with you into something a student pod can work on.</li>
-            <li>A pod takes it on, and you see what they build.</li>
-          </ol>
-          <ol class="next" data-for="student">
-            <li>We keep a note of where you study and what you want to build.</li>
-            <li>When there is a chapter you can join, we write to you.</li>
-            <li>You can also ask your entrepreneurship centre or faculty to start one. Places are earned, and kept by showing up.</li>
+          <ol class="next" data-for="builder">
+            <li>Apply for the first event on its page.</li>
+            <li>BQ reads every application and selects a mixed group of tech and business builders.</li>
+            <li>Selected applicants get the date and the venue.</li>
           </ol>
           <ol class="next" data-for="reader">
             <li>The first issue comes to this address when it launches.</li>
@@ -544,7 +435,7 @@
             <img src="assets/logo.svg" alt="" width="24" height="24">
             <span>Builders<span class="accent">’</span> Quorum<span class="accent">.</span></span>
           </a>
-          <p>Where tomorrow’s industries find their founders.</p>
+          <p>Build what’s worth building.</p>
           <p><a href="mailto:hello@buildersquorum.com">hello@buildersquorum.com</a></p>
           <h2 class="footer-title footer-follow">Follow</h2>
           <ul class="social">
@@ -558,17 +449,17 @@
           <h2 class="footer-title">Explore</h2>
           <ul class="footer-links">
             <li><a href="universities.html">For universities</a></li>
-            <li><a href="partners.html">For enterprises</a></li>
+            <li><a href="partners.html">For partners</a></li>
             <li><a href="investors.html">For investors</a></li>
-            <li><a href="network.html">The network</a></li>
+            <li><a href="network.html">For mentors</a></li>
             <li><a href="venues.html">Venues</a></li>
-            <li><a href="waitlist.html">Join the waitlist</a></li>
+            <li><a href="waitlist.html">Apply for the first event</a></li>
             <li><a href="apply.html">Work with us</a></li>
           </ul>
         </nav>
         <div>
           <h2 class="footer-title">The BQ Brief <span class="tag tag-accent">Coming soon</span></h2>
-          <p>A weekly briefing, written by the BQ team, on what moved in AI, finance and frontier sectors in India and globally, with practical notes on building businesses that scale and last.</p>
+          <p>A weekly briefing, written by the BQ team, on what moved in AI, finance and the sectors builders work in, in India and globally, with practical notes on building businesses that scale and last.</p>
           <p><a class="link-arrow" href="apply.html?role=reader">Get the first issue</a></p>
         </div>
       </div>
